@@ -137,7 +137,7 @@ export default function HeroSection() {
                                             <div className="item-icon">
                                                 <Image src='/images/skills/marketing.png' width={100} height={100} alt='Logo' />
                                             </div>
-                                            <span>Ad Campaign Management</span>
+                                            <span>Marketing Strategy Development</span>
                                         </div>
                                         <div className="item">
                                             <div className="item-icon">
