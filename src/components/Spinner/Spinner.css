@@ -1,0 +1,28 @@
+.loader {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  border: 3px solid #ebebeb;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: rot5 1s infinite;
+}
+
+@keyframes rot5 {
+  0% {
+    transform: rotate(0);
+  }
+
+  50% {
+    transform: rotate(180deg);
+    border-top-color: #e9e4e4;
+    border-bottom-color: #e6e6e6;
+    border-right-color: transparent;
+    border-left-color: transparent;
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
