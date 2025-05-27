@@ -8,9 +8,9 @@ export default function Header() {
     const [openMenu, setOpenMenu] = useState(false);
     return (
         <motion.header
-            initial={{ opacity: 0}}
+            initial={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            animate={{ opacity: 1}}
+            animate={{ opacity: 1 }}
             className='header'>
             <nav className='navbar'>
                 <div className="menu-container">
