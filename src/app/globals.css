@@ -1271,12 +1271,12 @@ footer {
       color: var(--dark);
     }
   }
-  &:first-child{
+  &:first-child {
     border-top: none;
     border-radius: 5px 5px 0 0;
   }
-  &:last-child{
-    border-radius: 0 0 5px 5px; 
+  &:last-child {
+    border-radius: 0 0 5px 5px;
   }
 }
 
@@ -1422,15 +1422,12 @@ footer {
   }
 }
 
-.work-component-wraper {
-  position: relative;
-  margin-top: 25px;
-  width: 100%;
+.work-component-wraper, .receent-project-component-wraper {
   display: flex;
   gap: 20px;
   flex-direction: column;
 
-  .work-component-item {
+  .work-component-item, .recent-project-item {
     position: relative;
     width: 100%;
     flex: 1;
@@ -1456,6 +1453,12 @@ footer {
         color: var(--light);
         font-style: italic;
       }
+      a {
+        font-weight: 500;
+        font-size: 20px;
+        color: var(--dark);
+        font-style: normal;
+      }
     }
 
     a {
@@ -1474,11 +1477,80 @@ footer {
   }
 }
 
+.common-component-wraper {
+  position: relative;
+  width: 100%;
+  margin-top: 25px;
+}
+.skill-component-wraper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
 
+  .skill-component-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eaecee;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 9;
 
+    .skill-item-wraper {
+      position: relative;
+      width: 100%;
 
+      .skill-img {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        background-color: var(--light-bg);
+        border-radius: 5px;
+        flex-shrink: 0;
+        margin: 0 auto;
+      }
 
+      h3 {
+        margin-top: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--light-dark);
+        z-index: 9;
+        text-align: center;
+      }
 
+      .skill-summery {
+        position: relative;
+        display: block;
+        margin-top: 5px;
+        color: var(--light-dark);
+        font-size: 15px;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.recent-project-link {
+  opacity: 0;
+  width: 30px;
+  height: 30px;
+  background-color: var(--light-bg);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light-dark);
+  i {
+    font-size: 20px;
+    color: var(--light-dark);
+  }
+}
+
+.recent-project-item:hover .recent-project-link{
+  opacity: 1;
+}
 
 @media (max-width: 1092px) {
   .header .navbar .menu-container .links-container {
