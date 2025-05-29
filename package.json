@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/runtime": "^7.27.3",
     "@fancyapps/ui": "^5.0.36",
+    "@microlink/react": "^5.5.23",
     "axios": "^1.9.0",
     "motion": "^12.6.3",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-fast-marquee": "^1.6.5"
+    "react-fast-marquee": "^1.6.5",
+    "styled-components": "^6.1.18"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

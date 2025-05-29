@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+
 export type DashboardProps = {
   currentTabKey?: string;
   setTabByKey?: (key: string) => void;
@@ -16,6 +17,9 @@ export default function Dashboard({ setTabByKey }: DashboardProps) {
       <DashboardEducation setTabByKey={setTabByKey} />
       <DashboardInterest setTabByKey={setTabByKey} />
       <DashboardProjects setTabByKey={setTabByKey} />
+      <DashboardAchievements setTabByKey={setTabByKey} />
+      <DashboardCertificate setTabByKey={setTabByKey} />
+      <DashboardSocialActivity setTabByKey={setTabByKey} />
     </section>
   )
 }
@@ -314,4 +318,176 @@ function DashboardProjects({ setTabByKey }: { setTabByKey?: (key: string) => voi
 
   )
 }
+
+function DashboardAchievements({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+  return (
+    <div className="component-common">
+      <div className="work-component-header">
+        <h2>My Achievements</h2>
+      </div>
+
+      <div className="receent-project-component-wraper common-component-wraper">
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <Link href="">Guest Lecture - 2022</Link>
+            <Link href="" target='_blank' className='recent-project-link'>
+              <i className="hgi hgi-stroke hgi-globe-02"></i>
+            </Link>
+          </div>
+          <p className='work-summery'>
+            Invited as a guest lecturer at Jaipuria Institute of Management, Jaipur, to share insights on entrepreneurship and digital transformation.
+          </p>
+        </div>
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <Link href="">Innovation Award – 2021</Link>
+            <Link href="" target='_blank' className='recent-project-link'>
+              <i className="hgi hgi-stroke hgi-globe-02"></i>
+            </Link>
+          </div>
+          <p className='work-summery'>
+            Recognized as the Most Innovative Tech Entrepreneur by VIT University for outstanding contributions to digital innovation and entrepreneurship.
+          </p>
+        </div>
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <Link href="">Magazine Launch - 2020</Link>
+            <Link href="" target='_blank' className='recent-project-link'>
+              <i className="hgi hgi-stroke hgi-globe-02"></i>
+            </Link>
+          </div>
+          <p className='work-summery'>
+            Spearheaded the creation and launch of "Alumni Forum", a magazine by the ICFAI Alumni Relationship Cell during the MBA program in Hyderabad.
+          </p>
+        </div>
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <Link href="">Book Launch - 2018</Link>
+            <Link href="" target='_blank' className='recent-project-link'>
+              <i className="hgi hgi-stroke hgi-globe-02"></i>
+            </Link>
+          </div>
+          <p className='work-summery'>
+            Published "Convention to Digital: A Shift in Banking" during the final year of B.Com, highlighting the evolution of traditional banking to digital platforms.
+          </p>
+        </div>
+
+      </div>
+
+      <div className='edit-component' onClick={() => setTabByKey?.('achievements')}>
+        <i className="hgi hgi-stroke hgi-edit-02"></i>
+      </div>
+    </div>
+
+  )
+}
+
+function DashboardCertificate({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+  return (
+    <div className="component-common">
+      <div className="work-component-header">
+        <h2>My Certificate</h2>
+      </div>
+
+      <div className="certificate-component-wraper common-component-wraper">
+        <div className="certificate-item">
+          <Image
+            src="/images/certificates/c-01.jpg"
+            alt='Certificate'
+            className='certificate-img'
+            width={500}
+            height={500} />
+          <div className='certificate-item-text'>
+            <h3> Google Professional Cloud Architect</h3>
+          </div>
+        </div>
+        <div className="certificate-item">
+          <Image
+            src="/images/certificates/c-02.jpg"
+            alt='Certificate'
+            className='certificate-img'
+            width={500}
+            height={500} />
+          <div className='certificate-item-text'>
+            <h3> AWS Certified Solutions Architect – Associate</h3>
+          </div>
+        </div>
+        <div className="certificate-item">
+          <Image
+            src="/images/certificates/c-01.jpg"
+            alt='Certificate'
+            className='certificate-img'
+            width={500}
+            height={500} />
+          <div className='certificate-item-text'>
+            <h3> Meta Front-End Developer Certificate </h3>
+          </div>
+        </div>
+      </div>
+
+      <div className='edit-component' onClick={() => setTabByKey?.('certificate')}>
+        <i className="hgi hgi-stroke hgi-edit-02"></i>
+      </div>
+    </div>
+  )
+}
+
+function DashboardSocialActivity({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+  return (
+    <div className="component-common">
+      <div className="work-component-header">
+        <h2>Social Activity</h2>
+      </div>
+
+      <div className="receent-project-component-wraper common-component-wraper">
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <span>Empowering Lives in Urban Slums with JR Digital Marketing Services</span>
+          </div>
+          <p className='work-summery' style={{ maxWidth: '100%' }}>
+            Independently collaborated with team members of JR Digital Marketing Services to support the poor and underprivileged families in slum areas. The initiative included distributing food packets, clothing, and essential supplies, as well as spreading awareness about hygiene and basic healthcare. This effort helped uplift living conditions and brought hope to communities often overlooked.
+          </p>
+        </div>
+
+        <div className="recent-project-item">
+          <div className="item-top">
+            <span>Digital Literacy Workshop for Underprivileged Students at Kutumbh NGO</span>
+          </div>
+          <p className='work-summery' style={{ maxWidth: '100%' }}>
+            Organized and conducted a 7-day hands-on workshop focused on Digital Literacy for students up to class 10th associated with Kutumbh NGO. The workshop aimed to equip young learners with basic computer skills, internet safety knowledge, and tools for educational development. This initiative empowered children with essential digital skills needed in today&apos;s world and bridged the digital divide among marginalized youth.
+          </p>
+        </div>
+        <div className="recent-project-item">
+          <div className="item-top">
+            <span>Documentary Project for Abhinav Vidyalay in Collaboration with Round Table India</span>
+          </div>
+          <p className='work-summery' style={{ maxWidth: '100%' }}>
+            Led the creation of a documentary for Abhinav Vidyalay, a school for underprivileged children in Mirzamurad village, Varanasi. This project was undertaken in association with Round Table India, aiming to highlight the school&apos;s efforts in providing education to children from impoverished backgrounds. The documentary served as a powerful tool to generate awareness and garner support for educational initiatives in rural areas.
+          </p>
+        </div>
+        <div className="recent-project-item">
+          <div className="item-top">
+            <span> Blood Donation Awareness and Support with Red Cross in Varanasi (2022)</span>
+          </div>
+          <p className='work-summery' style={{ maxWidth: '100%' }}>
+            Actively volunteered with the Red Cross Army during their Blood Bank Booth Drive in 2022, held in Varanasi. Assisted in organizing booths, guiding donors, and spreading awareness about the importance of blood donation. Contributed to saving lives by promoting voluntary blood donation and encouraging public participation in this life-saving cause.
+          </p>
+        </div>
+
+
+      </div>
+
+      <div className='edit-component' onClick={() => setTabByKey?.('socialActivity')}>
+        <i className="hgi hgi-stroke hgi-edit-02"></i>
+      </div>
+    </div>
+  )
+}
+
+
 
