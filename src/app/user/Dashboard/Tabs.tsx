@@ -4,7 +4,7 @@ import Dashboard, { DashboardProps } from './Dashboard'
 import Work from './Work';
 import Education from './Education';
 import Profile from './Profile';
-import { OverViewIcon , UserIcon, SkillIcon, EducationIcon, WorkIcon, ToolIcon, ProjectIcon, AchievementIcon, CertificateIcon, SocialIcon } from './Icons';
+import { OverViewIcon, UserIcon, SkillIcon, EducationIcon, WorkIcon, ToolIcon, ProjectIcon, AchievementIcon, CertificateIcon, SocialIcon } from './Icons';
 
 type TabConfig = {
     key: string;
@@ -79,6 +79,15 @@ export default function Tabs() {
     ]
     const [selectedTab, setSelectedTab] = useState(0)
     const ActiveTab = tabConfig[selectedTab].component;
+    const [lastTabIndex, setLastTabIndex] = useState(0);
+    console.log(lastTabIndex, selectedTab);
+
+    const handleTabChange = (newIndex: number) => {
+        if (newIndex !== selectedTab) {
+            setLastTabIndex(selectedTab); 
+            setSelectedTab(newIndex);
+        }
+    };
 
     const setTabByKey = (key: string) => {
         const index = tabConfig.findIndex(tab => tab.key === key);
@@ -98,7 +107,7 @@ export default function Tabs() {
                                 <div
                                     key={tab.key}
                                     className={`tab-item ${selectedTab === index ? 'active' : ''}`}
-                                    onClick={() => setSelectedTab(index)}
+                                    onClick={() => handleTabChange(index)}
                                 >
                                     <Icon isActive={isActive} />
                                     <span>{tab.tabName}</span>
@@ -113,6 +122,7 @@ export default function Tabs() {
                     <ActiveTab
                         currentTabKey={tabConfig[selectedTab].key}
                         setTabByKey={setTabByKey}
+                        goBack={() => lastTabIndex !== null && handleTabChange(lastTabIndex)}
                     />
                 </div>
             </div>

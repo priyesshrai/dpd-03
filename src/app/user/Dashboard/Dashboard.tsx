@@ -6,6 +6,7 @@ import React from 'react'
 export type DashboardProps = {
   currentTabKey?: string;
   setTabByKey?: (key: string) => void;
+  goBack?: () => void;
 };
 
 export default function Dashboard({ setTabByKey }: DashboardProps) {
