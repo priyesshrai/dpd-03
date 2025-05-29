@@ -16,6 +16,7 @@ export default function Dashboard({ setTabByKey }: DashboardProps) {
       <DashboardWork setTabByKey={setTabByKey} />
       <DashboardEducation setTabByKey={setTabByKey} />
       <DashboardInterest setTabByKey={setTabByKey} />
+      <DashboardTools setTabByKey={setTabByKey} />
       <DashboardProjects setTabByKey={setTabByKey} />
       <DashboardAchievements setTabByKey={setTabByKey} />
       <DashboardCertificate setTabByKey={setTabByKey} />
@@ -489,5 +490,100 @@ function DashboardSocialActivity({ setTabByKey }: { setTabByKey?: (key: string) 
   )
 }
 
+function DashboardTools({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+  return (
+    <div className="component-common">
+      <div className="work-component-header">
+        <h2>Tools</h2>
+      </div>
 
+      <div className="tools-component-wraper common-component-wraper">
+        <div className="tools-item">
+          <Image
+            src="/images/svg/figma.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/canva.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/google.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/adobe-illustrator.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/adobe-photoshop.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/adobe-lightroom.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/adobe-premiere-pro.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/final-cut.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/wordpress.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+        <div className="tools-item">
+          <Image
+            src="/images/svg/html.svg"
+            alt='Certificate'
+            className='tools-logo'
+            width={500}
+            height={500} />
+        </div>
+      </div>
+
+      <div className='edit-component' onClick={() => setTabByKey?.('tools')}>
+        <i className="hgi hgi-stroke hgi-edit-02"></i>
+      </div>
+    </div>
+  )
+}
 
