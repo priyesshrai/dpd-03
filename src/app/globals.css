@@ -1234,6 +1234,11 @@ footer {
   cursor: pointer;
   overflow: hidden;
 
+  svg{
+    width: 26px;
+    height: 26px;
+  }
+
   span {
     font-size: 20px;
     color: #5f5f5f;

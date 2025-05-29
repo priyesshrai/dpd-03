@@ -233,7 +233,7 @@ function DashboardInterest({ setTabByKey }: { setTabByKey?: (key: string) => voi
 
       </div>
 
-      <div className='edit-component' onClick={() => setTabByKey?.('Skills')}>
+      <div className='edit-component' onClick={() => setTabByKey?.('skills')}>
         <i className="hgi hgi-stroke hgi-edit-02"></i>
       </div>
     </div>
