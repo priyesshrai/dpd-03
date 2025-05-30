@@ -80,7 +80,6 @@ export default function Tabs() {
     const [selectedTab, setSelectedTab] = useState(0)
     const ActiveTab = tabConfig[selectedTab].component;
     const [lastTabIndex, setLastTabIndex] = useState(0);
-    console.log(lastTabIndex, selectedTab);
 
     const handleTabChange = (newIndex: number) => {
         if (newIndex !== selectedTab) {
@@ -120,6 +119,7 @@ export default function Tabs() {
 
                 <div className="component-section">
                     <ActiveTab
+                        name = {tabConfig[selectedTab].tabName}
                         currentTabKey={tabConfig[selectedTab].key}
                         setTabByKey={setTabByKey}
                         goBack={() => lastTabIndex !== null && handleTabChange(lastTabIndex)}

@@ -7,6 +7,7 @@ export type DashboardProps = {
   currentTabKey?: string;
   setTabByKey?: (key: string) => void;
   goBack?: () => void;
+  name: string;
 };
 
 export default function Dashboard({ setTabByKey }: DashboardProps) {
