@@ -119,7 +119,7 @@ function ProfileForm({ nextStep }: StepProps) {
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-
+    setLoading(true)
     const UserData = new FormData();
     UserData.append("name", userData.name)
     UserData.append("email", userData.email)
@@ -136,7 +136,8 @@ function ProfileForm({ nextStep }: StepProps) {
     UserData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
-
+    setLoading(false)
+    nextStep()
   }
 
   return (
