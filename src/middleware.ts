@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const isPublicPath = request.nextUrl.pathname === "/login";
-  const isAdminDashboard = request.nextUrl.pathname.startsWith("/admin/:path*");
+  const isAdminDashboard = request.nextUrl.pathname.startsWith("/admin");
 
   if (isPublicPath && userData && userData.login_type === "superadmin") {
     return NextResponse.redirect(new URL("/admin/dashboard", request.url));

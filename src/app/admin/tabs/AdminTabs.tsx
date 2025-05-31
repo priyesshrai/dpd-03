@@ -61,16 +61,16 @@ export default function AdminTabs() {
               <div className="admin-header-wraper">
                 <h1>{tabConfig[selectedTab].tabName}</h1>
                 <div className='logo-container'>
-                    <div className="admin-logo">
-                      <i className="hgi hgi-stroke hgi-user-story"></i>
-                    </div>
+                  <div className="admin-logo">
+                    <i className="hgi hgi-stroke hgi-user-story"></i>
+                  </div>
                 </div>
               </div>
             </div>
 
-
-
-            <ActiveTab />
+            <div className="admin-component-section">
+              <ActiveTab />
+            </div>
           </div>
         </div>
       </div>

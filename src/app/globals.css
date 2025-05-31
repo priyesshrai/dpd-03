@@ -1763,6 +1763,10 @@ footer {
           height: 100%;
           cursor: pointer;
           opacity: 0;
+
+          &:disabled {
+            cursor: not-allowed;
+          }
         }
       }
     }
@@ -1968,6 +1972,9 @@ footer {
     width: 100%;
     position: relative;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 
     .admin-component-header {
       position: relative;
@@ -1977,41 +1984,58 @@ footer {
       box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
         rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
-        .admin-header-wraper{
+      .admin-header-wraper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h1 {
+          color: var(--light-dark);
+          flex-shrink: 0;
+        }
+
+        .logo-container {
           position: relative;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
 
-          h1{
-            color: var(--light-dark);
-            flex-shrink: 0;
-          }
-
-          .logo-container{
+          .admin-logo {
             position: relative;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
 
-            .admin-logo{
-              position: relative;
-              width: 55px;
-              height: 55px;
-              border-radius: 50%;
-              background-color: var(--light-bg);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              cursor: pointer;
-
-              i{
-                font-size: 40px;
-                color: var(--light-dark);
-              }
+            i {
+              font-size: 40px;
+              color: var(--light-dark);
             }
           }
         }
+      }
+    }
+
+    .admin-component-section {
+      position: relative;
+      width: 100%;
+      padding: 50px;
+      padding-top: 0;
     }
   }
+}
+
+.edit-loading {
+  position: absolute;
+  inset: 0;
+  background-color: #0000002c;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 1092px) {
