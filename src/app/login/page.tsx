@@ -1,8 +1,11 @@
 'use client';
 import Spinner from '@/components/Spinner/Spinner';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import Cookies from "js-cookie";
 
 type LoginType = 'password' | 'otp';
 
@@ -20,31 +23,60 @@ export default function LoginPage() {
         otp: '',
     });
     const [isOtpSent, setIsOtpSent] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     function SendOtp() {
         setIsOtpSent(true);
         console.log(`Sending OTP to ${userData.username}`);
-
     }
-
 
     function handleSubmit(event: React.FormEvent) {
-        if (loginType === 'otp') {
-            if (userData.otp.length !== 6) {
-                alert('Please enter a valid OTP');
-                return;
-            }
-            // Handle OTP login logic here
-        }
-        else {
-            if (!userData.username || !userData.password) {
-                alert('Please enter both username and password');
-                return;
-            }
-            // Handle password login logic here
-        }
-    }
+        event.preventDefault();
+        setIsLoading(true);
 
+        if (!userData.username || !userData.password) {
+            alert('Please enter both username and password');
+            setIsLoading(false);
+            return;
+        }
+
+        const data = new FormData();
+        data.append("username", userData.username);
+        data.append("password", userData.password);
+
+        toast.promise(
+            axios.post("http://inforbit.in/demo/dpd/login", data)
+                .then((response) => {
+                    if (response.data.status) {
+
+                        Cookies.set("data", JSON.stringify(response.data), {
+                            expires: 1,
+                            path: "/",
+                        });
+
+                        setUserData({
+                            username: "",
+                            password: "",
+                            otp: ""
+                        });
+
+                        setIsLoading(false);
+                        window.location.href = "/admin/dashboard"
+                        return response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    const errorMessage = error.response?.data?.message || error.message;
+                    throw errorMessage;
+                }),
+            {
+                loading: "Please Wait....",
+                success: (message) => message || "Login successful!",
+                error: (err) => err || "Login failed!"
+            }
+        );
+    }
 
     return (
         <section className="login-container">
@@ -53,6 +85,8 @@ export default function LoginPage() {
                     setLoginType={setLoginType}
                     userData={userData}
                     setUserData={setUserData}
+                    handleSubmit={handleSubmit}
+                    loading={isLoading}
                 />
             ) : (
                 <LoginWithOtp
@@ -61,9 +95,10 @@ export default function LoginPage() {
                     setUserData={setUserData}
                     isOtpSent={isOtpSent}
                     sendOtp={SendOtp}
-                    handleSubmit={handleSubmit}
+                    loading={isLoading}
                 />
             )}
+            <Toaster />
         </section>
     );
 }
@@ -82,15 +117,15 @@ interface LoginProps {
     handleSubmit?: (event: React.FormEvent) => void;
 }
 
-function LoginWithPassword({ setLoginType, userData, setUserData, loading }: LoginProps) {
+function LoginWithPassword({ setLoginType, userData, setUserData, loading, handleSubmit }: LoginProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div className="login-card">
             <div className="login-wraper">
                 <div className="card-top">
-                    <Image src='/images/user/logo.png' width={200} height={27} alt="Dream Path Profile Builder" />
-                    <span>Login</span>
+                    <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
+                    {/* <span>Login</span> */}
                 </div>
 
                 <div className="card-body">
@@ -123,7 +158,8 @@ function LoginWithPassword({ setLoginType, userData, setUserData, loading }: Log
                 </div>
 
                 <div className="card-footer">
-                    <button type="button" disabled={!userData.username || !userData.password || loading}>
+                    <button type="button" onClick={handleSubmit}
+                        disabled={!userData.username || !userData.password || loading}>
                         {loading ? <Spinner /> : "Login"}
                     </button>
 
@@ -144,8 +180,8 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
         <div className="login-card">
             <div className="login-wraper">
                 <div className="card-top">
-                    <Image src='/images/user/logo.png' width={200} height={27} alt="Dream Path Profile Builder" />
-                    <span>OTP Login</span>
+                    <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
+                    {/* <span>OTP Login</span> */}
                 </div>
 
                 <div className="card-body">
