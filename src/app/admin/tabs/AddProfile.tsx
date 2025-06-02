@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 type TabConfig = {
   key: string;
@@ -52,6 +54,7 @@ export default function AddProfile() {
           <ActiveTab nextStep={nextStep} />
         </motion.div>
       </AnimatePresence>
+      <Toaster />
     </div>
   )
 }
@@ -85,7 +88,6 @@ function ProfileForm({ nextStep }: StepProps) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
   const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [isDisable, setIsDisable] = useState<boolean>(true)
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -120,24 +122,54 @@ function ProfileForm({ nextStep }: StepProps) {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true)
-    const UserData = new FormData();
-    UserData.append("name", userData.name)
-    UserData.append("email", userData.email)
-    UserData.append("phone", userData.phone)
-    UserData.append("profile", profilePicURL!)
-    UserData.append("headline", userData.headline)
-    UserData.append("intro", userData.intro)
-    UserData.append("facebook", userData.facebook)
-    UserData.append("insta", userData.insta)
-    UserData.append("linkedin", userData.linkedin)
-    UserData.append("twitter", userData.twitter)
-    UserData.append("yt", userData.yt)
+    const formData = new FormData();
 
-    UserData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    setLoading(false)
-    nextStep()
+    Object.keys(userData).map((key) => (
+      formData.append(key, userData[key as keyof UserData])
+    ))
+    formData.append("profile", profilePicURL!)
+    formData.append("user_type", "superadmin")
+
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)
+        .then((response) => {
+
+          if (response.data.status) {
+
+            localStorage.setItem("userId", response.data.profile_nid)
+
+            setUserData({
+              name: "",
+              email: "",
+              phone: "",
+              headline: "",
+              intro: "",
+              facebook: "",
+              insta: "",
+              linkedin: "",
+              twitter: "",
+              yt: ""
+            })
+            setProfilePicURL(null)
+            setProfilePicPreview(null)
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Profile Added successful!",
+        error: (err) => err || "Failed to Add Candidate Profile"
+      }
+    );
+
   }
 
   return (
@@ -155,7 +187,7 @@ function ProfileForm({ nextStep }: StepProps) {
           <img className='profile-img' src={profilePicPreview ?? '/images/profile/default.png'} />
           <div className='profile-edit-btn-container'>
             <i className="hgi hgi-stroke hgi-edit-02"></i>
-            <input disabled={isDisable} type='file'
+            <input type='file'
               accept="image/*"
               name='profilepic'
               onChange={handleProfilePicChange} />
@@ -173,7 +205,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.name}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Name</label>
         </div>
@@ -187,7 +218,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.email}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Email</label>
         </div>
@@ -201,7 +231,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.phone}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Phone No.</label>
         </div>
@@ -215,7 +244,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.headline}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Headline</label>
         </div>
@@ -229,7 +257,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.facebook}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Facebook</label>
         </div>
@@ -243,7 +270,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.insta}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Instagram</label>
         </div>
@@ -257,7 +283,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.linkedin}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>LinkedIn</label>
         </div>
@@ -271,7 +296,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.twitter}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>Twitter</label>
         </div>
@@ -285,7 +309,6 @@ function ProfileForm({ nextStep }: StepProps) {
             onChange={handleInputChange}
             value={userData.yt}
             className='inputs'
-            disabled={isDisable}
           />
           <label className='label'>YouTube</label>
         </div>
@@ -299,7 +322,6 @@ function ProfileForm({ nextStep }: StepProps) {
             value={userData.intro}
             className='inputs'
             rows={5}
-            disabled={isDisable}
           />
           <label className='label'>Introduction</label>
         </div>
@@ -307,8 +329,7 @@ function ProfileForm({ nextStep }: StepProps) {
       </div>
 
       <div className="details-edit-footer">
-        <button onClick={() => setIsDisable(false)}>Edit</button>
-        <button onClick={handleSubmit}>Save</button>
+        <button onClick={handleSubmit}>Next</button>
       </div>
 
     </div>
