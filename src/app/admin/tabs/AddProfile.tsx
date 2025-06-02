@@ -32,7 +32,7 @@ export default function AddProfile() {
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(1)
+  const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
