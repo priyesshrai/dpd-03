@@ -109,7 +109,7 @@ interface LoginProps {
     setUserData: React.Dispatch<React.SetStateAction<UserData>>;
     isOtpSent?: boolean;
     setIsOtpSent?: React.Dispatch<React.SetStateAction<boolean>>;
-    response?: any;
+    // response?: any;
     error?: string;
     loading?: boolean;
     postData?: () => void;
