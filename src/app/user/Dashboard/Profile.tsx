@@ -26,8 +26,8 @@ export default function Profile({ goBack, name }: DashboardProps) {
     yt: ""
   })
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
-  const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  // const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
+  // const [loading, setLoading] = useState<boolean>(false)
   const [isDisable, setIsDisable] = useState<boolean>(true)
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ export default function Profile({ goBack, name }: DashboardProps) {
       alert('Only images (JPEG, PNG, GIF, WebP) are allowed.');
       return;
     }
-    setProfilePicURL(file)
+    // setProfilePicURL(file)
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;

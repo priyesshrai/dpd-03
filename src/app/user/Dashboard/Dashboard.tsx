@@ -127,7 +127,7 @@ function DashboardEducation({ setTabByKey }: { setTabByKey?: (key: string) => vo
           </div>
           <Link href="#" target='_blank'>Vellore Institute of Technology, Vellore</Link>
           <p className='work-summery'>
-            Earned a bachelor's degree combining commerce principles with computer applications, preparing for tech-driven business environments.
+            Earned a bachelor&apos;s degree combining commerce principles with computer applications, preparing for tech-driven business environments.
           </p>
         </div>
 
@@ -363,7 +363,7 @@ function DashboardAchievements({ setTabByKey }: { setTabByKey?: (key: string) =>
             </Link>
           </div>
           <p className='work-summery'>
-            Spearheaded the creation and launch of "Alumni Forum", a magazine by the ICFAI Alumni Relationship Cell during the MBA program in Hyderabad.
+            Spearheaded the creation and launch of &quot;Alumni Forum&quot;, a magazine by the ICFAI Alumni Relationship Cell during the MBA program in Hyderabad.
           </p>
         </div>
 
@@ -375,7 +375,7 @@ function DashboardAchievements({ setTabByKey }: { setTabByKey?: (key: string) =>
             </Link>
           </div>
           <p className='work-summery'>
-            Published "Convention to Digital: A Shift in Banking" during the final year of B.Com, highlighting the evolution of traditional banking to digital platforms.
+            Published &quot;Convention to Digital: A Shift in Banking&quot; during the final year of B.Com, highlighting the evolution of traditional banking to digital platforms.
           </p>
         </div>
 

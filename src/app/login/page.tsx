@@ -118,8 +118,7 @@ interface LoginProps {
 }
 
 function LoginWithPassword({ setLoginType, userData, setUserData, loading, handleSubmit }: LoginProps) {
-    const [showPassword, setShowPassword] = useState(false);
-
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     return (
         <div className="login-card">
             <div className="login-wraper">
