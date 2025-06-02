@@ -402,7 +402,7 @@ function WorkForm({ nextStep }: StepProps) {
     });
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
+      axios.post("https://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
         .then((response) => {
           console.log(response);
           
