@@ -1809,6 +1809,10 @@ footer {
         border-color: var(--dark);
       }
     }
+
+    &:first-child{
+      margin-top: 0;
+    }
   }
 
   .details-edit-footer {
@@ -1842,7 +1846,7 @@ footer {
 .label {
   display: block;
   position: absolute;
-  top: 50%;
+  top: 18px;
   left: 15px;
   color: var(--light);
   font-size: 20px;
@@ -1850,7 +1854,7 @@ footer {
   user-select: none;
   pointer-events: none;
   background-color: var(--color-new-green-300);
-  transform: scale(1) translateY(-50%);
+  transform: scale(1);
   transition: all 0.3s ease;
 }
 .inputs:focus ~ .label,
@@ -2036,6 +2040,12 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.work-form-title{
+  position: absolute;
+  top: 0;
 }
 
 @media (max-width: 1092px) {

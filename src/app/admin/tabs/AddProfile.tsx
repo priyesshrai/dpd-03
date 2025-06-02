@@ -32,7 +32,7 @@ export default function AddProfile() {
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(0)
+  const [selectedTab, setSelectedTab] = useState(1)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -131,7 +131,7 @@ function ProfileForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin")
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)
+      axios.post("https://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)
         .then((response) => {
 
           if (response.data.status) {
@@ -182,7 +182,7 @@ function ProfileForm({ nextStep }: StepProps) {
           </div>) : ""
       }
 
-      <div className='details-edit-top'>
+      <div className='details-edit-top' >
         <div className='profile-pic-container'>
           <img className='profile-img' src={profilePicPreview ?? '/images/profile/default.png'} />
           <div className='profile-edit-btn-container'>
@@ -195,7 +195,7 @@ function ProfileForm({ nextStep }: StepProps) {
         </div>
       </div>
 
-      <div className="details-edit-body">
+      <div className="details-edit-body" style={{ marginTop: "50px" }}>
         <div className="edit-input-container">
           <input
             type="text"
@@ -336,8 +336,179 @@ function ProfileForm({ nextStep }: StepProps) {
   )
 }
 
-function WorkForm() {
+
+interface WorkExperience {
+  company: string;
+  position: string;
+  workingPeriod: string;
+  description: string;
+}
+
+function WorkForm({ nextStep }: StepProps) {
+  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>([
+    {
+      company: "",
+      position: "",
+      workingPeriod: "",
+      description: "",
+    },
+  ]);
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const addExperience = () => {
+    const lastExperience = workExperiences[workExperiences.length - 1];
+    const allFieldsFilled = Object.values(lastExperience).every(
+      (field) => field.trim() !== ""
+    );
+
+    if (!allFieldsFilled) {
+      alert("Please fill out all fields in the last experience before adding a new one.");
+      return;
+    }
+
+    setWorkExperiences([
+      ...workExperiences,
+      {
+        company: "",
+        position: "",
+        workingPeriod: "",
+        description: "",
+      },
+    ]);
+  };
+
+
+  const handleChange = (
+    index: number,
+    field: keyof WorkExperience,
+    value: string
+  ) => {
+    const updatedExperiences = [...workExperiences];
+    updatedExperiences[index][field] = value;
+    setWorkExperiences(updatedExperiences);
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true)
+    const userId: string | null = await localStorage.getItem("userId")
+    const formData = new FormData();
+    formData.append("work_experiences", JSON.stringify(workExperiences));
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
+        .then((response) => {
+          console.log(response);
+          
+          if (response.data.status) {
+            setWorkExperiences([
+              {
+                company: "",
+                position: "",
+                workingPeriod: "",
+                description: "",
+              },
+            ]);
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Work Experience Added successful!",
+        error: (err) => err || "Failed to Add Work Experience"
+      }
+    );
+  }
+
   return (
-    <div>Hello</div>
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+
+      {
+        loading ?
+          (<div className='edit-loading'>
+            <LargeSpinner />
+          </div>) : ""
+      }
+
+      {
+        workExperiences.map((experience, index) => (
+          <div className="details-edit-body" key={index}
+            style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+            {/* <span className='work-form-title'>Work Experience {index + 1} </span> */}
+            <div className="edit-input-container">
+              <input
+                type="text"
+                name='company'
+                placeholder=''
+                onChange={(e) => handleChange(index, "company", e.target.value)}
+                value={experience.company}
+                className='inputs'
+                required
+              />
+              <label className='label'>Company Name</label>
+            </div>
+
+            <div className="edit-input-container">
+              <input
+                type="text"
+                name='position'
+                placeholder=''
+                onChange={(e) => handleChange(index, "position", e.target.value)}
+                value={experience.position}
+                className='inputs'
+                required
+              />
+              <label className='label'>Position</label>
+            </div>
+
+            <div className="edit-input-container">
+              <input
+                type="text"
+                placeholder=""
+                value={experience.workingPeriod}
+                onChange={(e) => handleChange(index, "workingPeriod", e.target.value)}
+                required
+                className='inputs'
+              />
+              <label className='label'>Working Period</label>
+            </div>
+
+            <div className="edit-input-container">
+              <textarea
+                name='intro'
+                placeholder=''
+                value={experience.description}
+                onChange={(e) =>
+                  handleChange(index, "description", e.target.value)
+                }
+                className='inputs'
+                rows={5}
+                required
+              />
+              <label className='label'>Description</label>
+            </div>
+
+          </div>
+        ))
+      }
+      <div className="details-edit-footer">
+        <button onClick={addExperience}>Add New</button>
+        <button onClick={handleSubmit}>Next</button>
+      </div>
+    </div>
   )
 }

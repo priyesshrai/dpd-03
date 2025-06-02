@@ -45,7 +45,7 @@ export default function LoginPage() {
         data.append("password", userData.password);
 
         toast.promise(
-            axios.post("http://inforbit.in/demo/dpd/login", data)
+            axios.post("https://inforbit.in/demo/dpd/login", data)
                 .then((response) => {
                     if (response.data.status) {
 
