@@ -11,6 +11,21 @@ type TabConfig = {
   component: React.ComponentType<StepProps>;
 }
 
+interface WorkExperience {
+  company: string;
+  position: string;
+  workingPeriod: string;
+  description: string;
+}
+
+interface Education {
+  institute: string,
+  degree: string,
+  passingYear: string
+  description: string;
+}
+
+
 type StepProps = {
   // userData: UserData;
   // setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -26,13 +41,23 @@ export default function AddProfile() {
       component: ProfileForm,
     },
     {
+      key: "educationForm",
+      name: "Education Form",
+      component: EducationForm,
+    },
+    {
       key: "workForm",
       name: "Work Form",
       component: WorkForm,
     },
+    // {
+    //   key: "skills",
+    //   name: "Skills Form",
+    //   component: SkillsForm,
+    // },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(0)
+  const [selectedTab, setSelectedTab] = useState(3)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -196,134 +221,138 @@ function ProfileForm({ nextStep }: StepProps) {
       </div>
 
       <div className="details-edit-body" style={{ marginTop: "50px" }}>
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='name'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.name}
-            className='inputs'
-          />
-          <label className='label'>Name</label>
-        </div>
+        <div className="details-edit-wraper">
 
-        <div className="edit-input-container">
-          <input
-            type="email"
-            name='email'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.email}
-            className='inputs'
-          />
-          <label className='label'>Email</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='name'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.name}
+              className='inputs'
+            />
+            <label className='label'>Name</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="tel"
-            name='phone'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.phone}
-            className='inputs'
-          />
-          <label className='label'>Phone No.</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="email"
+              name='email'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.email}
+              className='inputs'
+            />
+            <label className='label'>Email</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='headline'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.headline}
-            className='inputs'
-          />
-          <label className='label'>Headline</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="tel"
+              name='phone'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.phone}
+              className='inputs'
+            />
+            <label className='label'>Phone No.</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='facebook'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.facebook}
-            className='inputs'
-          />
-          <label className='label'>Facebook</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='headline'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.headline}
+              className='inputs'
+            />
+            <label className='label'>Headline</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='insta'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.insta}
-            className='inputs'
-          />
-          <label className='label'>Instagram</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='facebook'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.facebook}
+              className='inputs'
+            />
+            <label className='label'>Facebook</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='linkedin'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.linkedin}
-            className='inputs'
-          />
-          <label className='label'>LinkedIn</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='insta'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.insta}
+              className='inputs'
+            />
+            <label className='label'>Instagram</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='twitter'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.twitter}
-            className='inputs'
-          />
-          <label className='label'>Twitter</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='linkedin'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.linkedin}
+              className='inputs'
+            />
+            <label className='label'>LinkedIn</label>
+          </div>
 
-        <div className="edit-input-container">
-          <input
-            type="text"
-            name='yt'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.yt}
-            className='inputs'
-          />
-          <label className='label'>YouTube</label>
-        </div>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='twitter'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.twitter}
+              className='inputs'
+            />
+            <label className='label'>Twitter</label>
+          </div>
 
-        <div className="edit-input-container">
-          <textarea
-            name='intro'
-            placeholder=''
-            required
-            onChange={handleInputChange}
-            value={userData.intro}
-            className='inputs'
-            rows={5}
-          />
-          <label className='label'>Introduction</label>
+          <div className="edit-input-container">
+            <input
+              type="text"
+              name='yt'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.yt}
+              className='inputs'
+            />
+            <label className='label'>YouTube</label>
+          </div>
+
+          <div className="edit-input-container">
+            <textarea
+              name='intro'
+              placeholder=''
+              required
+              onChange={handleInputChange}
+              value={userData.intro}
+              className='inputs'
+              rows={5}
+            />
+            <label className='label'>Introduction</label>
+          </div>
+
         </div>
 
       </div>
@@ -336,12 +365,177 @@ function ProfileForm({ nextStep }: StepProps) {
   )
 }
 
+function EducationForm({ nextStep }: StepProps) {
+  const [education, setEducation] = useState<Education[]>([
+    {
+      institute: "",
+      degree: "",
+      passingYear: "",
+      description: "",
+    },
+  ]);
+  const [loading, setLoading] = useState<boolean>(false)
 
-interface WorkExperience {
-  company: string;
-  position: string;
-  workingPeriod: string;
-  description: string;
+  const addNewEducation = () => {
+    const lastExperience = education[education.length - 1];
+    const allFieldsFilled = Object.values(lastExperience).every(
+      (field) => field.trim() !== ""
+    );
+
+    if (!allFieldsFilled) {
+      alert("Please fill out all fields in the last Education before adding a new one.");
+      return;
+    }
+
+    setEducation([
+      ...education,
+      {
+        institute: "",
+        degree: "",
+        passingYear: "",
+        description: "",
+      },
+    ]);
+  };
+
+
+  const handleChange = (
+    index: number,
+    field: keyof Education,
+    value: string
+  ) => {
+    const updatedExperiences = [...education];
+    updatedExperiences[index][field] = value;
+    setEducation(updatedExperiences);
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true)
+    const userId: string | null = await localStorage.getItem("userId")
+    const formData = new FormData();
+    formData.append("education", JSON.stringify(education));
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-education-api", formData)
+        .then((response) => {
+          console.log(response);
+
+          if (response.data.status) {
+            setEducation([
+              {
+                institute: "",
+                degree: "",
+                passingYear: "",
+                description: "",
+              },
+            ]);
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Education Added successful!",
+        error: (err) => err || "Failed to Add Education"
+      }
+    );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+
+      {
+        loading ?
+          (<div className='edit-loading'>
+            <LargeSpinner />
+          </div>) : ""
+      }
+
+      {
+        education.map((edu, index) => (
+          <div className="details-edit-body" key={index}
+            style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+            <span className='work-form-title'>Education {index + 1} </span>
+            <div className="details-edit-wraper">
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='institute'
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "institute", e.target.value)}
+                  value={edu.institute}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Institute Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='degree'
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "degree", e.target.value)}
+                  value={edu.degree}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Degree</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=""
+                  value={edu.passingYear}
+                  onChange={(e) => handleChange(index, "passingYear", e.target.value)}
+                  required
+                  className='inputs'
+                />
+                <label className='label'>Passing Year</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  value={edu.description}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className='inputs'
+                  rows={5}
+                  required
+                />
+                <label className='label'>Description</label>
+              </div>
+
+            </div>
+
+          </div>
+        ))
+      }
+      <div className="details-edit-footer">
+        <button onClick={addNewEducation}>Add New</button>
+        <button onClick={handleSubmit}>Next</button>
+      </div>
+    </div>
+  )
 }
 
 function WorkForm({ nextStep }: StepProps) {
@@ -404,8 +598,7 @@ function WorkForm({ nextStep }: StepProps) {
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
         .then((response) => {
-          console.log(response);
-          
+
           if (response.data.status) {
             setWorkExperiences([
               {
@@ -448,59 +641,64 @@ function WorkForm({ nextStep }: StepProps) {
         workExperiences.map((experience, index) => (
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
-            {/* <span className='work-form-title'>Work Experience {index + 1} </span> */}
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='company'
-                placeholder=''
-                onChange={(e) => handleChange(index, "company", e.target.value)}
-                value={experience.company}
-                className='inputs'
-                required
-              />
-              <label className='label'>Company Name</label>
+            <span className='work-form-title'>Work Experience {index + 1} </span>
+
+            <div className="details-edit-wraper">
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='company'
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "company", e.target.value)}
+                  value={experience.company}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Company Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='position'
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "position", e.target.value)}
+                  value={experience.position}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Position</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=""
+                  value={experience.workingPeriod}
+                  onChange={(e) => handleChange(index, "workingPeriod", e.target.value)}
+                  required
+                  className='inputs'
+                />
+                <label className='label'>Working Period</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  value={experience.description}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className='inputs'
+                  rows={5}
+                  required
+                />
+                <label className='label'>Description</label>
+              </div>
             </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='position'
-                placeholder=''
-                onChange={(e) => handleChange(index, "position", e.target.value)}
-                value={experience.position}
-                className='inputs'
-                required
-              />
-              <label className='label'>Position</label>
-            </div>
-
-            <div className="edit-input-container">
-              <input
-                type="text"
-                placeholder=""
-                value={experience.workingPeriod}
-                onChange={(e) => handleChange(index, "workingPeriod", e.target.value)}
-                required
-                className='inputs'
-              />
-              <label className='label'>Working Period</label>
-            </div>
-
-            <div className="edit-input-container">
-              <textarea
-                name='intro'
-                placeholder=''
-                value={experience.description}
-                onChange={(e) =>
-                  handleChange(index, "description", e.target.value)
-                }
-                className='inputs'
-                rows={5}
-                required
-              />
-              <label className='label'>Description</label>
-            </div>
 
           </div>
         ))
@@ -512,3 +710,4 @@ function WorkForm({ nextStep }: StepProps) {
     </div>
   )
 }
+

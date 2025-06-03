@@ -4,6 +4,8 @@ import { DashboardProps } from '@/app/user/Dashboard/Dashboard'
 import Image from 'next/image';
 import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
+import AddSkills from './AddSkills';
+import AddTools from './AddTools';
 
 type TabConfig = {
   key: string;
@@ -25,7 +27,19 @@ export default function AdminTabs() {
       tabName: "Add New Profile",
       icon: "hgi hgi-stroke hgi-user-add-01",
       component: AddProfile
-    }
+    },
+    {
+      key: "addSkills",
+      tabName: "Add New Skills",
+      icon: "hgi hgi-stroke hgi-user-add-01",
+      component: AddSkills
+    },
+    {
+      key: "addTool",
+      tabName: "Add New Tools",
+      icon: "hgi hgi-stroke hgi-user-add-01",
+      component: AddTools
+    },
   ]
 
   const [selectedTab, setSelectedTab] = useState(0)

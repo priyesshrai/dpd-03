@@ -1775,44 +1775,51 @@ footer {
   .details-edit-body {
     position: relative;
     width: 100%;
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    row-gap: 30px;
-    align-items: start;
+    margin-top: 30px;
 
-    .edit-input-container {
-      width: 100%;
+    .details-edit-wraper{
       position: relative;
-      flex-shrink: 0;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #e7e7e7;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      row-gap: 30px;
+      align-items: start;
 
-      input,
-      textarea {
+
+      .edit-input-container {
         width: 100%;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        font-size: 24px;
-        color: var(--light-dark);
         position: relative;
-
-        &:disabled {
-          cursor: not-allowed;
+        flex-shrink: 0;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e7e7e7;
+  
+        input,
+        textarea {
+          width: 100%;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          font-size: 24px;
+          color: var(--light-dark);
+          position: relative;
+  
+          &:disabled {
+            cursor: not-allowed;
+          }
+        }
+  
+        &:focus-within {
+          border-color: var(--dark);
         }
       }
-
-      &:focus-within {
-        border-color: var(--dark);
-      }
     }
-
     &:first-child{
       margin-top: 0;
     }
+    
+
   }
 
   .details-edit-footer {
@@ -2044,8 +2051,9 @@ footer {
 
 
 .work-form-title{
-  position: absolute;
-  top: 0;
+  position: relative;
+  display: block;
+  margin-bottom: 40px;
 }
 
 @media (max-width: 1092px) {
