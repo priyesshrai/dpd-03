@@ -59,15 +59,30 @@ export default function AddProfile() {
       name: "Tools Form",
       component: ToolsForm,
     },
+    {
+      key: "projects",
+      name: "Projects Form",
+      component: ProjectForm,
+    },
+    {
+      key: "achievement",
+      name: "Achievements Form",
+      component: AchievementForm,
+    },
+    {
+      key: "social_activity",
+      name: "Social Activity Form",
+      component: SocialActivityForm,
+    },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(4)
+  const [selectedTab, setSelectedTab] = useState(5)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
-    if (selectedTab < formConfig.length - 1) {
-      setSelectedTab((prev) => prev + 1);
-    }
+    setSelectedTab((prev) =>
+      prev < formConfig.length - 1 ? prev + 1 : 0
+    );
   };
 
   return (
@@ -711,7 +726,6 @@ function WorkForm({ nextStep }: StepProps) {
   )
 }
 
-
 interface Skill {
   nid: string;
   name: string;
@@ -1045,3 +1059,564 @@ function ToolsForm({ nextStep }: StepProps) {
   );
 }
 
+interface Projects {
+  name: string,
+  link: string,
+  image: File | null,
+  description: string
+}
+
+function ProjectForm({ nextStep }: StepProps) {
+  const [projects, setProjects] = useState<Projects[]>([
+    {
+      name: "",
+      link: "",
+      image: null,
+      description: "",
+    },
+  ]);
+
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const addNewProject = () => {
+    const lastSkill = projects[projects.length - 1];
+    const allFieldsFilled =
+      lastSkill.name.trim() !== "" &&
+      lastSkill.link.trim() !== "" &&
+      lastSkill.image !== null &&
+      lastSkill.description.trim() !== "";
+
+    if (!allFieldsFilled) {
+      alert("Please fill out all fields in the last Project before adding a new one.");
+      return;
+    }
+
+    setProjects([
+      ...projects,
+      {
+        name: "",
+        link: "",
+        image: null,
+        description: "",
+      },
+    ]);
+  };
+
+
+  const handleChange = (
+    index: number,
+    field: keyof Projects,
+    value: string | File | null
+  ) => {
+    const updatedSkills = [...projects];
+    updatedSkills[index][field] = value as any;
+    setProjects(updatedSkills);
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true)
+    const userId: string | null = await localStorage.getItem("userId")
+    const formData = new FormData();
+
+    const projectForJSON = projects.map((project) => ({
+      name: project.name,
+      link: project.link,
+      image: project.image ? project.image.name : "",
+      description: project.description,
+    }));
+
+    formData.append("recent_project", JSON.stringify(projectForJSON));
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+
+          if (response.data.status) {
+            setProjects([
+              {
+                name: "",
+                link: "",
+                image: null,
+                description: "",
+              },
+            ]);
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Project Added successful!",
+        error: (err) => err || "Failed to Add Project"
+      }
+    );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+
+      {
+        loading ?
+          (<div className='edit-loading'>
+            <LargeSpinner />
+          </div>) : ""
+      }
+
+      {
+        projects.map((project, index) => (
+          <div className="details-edit-body" key={index}
+            style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+            <span className='work-form-title'>Project {index + 1} </span>
+
+            <div className="details-edit-wraper">
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "name", e.target.value)}
+                  value={project.name}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Project Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="file"
+                  onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                  className="inputs"
+                  required
+                />
+                <label className='label'>Project Image</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=""
+                  value={project.link}
+                  onChange={(e) => handleChange(index, "link", e.target.value)}
+                  required
+                  className='inputs'
+                />
+                <label className='label'>Project Link</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  value={project.description}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className='inputs'
+                  rows={5}
+                  required
+                />
+                <label className='label'>Project Summary</label>
+              </div>
+            </div>
+
+
+          </div>
+        ))
+      }
+      <div className="details-edit-footer">
+        <button onClick={addNewProject}>Add New</button>
+        <button onClick={handleSubmit}>Next</button>
+      </div>
+    </div>
+  )
+}
+
+function AchievementForm({ nextStep }: StepProps) {
+  const [achievement, setAchievement] = useState<Projects[]>([
+    {
+      name: "",
+      link: "",
+      image: null,
+      description: "",
+    },
+  ]);
+
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const addNewAchievement = () => {
+    const lastSkill = achievement[achievement.length - 1];
+    const allFieldsFilled =
+      lastSkill.name.trim() !== "" &&
+      lastSkill.link.trim() !== "" &&
+      lastSkill.image !== null &&
+      lastSkill.description.trim() !== "";
+
+    if (!allFieldsFilled) {
+      alert("Please fill out all fields in the last Achievement before adding a new one.");
+      return;
+    }
+
+    setAchievement([
+      ...achievement,
+      {
+        name: "",
+        link: "",
+        image: null,
+        description: "",
+      },
+    ]);
+  };
+
+
+  const handleChange = (
+    index: number,
+    field: keyof Projects,
+    value: string | File | null
+  ) => {
+    const updatedSkills = [...achievement];
+    updatedSkills[index][field] = value as any;
+    setAchievement(updatedSkills);
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true)
+    const userId: string | null = await localStorage.getItem("userId")
+    const formData = new FormData();
+
+    const projectForJSON = achievement.map((achievement) => ({
+      name: achievement.name,
+      link: achievement.link,
+      image: achievement.image ? achievement.image.name : "",
+      description: achievement.description,
+    }));
+
+    formData.append("recent_achievement", JSON.stringify(projectForJSON));
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+
+    // toast.promise(
+    //   axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //     .then((response) => {
+
+    //       if (response.data.status) {
+    //         setProjects([
+    //           {
+    //             name: "",
+    //             link: "",
+    //             image: null,
+    //             description: "",
+    //           },
+    //         ]);
+    //         setLoading(false);
+    //         nextStep()
+    //         return response.data.message;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       setLoading(false);
+    //       console.log(error);
+    //       const errorMessage = error.response?.data?.message || error.message;
+    //       throw errorMessage;
+    //     }),
+    //   {
+    //     loading: "Please Wait....",
+    //     success: (message) => message || "Project Added successful!",
+    //     error: (err) => err || "Failed to Add Project"
+    //   }
+    // );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+
+      {
+        loading ?
+          (<div className='edit-loading'>
+            <LargeSpinner />
+          </div>) : ""
+      }
+
+      {
+        achievement.map((achievement, index) => (
+          <div className="details-edit-body" key={index}
+            style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+            <span className='work-form-title'>Achievements {index + 1} </span>
+
+            <div className="details-edit-wraper">
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "name", e.target.value)}
+                  value={achievement.name}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Achievement Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="file"
+                  onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                  className="inputs"
+                  required
+                />
+                <label className='label'>Achievement Image</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=""
+                  value={achievement.link}
+                  onChange={(e) => handleChange(index, "link", e.target.value)}
+                  required
+                  className='inputs'
+                />
+                <label className='label'>Achievement Link</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  value={achievement.description}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className='inputs'
+                  rows={5}
+                  required
+                />
+                <label className='label'>Achievement Summary</label>
+              </div>
+            </div>
+
+
+          </div>
+        ))
+      }
+      <div className="details-edit-footer">
+        <button onClick={addNewAchievement}>Add New</button>
+        <button onClick={handleSubmit}>Next</button>
+      </div>
+    </div>
+  )
+}
+
+function SocialActivityForm({ nextStep }: StepProps) {
+  const [projects, setProjects] = useState<Projects[]>([
+    {
+      name: "",
+      link: "",
+      image: null,
+      description: "",
+    },
+  ]);
+
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const addNewProject = () => {
+    const lastSkill = projects[projects.length - 1];
+    const allFieldsFilled =
+      lastSkill.name.trim() !== "" &&
+      lastSkill.link.trim() !== "" &&
+      lastSkill.image !== null &&
+      lastSkill.description.trim() !== "";
+
+    if (!allFieldsFilled) {
+      alert("Please fill out all fields in the last Project before adding a new one.");
+      return;
+    }
+
+    setProjects([
+      ...projects,
+      {
+        name: "",
+        link: "",
+        image: null,
+        description: "",
+      },
+    ]);
+  };
+
+
+  const handleChange = (
+    index: number,
+    field: keyof Projects,
+    value: string | File | null
+  ) => {
+    const updatedSkills = [...projects];
+    updatedSkills[index][field] = value as any;
+    setProjects(updatedSkills);
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true)
+    const userId: string | null = await localStorage.getItem("userId")
+    const formData = new FormData();
+
+    const projectForJSON = projects.map((project) => ({
+      name: project.name,
+      link: project.link,
+      image: project.image ? project.image.name : "",
+      description: project.description,
+    }));
+
+    formData.append("recent_project", JSON.stringify(projectForJSON));
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+
+          if (response.data.status) {
+            setProjects([
+              {
+                name: "",
+                link: "",
+                image: null,
+                description: "",
+              },
+            ]);
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Project Added successful!",
+        error: (err) => err || "Failed to Add Project"
+      }
+    );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+
+      {
+        loading ?
+          (<div className='edit-loading'>
+            <LargeSpinner />
+          </div>) : ""
+      }
+
+      {
+        projects.map((project, index) => (
+          <div className="details-edit-body" key={index}
+            style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+            <span className='work-form-title'>Project {index + 1} </span>
+
+            <div className="details-edit-wraper">
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=''
+                  onChange={(e) => handleChange(index, "name", e.target.value)}
+                  value={project.name}
+                  className='inputs'
+                  required
+                />
+                <label className='label'>Project Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="file"
+                  onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                  className="inputs"
+                  required
+                />
+                <label className='label'>Project Image</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  placeholder=""
+                  value={project.link}
+                  onChange={(e) => handleChange(index, "link", e.target.value)}
+                  required
+                  className='inputs'
+                />
+                <label className='label'>Project Link</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  value={project.description}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className='inputs'
+                  rows={5}
+                  required
+                />
+                <label className='label'>Project Summary</label>
+              </div>
+            </div>
+
+
+          </div>
+        ))
+      }
+      <div className="details-edit-footer">
+        <button onClick={addNewProject}>Add New</button>
+        <button onClick={handleSubmit}>Next</button>
+      </div>
+    </div>
+  )
+}

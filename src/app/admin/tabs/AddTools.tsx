@@ -96,14 +96,12 @@ export default function AddTools() {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="details-edit-component" style={{ padding: "30px" }}>
-
             {loading && (
               <div className='edit-loading'>
                 <LargeSpinner />
               </div>
             )}
-
+          <div className="details-edit-component" style={{ padding: "30px" }}>
             <form onSubmit={handleSubmit}>
               <div className="details-edit-body" >
                 <div className="details-edit-wraper">

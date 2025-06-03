@@ -23,7 +23,7 @@ export default function AddSkills() {
   const [loading, setLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
     setSkills((prevData) => ({
@@ -101,13 +101,14 @@ export default function AddSkills() {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
+          
+          {loading && (
+            <div className='edit-loading'>
+              <LargeSpinner />
+            </div>
+          )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
 
-            {loading && (
-              <div className='edit-loading'>
-                <LargeSpinner />
-              </div>
-            )}
 
             <form onSubmit={handleSubmit}>
               <div className="details-edit-body" >
@@ -138,14 +139,14 @@ export default function AddSkills() {
                   </div>
 
                   <div className="edit-input-container">
-                    <input
-                      type="text"
+                    <textarea
                       name='description'
-                      placeholder=""
+                      placeholder=''
                       value={skills.description}
                       onChange={handleChange}
-                      required
                       className='inputs'
+                      rows={5}
+                      required
                     />
                     <label className='label'>Skill Description</label>
                   </div>
