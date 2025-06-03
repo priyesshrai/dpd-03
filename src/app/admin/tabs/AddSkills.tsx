@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -21,6 +21,7 @@ export default function AddSkills() {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -68,6 +69,9 @@ export default function AddSkills() {
               image: null,
               description: "",
             });
+            if (fileInputRef.current) {
+              fileInputRef.current.value = "";
+            }
             setLoading(false);
             return response.data.message || "Skill added successfully!";
           } else {
@@ -126,6 +130,7 @@ export default function AddSkills() {
                       type="file"
                       name='image'
                       onChange={handleFileChange}
+                      ref={fileInputRef}
                       className='inputs'
                       required
                     />
