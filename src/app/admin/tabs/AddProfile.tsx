@@ -76,7 +76,7 @@ export default function AddProfile() {
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(5)
+  const [selectedTab, setSelectedTab] = useState(6)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -417,7 +417,6 @@ function EducationForm({ nextStep }: StepProps) {
     ]);
   };
 
-
   const handleChange = (
     index: number,
     field: keyof Education,
@@ -442,7 +441,7 @@ function EducationForm({ nextStep }: StepProps) {
     });
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-education-api", formData)
+      axios.post("https://inforbit.in/demo/dpd/candidate-education-api", formData)
         .then((response) => {
           console.log(response);
 
@@ -589,7 +588,6 @@ function WorkForm({ nextStep }: StepProps) {
       },
     ]);
   };
-
 
   const handleChange = (
     index: number,
@@ -955,7 +953,7 @@ function ToolsForm({ nextStep }: StepProps) {
     });
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-tools", formData)
+      axios.post("https://inforbit.in/demo/dpd/candidate-tools", formData)
         .then((response) => {
           setLoading(false);
           if (response.data.status) {
@@ -1132,14 +1130,12 @@ function ProjectForm({ nextStep }: StepProps) {
     formData.append("profile_nid", userId!)
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
+      axios.post("https://inforbit.in/demo/dpd/candidate-recent-project", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
         .then((response) => {
-          console.log(response.data);
-
           if (response.data.status) {
             setProjects([
               {
@@ -1301,56 +1297,55 @@ function AchievementForm({ nextStep }: StepProps) {
     const userId: string | null = await localStorage.getItem("userId")
     const formData = new FormData();
 
-    const projectForJSON = achievement.map((achievement) => ({
-      name: achievement.name,
-      link: achievement.link,
-      image: achievement.image ? achievement.image.name : "",
-      description: achievement.description,
-    }));
+    achievement.forEach((achievement, index) => {
+      formData.append(`achievement[${index}][name]`, achievement.name);
+      formData.append(`achievement[${index}][link]`, achievement.link);
+      formData.append(`achievement[${index}][description]`, achievement.description);
+      if (achievement.image) {
+        formData.append(`achievement[${index}][image]`, achievement.image);
+      }
+    });
 
-    formData.append("recent_achievement", JSON.stringify(projectForJSON));
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
-
-    // toast.promise(
-    //   axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //     .then((response) => {
-
-    //       if (response.data.status) {
-    //         setProjects([
-    //           {
-    //             name: "",
-    //             link: "",
-    //             image: null,
-    //             description: "",
-    //           },
-    //         ]);
-    //         setLoading(false);
-    //         nextStep()
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Project Added successful!",
-    //     error: (err) => err || "Failed to Add Project"
-    //   }
-    // );
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/candidate-achievement", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          if (response.data.status) {
+            setAchievement([
+              {
+                name: "",
+                link: "",
+                image: null,
+                description: "",
+              },
+            ]);
+            setLoading(false);
+            nextStep()
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Project Added successful!",
+        error: (err) => err || "Failed to Add Project"
+      }
+    );
   }
 
   return (
