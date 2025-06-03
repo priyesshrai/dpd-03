@@ -76,7 +76,7 @@ export default function AddProfile() {
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(6)
+  const [selectedTab, setSelectedTab] = useState(7)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -1309,10 +1309,6 @@ function AchievementForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
-    // formData.forEach((value, key) => {
-    //   console.log(`${key}: ${value}`);
-    // });
-
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-achievement", formData, {
         headers: {
@@ -1428,51 +1424,48 @@ function AchievementForm({ nextStep }: StepProps) {
   )
 }
 
+interface SocialActivity {
+  title: string,
+  description: string
+}
+
 function SocialActivityForm({ nextStep }: StepProps) {
-  const [projects, setProjects] = useState<Projects[]>([
+  const [socialActivity, setSocialActivity] = useState<SocialActivity[]>([
     {
-      name: "",
-      link: "",
-      image: null,
+      title: "",
       description: "",
     },
   ]);
-
   const [loading, setLoading] = useState<boolean>(false)
 
-  const addNewProject = () => {
-    const lastSkill = projects[projects.length - 1];
-    const allFieldsFilled =
-      lastSkill.name.trim() !== "" &&
-      lastSkill.link.trim() !== "" &&
-      lastSkill.image !== null &&
-      lastSkill.description.trim() !== "";
+  const addNewSocialActivity = () => {
+    const lastExperience = socialActivity[socialActivity.length - 1];
+    const allFieldsFilled = Object.values(lastExperience).every(
+      (field) => field.trim() !== ""
+    );
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Project before adding a new one.");
+      alert("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
 
-    setProjects([
-      ...projects,
+    setSocialActivity([
+      ...socialActivity,
       {
-        name: "",
-        link: "",
-        image: null,
+        title: "",
         description: "",
       },
     ]);
   };
 
-
   const handleChange = (
     index: number,
-    field: keyof Projects,
-    value: string | File | null
+    field: keyof SocialActivity,
+    value: string
   ) => {
-    const updatedSkills = [...projects];
-    updatedSkills[index][field] = value as any;
-    setProjects(updatedSkills);
+    const updatedExperiences = [...socialActivity];
+    updatedExperiences[index][field] = value;
+    setSocialActivity(updatedExperiences);
   };
 
   async function handleSubmit(event: React.FormEvent) {
@@ -1480,37 +1473,21 @@ function SocialActivityForm({ nextStep }: StepProps) {
     setLoading(true)
     const userId: string | null = await localStorage.getItem("userId")
     const formData = new FormData();
-
-    const projectForJSON = projects.map((project) => ({
-      name: project.name,
-      link: project.link,
-      image: project.image ? project.image.name : "",
-      description: project.description,
-    }));
-
-    formData.append("recent_project", JSON.stringify(projectForJSON));
+    formData.append("social_activities", JSON.stringify(socialActivity));
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      axios.post("https://inforbit.in/demo/dpd/candidate-social-activities", formData)
         .then((response) => {
-
           if (response.data.status) {
-            setProjects([
+            setSocialActivity([
               {
-                name: "",
-                link: "",
-                image: null,
+                title: "",
                 description: "",
               },
             ]);
@@ -1527,8 +1504,8 @@ function SocialActivityForm({ nextStep }: StepProps) {
         }),
       {
         loading: "Please Wait....",
-        success: (message) => message || "Project Added successful!",
-        error: (err) => err || "Failed to Add Project"
+        success: (message) => message || "Social Activity Added successful!",
+        error: (err) => err || "Failed to Add Social Activity"
       }
     );
   }
@@ -1544,10 +1521,10 @@ function SocialActivityForm({ nextStep }: StepProps) {
       }
 
       {
-        projects.map((project, index) => (
+        socialActivity.map((activity, index) => (
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
-            <span className='work-form-title'>Project {index + 1} </span>
+            <span className='work-form-title'>Social Activity {index + 1} </span>
 
             <div className="details-edit-wraper">
 
@@ -1555,41 +1532,19 @@ function SocialActivityForm({ nextStep }: StepProps) {
                 <input
                   type="text"
                   placeholder=''
-                  onChange={(e) => handleChange(index, "name", e.target.value)}
-                  value={project.name}
+                  onChange={(e) => handleChange(index, "title", e.target.value)}
+                  value={activity.title}
                   className='inputs'
                   required
                 />
-                <label className='label'>Project Name</label>
-              </div>
-
-              <div className="edit-input-container">
-                <input
-                  type="file"
-                  onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                  className="inputs"
-                  required
-                />
-                <label className='label'>Project Image</label>
-              </div>
-
-              <div className="edit-input-container">
-                <input
-                  type="text"
-                  placeholder=""
-                  value={project.link}
-                  onChange={(e) => handleChange(index, "link", e.target.value)}
-                  required
-                  className='inputs'
-                />
-                <label className='label'>Project Link</label>
+                <label className='label'>Social Activity Title</label>
               </div>
 
               <div className="edit-input-container">
                 <textarea
                   name='intro'
                   placeholder=''
-                  value={project.description}
+                  value={activity.description}
                   onChange={(e) =>
                     handleChange(index, "description", e.target.value)
                   }
@@ -1597,7 +1552,7 @@ function SocialActivityForm({ nextStep }: StepProps) {
                   rows={5}
                   required
                 />
-                <label className='label'>Project Summary</label>
+                <label className='label'>Social Activity Description</label>
               </div>
             </div>
 
@@ -1606,8 +1561,8 @@ function SocialActivityForm({ nextStep }: StepProps) {
         ))
       }
       <div className="details-edit-footer">
-        <button onClick={addNewProject}>Add New</button>
-        <button onClick={handleSubmit}>Next</button>
+        <button onClick={addNewSocialActivity}>Add New</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   )
