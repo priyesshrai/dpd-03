@@ -1117,23 +1117,19 @@ function ProjectForm({ nextStep }: StepProps) {
     event.preventDefault();
     setLoading(true)
     const userId: string | null = await localStorage.getItem("userId")
+
     const formData = new FormData();
-
-    const projectForJSON = projects.map((project) => ({
-      name: project.name,
-      link: project.link,
-      image: project.image ? project.image.name : "",
-      description: project.description,
-    }));
-
-    formData.append("recent_project", JSON.stringify(projectForJSON));
-    formData.append("user_type", "superadmin")
-    formData.append("profile_nid", userId!)
-
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
+    projects.forEach((project, index) => {
+      formData.append(`projects[${index}][name]`, project.name);
+      formData.append(`projects[${index}][link]`, project.link);
+      formData.append(`projects[${index}][description]`, project.description);
+      if (project.image) {
+        formData.append(`projects[${index}][image]`, project.image);
+      }
     });
 
+    formData.append("user_type", "superadmin")
+    formData.append("profile_nid", userId!)
 
     toast.promise(
       axios.post("http://inforbit.in/demo/dpd/candidate-recent-project", formData, {
@@ -1142,6 +1138,7 @@ function ProjectForm({ nextStep }: StepProps) {
         },
       })
         .then((response) => {
+          console.log(response.data);
 
           if (response.data.status) {
             setProjects([
