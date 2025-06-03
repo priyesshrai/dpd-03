@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import toast, { Toaster } from 'react-hot-toast';
@@ -25,7 +25,6 @@ interface Education {
   description: string;
 }
 
-
 type StepProps = {
   // userData: UserData;
   // setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -50,14 +49,19 @@ export default function AddProfile() {
       name: "Work Form",
       component: WorkForm,
     },
-    // {
-    //   key: "skills",
-    //   name: "Skills Form",
-    //   component: SkillsForm,
-    // },
+    {
+      key: "skills",
+      name: "Skills Form",
+      component: SkillsForm,
+    },
+    {
+      key: "tools",
+      name: "Tools Form",
+      component: ToolsForm,
+    },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(3)
+  const [selectedTab, setSelectedTab] = useState(4)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -591,10 +595,6 @@ function WorkForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
         .then((response) => {
@@ -709,5 +709,339 @@ function WorkForm({ nextStep }: StepProps) {
       </div>
     </div>
   )
+}
+
+
+interface Skill {
+  nid: string;
+  name: string;
+}
+
+function SkillsForm({ nextStep }: StepProps) {
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function fetchSkills() {
+      try {
+        const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
+        if (response.data) {
+          setSkills(response.data);
+        } else {
+          toast.error(response.data.message || 'Failed to fetch skills.');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Error fetching skills.');
+      }
+    }
+    fetchSkills();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleCheckboxChange = (skillId: string) => {
+    setSelectedSkills((prevSelected) => {
+      if (prevSelected.includes(skillId)) {
+        return prevSelected.filter((id) => id !== skillId);
+      } else {
+        return [...prevSelected, skillId];
+      }
+    });
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+
+    const userId: string | null = await localStorage.getItem("userId");
+
+    const formData = new FormData();
+    formData.append("skill_ids", JSON.stringify(selectedSkills));
+    formData.append("user_type", "superadmin");
+    formData.append("profile_nid", userId!);
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/candidate-expert-area", formData)
+        .then((response) => {
+          setLoading(false);
+          if (response.data.status) {
+            setSelectedSkills([]);
+            nextStep();
+            return response.data.message || "Skills added successfully!";
+          } else {
+            throw response.data.message || "Failed to add skills.";
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Submitting...",
+        success: (message) => message,
+        error: (err) => err || "Failed to add skills."
+      }
+    );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+      {loading && (
+        <div className="edit-loading">
+          <LargeSpinner />
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="details-edit-body">
+          <div className="details-edit-wraper">
+            <div
+              className="custom-select-container"
+              ref={dropdownRef}
+              style={{
+                position: "relative",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                padding: "10px",
+                cursor: "pointer",
+                userSelect: "none"
+              }}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <div>
+                {selectedSkills.length > 0
+                  ? `${selectedSkills.length} skill(s) selected`
+                  : "Select skills"}
+              </div>
+
+              {dropdownOpen && (
+                <div
+                  className="custom-dropdown"
+                  style={{
+                    position: "relative",
+                    background: "#fff",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    zIndex: 10,
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                    marginTop: "20px",
+                    padding: "10px"
+                  }}
+                >
+                  {skills.map((skill, idx) => (
+                    <label
+                      key={skill.nid}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        marginBottom: "5px"
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedSkills.includes(skill.nid)}
+                        onChange={() => handleCheckboxChange(skill.nid)}
+                      />
+                      {skill.name}
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+
+        <div className="details-edit-footer">
+          <button type="submit">Next</button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function ToolsForm({ nextStep }: StepProps) {
+  const [tools, setTools] = useState<Skill[]>([]);
+  const [selectedTools, setSelectedTools] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function fetchSkills() {
+      try {
+        const response = await axios.get('http://inforbit.in/demo/dpd/tools-master-display');
+        if (response.data) {
+          setTools(response.data);
+        } else {
+          toast.error(response.data.message || 'Failed to fetch skills.');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Error fetching skills.');
+      }
+    }
+    fetchSkills();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleCheckboxChange = (toolIs: string) => {
+    setSelectedTools((prevSelected) => {
+      if (prevSelected.includes(toolIs)) {
+        return prevSelected.filter((id) => id !== toolIs);
+      } else {
+        return [...prevSelected, toolIs];
+      }
+    });
+  };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+
+    const userId: string | null = await localStorage.getItem("userId");
+
+    const formData = new FormData();
+    formData.append("skill_ids", JSON.stringify(selectedTools));
+    formData.append("user_type", "superadmin");
+    formData.append("profile_nid", userId!);
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    // toast.promise(
+    //   axios.post("https://inforbit.in/demo/dpd/candidate-skills-api", formData)
+    //     .then((response) => {
+    //       setLoading(false);
+    //       if (response.data.status) {
+    //         setSelectedSkills([]);
+    //         nextStep();
+    //         return response.data.message || "Skills added successfully!";
+    //       } else {
+    //         throw response.data.message || "Failed to add skills.";
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       setLoading(false);
+    //       console.error(error);
+    //       const errorMessage = error.response?.data?.message || error.message;
+    //       throw errorMessage;
+    //     }),
+    //   {
+    //     loading: "Submitting...",
+    //     success: (message) => message,
+    //     error: (err) => err || "Failed to add skills."
+    //   }
+    // );
+  }
+
+  return (
+    <div className="details-edit-component" style={{ padding: "30px" }}>
+      {loading && (
+        <div className="edit-loading">
+          <LargeSpinner />
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="details-edit-body">
+          <div className="details-edit-wraper">
+            <div
+              className="custom-select-container"
+              ref={dropdownRef}
+              style={{
+                position: "relative",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                padding: "10px",
+                cursor: "pointer",
+                userSelect: "none"
+              }}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <div>
+                {selectedTools.length > 0
+                  ? `${selectedTools.length} tool(s) selected`
+                  : "Select Tools"}
+              </div>
+
+              {dropdownOpen && (
+                <div
+                  className="custom-dropdown"
+                  style={{
+                    position: "relative",
+                    background: "#fff",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    zIndex: 10,
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                    marginTop: "20px",
+                    padding: "10px"
+                  }}
+                >
+                  {tools.map((tool, idx) => (
+                    <label
+                      key={tool.nid}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        marginBottom: "5px"
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedTools.includes(tool.nid)}
+                        onChange={() => handleCheckboxChange(tool.nid)}
+                      />
+                      {tool.name}
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+
+        <div className="details-edit-footer">
+          <button type="submit">Next</button>
+        </div>
+      </form>
+    </div>
+  );
 }
 

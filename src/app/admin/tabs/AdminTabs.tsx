@@ -31,13 +31,13 @@ export default function AdminTabs() {
     {
       key: "addSkills",
       tabName: "Add New Skills",
-      icon: "hgi hgi-stroke hgi-user-add-01",
+      icon: "hgi hgi-stroke hgi-idea-01",
       component: AddSkills
     },
     {
       key: "addTool",
       tabName: "Add New Tools",
-      icon: "hgi hgi-stroke hgi-user-add-01",
+      icon: "hgi hgi-stroke hgi-code",
       component: AddTools
     },
   ]
