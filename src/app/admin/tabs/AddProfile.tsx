@@ -932,7 +932,7 @@ function ToolsForm({ nextStep }: StepProps) {
     const userId: string | null = await localStorage.getItem("userId");
 
     const formData = new FormData();
-    formData.append("skill_ids", JSON.stringify(selectedTools));
+    formData.append("tools_ids", JSON.stringify(selectedTools));
     formData.append("user_type", "superadmin");
     formData.append("profile_nid", userId!);
 
@@ -940,30 +940,30 @@ function ToolsForm({ nextStep }: StepProps) {
       console.log(`${key}: ${value}`);
     });
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-skills-api", formData)
-    //     .then((response) => {
-    //       setLoading(false);
-    //       if (response.data.status) {
-    //         setSelectedSkills([]);
-    //         nextStep();
-    //         return response.data.message || "Skills added successfully!";
-    //       } else {
-    //         throw response.data.message || "Failed to add skills.";
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.error(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Submitting...",
-    //     success: (message) => message,
-    //     error: (err) => err || "Failed to add skills."
-    //   }
-    // );
+    toast.promise(
+      axios.post("http://inforbit.in/demo/dpd/candidate-tools", formData)
+        .then((response) => {
+          setLoading(false);
+          if (response.data.status) {
+            setSelectedTools([]);
+            nextStep();
+            return response.data.message || "Tools added successfully!";
+          } else {
+            throw response.data.message || "Failed to add Tools.";
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Submitting...",
+        success: (message) => message,
+        error: (err) => err || "Failed to add Tools."
+      }
+    );
   }
 
   return (
