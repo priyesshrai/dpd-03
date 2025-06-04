@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import type { AddProfileProps, FormData } from '../../../../types';
 
 type TabConfig = {
   key: string;
@@ -26,17 +27,13 @@ interface Education {
 }
 
 type StepProps = {
-  // userData: UserData;
-  // setUserData: React.Dispatch<React.SetStateAction<UserData>>;
   nextStep: () => void;
+  candidateData: FormData;
+  setCandidateData: React.Dispatch<React.SetStateAction<FormData>>;
 };
 
-type AddProfileProps = {
-  selectedForm: number;
-  setSelectedForm: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export default function AddProfile({ selectedForm, setSelectedForm }: AddProfileProps) {
+export default function AddProfile(
+  { selectedForm, setSelectedForm, candidateData, setCandidateData }: AddProfileProps) {
 
   const formConfig: TabConfig[] = [
     {
@@ -87,7 +84,6 @@ export default function AddProfile({ selectedForm, setSelectedForm }: AddProfile
     );
   };
 
-
   return (
     <div className='component-common' style={{ padding: 0 }}>
       <AnimatePresence mode='wait'>
@@ -98,7 +94,11 @@ export default function AddProfile({ selectedForm, setSelectedForm }: AddProfile
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-          <ActiveForm nextStep={nextStep} />
+          <ActiveForm
+            nextStep={nextStep}
+            candidateData={candidateData}
+            setCandidateData={setCandidateData}
+          />
         </motion.div>
       </AnimatePresence>
       <Toaster />
@@ -119,19 +119,8 @@ type UserData = {
   yt: string,
 }
 
-function ProfileForm({ nextStep }: StepProps) {
-  const [userData, setUserData] = useState<UserData>({
-    name: "",
-    email: "",
-    phone: "",
-    headline: "",
-    intro: "",
-    facebook: "",
-    insta: "",
-    linkedin: "",
-    twitter: "",
-    yt: ""
-  })
+function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const userData = candidateData.personalData;
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
   const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -156,13 +145,13 @@ function ProfileForm({ nextStep }: StepProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target
-
-    setUserData((prevData: UserData) => (
-      {
-        ...prevData,
-        [name]: value
-      }
-    ))
+    setCandidateData((prev) => ({
+      ...prev,
+      personalData: {
+        ...prev.personalData,
+        [name]: value,
+      },
+    }));
 
   }
 
@@ -171,34 +160,25 @@ function ProfileForm({ nextStep }: StepProps) {
     setLoading(true)
     const formData = new FormData();
 
-    Object.keys(userData).map((key) => (
-      formData.append(key, userData[key as keyof UserData])
-    ))
+    Object.keys(userData).forEach((key) => {
+      formData.append(key, userData[key as keyof UserData]);
+    });
+
     formData.append("profile", profilePicURL!)
     formData.append("user_type", "superadmin")
+
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)
         .then((response) => {
 
           if (response.data.status) {
-
             localStorage.setItem("userId", response.data.profile_nid)
-
-            setUserData({
-              name: "",
-              email: "",
-              phone: "",
-              headline: "",
-              intro: "",
-              facebook: "",
-              insta: "",
-              linkedin: "",
-              twitter: "",
-              yt: ""
-            })
-            setProfilePicURL(null)
-            setProfilePicPreview(null)
+            // setProfilePicURL(null)
+            // setProfilePicPreview(null)
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -387,15 +367,8 @@ function ProfileForm({ nextStep }: StepProps) {
   )
 }
 
-function EducationForm({ nextStep }: StepProps) {
-  const [education, setEducation] = useState<Education[]>([
-    {
-      institute: "",
-      degree: "",
-      passingYear: "",
-      description: "",
-    },
-  ]);
+function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const education = candidateData.education;
   const [loading, setLoading] = useState<boolean>(false)
 
   const addNewEducation = () => {
@@ -409,15 +382,18 @@ function EducationForm({ nextStep }: StepProps) {
       return;
     }
 
-    setEducation([
-      ...education,
-      {
-        institute: "",
-        degree: "",
-        passingYear: "",
-        description: "",
-      },
-    ]);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      education: [
+        ...education,
+        {
+          institute: "",
+          degree: "",
+          passingYear: "",
+          description: "",
+        },
+      ]
+    }));
   };
 
   const handleChange = (
@@ -425,9 +401,12 @@ function EducationForm({ nextStep }: StepProps) {
     field: keyof Education,
     value: string
   ) => {
-    const updatedExperiences = [...education];
-    updatedExperiences[index][field] = value;
-    setEducation(updatedExperiences);
+    const updatedEducation = [...education];
+    updatedEducation[index][field] = value;
+    setCandidateData((prevData) => ({
+      ...prevData,
+      education: updatedEducation,
+    }));
   };
 
   async function handleSubmit(event: React.FormEvent) {
@@ -439,24 +418,14 @@ function EducationForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-education-api", formData)
         .then((response) => {
-          console.log(response);
-
           if (response.data.status) {
-            setEducation([
-              {
-                institute: "",
-                degree: "",
-                passingYear: "",
-                description: "",
-              },
-            ]);
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -559,15 +528,8 @@ function EducationForm({ nextStep }: StepProps) {
   )
 }
 
-function WorkForm({ nextStep }: StepProps) {
-  const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>([
-    {
-      company: "",
-      position: "",
-      workingPeriod: "",
-      description: "",
-    },
-  ]);
+function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const workExperiences = candidateData.workExp
   const [loading, setLoading] = useState<boolean>(false)
 
   const addExperience = () => {
@@ -575,21 +537,22 @@ function WorkForm({ nextStep }: StepProps) {
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );
-
     if (!allFieldsFilled) {
       alert("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
-
-    setWorkExperiences([
-      ...workExperiences,
-      {
-        company: "",
-        position: "",
-        workingPeriod: "",
-        description: "",
-      },
-    ]);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      workExp: [
+        ...workExperiences,
+        {
+          company: "",
+          position: "",
+          workingPeriod: "",
+          description: "",
+        },
+      ]
+    }));
   };
 
   const handleChange = (
@@ -599,7 +562,10 @@ function WorkForm({ nextStep }: StepProps) {
   ) => {
     const updatedExperiences = [...workExperiences];
     updatedExperiences[index][field] = value;
-    setWorkExperiences(updatedExperiences);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      workExp: updatedExperiences,
+    }));
   };
 
   async function handleSubmit(event: React.FormEvent) {
@@ -611,19 +577,14 @@ function WorkForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin")
     formData.append("profile_nid", userId!)
 
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
+
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-work-experience-api", formData)
         .then((response) => {
-
           if (response.data.status) {
-            setWorkExperiences([
-              {
-                company: "",
-                position: "",
-                workingPeriod: "",
-                description: "",
-              },
-            ]);
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -727,14 +688,9 @@ function WorkForm({ nextStep }: StepProps) {
   )
 }
 
-interface Skill {
-  nid: string;
-  name: string;
-}
-
-function SkillsForm({ nextStep }: StepProps) {
-  const [skills, setSkills] = useState<Skill[]>([]);
+function SkillsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const skills = candidateData.skills;
   const [loading, setLoading] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -744,7 +700,10 @@ function SkillsForm({ nextStep }: StepProps) {
       try {
         const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
         if (response.data) {
-          setSkills(response.data);
+          setCandidateData((prevData) => ({
+            ...prevData,
+            skills: response.data
+          }));
         } else {
           toast.error(response.data.message || 'Failed to fetch skills.');
         }
@@ -787,16 +746,15 @@ function SkillsForm({ nextStep }: StepProps) {
     formData.append("user_type", "superadmin");
     formData.append("profile_nid", userId!);
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/candidate-expert-area", formData)
         .then((response) => {
-          setLoading(false);
           if (response.data.status) {
-            setSelectedSkills([]);
+            setLoading(false);
             nextStep();
             return response.data.message || "Skills added successfully!";
           } else {
@@ -862,7 +820,7 @@ function SkillsForm({ nextStep }: StepProps) {
                     padding: "10px"
                   }}
                 >
-                  {skills.map((skill) => (
+                  {skills?.map((skill) => (
                     <label
                       key={skill.nid}
                       style={{
@@ -896,28 +854,31 @@ function SkillsForm({ nextStep }: StepProps) {
   );
 }
 
-function ToolsForm({ nextStep }: StepProps) {
-  const [tools, setTools] = useState<Skill[]>([]);
+function ToolsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const tools = candidateData.tools;
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function fetchSkills() {
+    async function fetchTools() {
       try {
         const response = await axios.get('http://inforbit.in/demo/dpd/tools-master-display');
         if (response.data) {
-          setTools(response.data);
+          setCandidateData((prevData) => ({
+            ...prevData,
+            tools: response.data
+          }));
         } else {
-          toast.error(response.data.message || 'Failed to fetch skills.');
+          toast.error(response.data.message || 'Failed to fetch Tools.');
         }
       } catch (error) {
         console.error(error);
-        toast.error('Error fetching skills.');
+        toast.error('Error fetching Tools.');
       }
     }
-    fetchSkills();
+    fetchTools();
   }, []);
 
   useEffect(() => {
@@ -1026,7 +987,7 @@ function ToolsForm({ nextStep }: StepProps) {
                     padding: "10px"
                   }}
                 >
-                  {tools.map((tool) => (
+                  {tools?.map((tool) => (
                     <label
                       key={tool.nid}
                       style={{
@@ -1067,16 +1028,8 @@ interface Projects {
   description: string
 }
 
-function ProjectForm({ nextStep }: StepProps) {
-  const [projects, setProjects] = useState<Projects[]>([
-    {
-      name: "",
-      link: "",
-      image: null,
-      description: "",
-    },
-  ]);
-
+function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const projects = candidateData.projects
   const [loading, setLoading] = useState<boolean>(false)
 
   const addNewProject = () => {
@@ -1092,17 +1045,19 @@ function ProjectForm({ nextStep }: StepProps) {
       return;
     }
 
-    setProjects([
-      ...projects,
-      {
-        name: "",
-        link: "",
-        image: null,
-        description: "",
-      },
-    ]);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      projects: [
+        ...projects,
+        {
+          name: "",
+          link: "",
+          image: null,
+          description: "",
+        },
+      ]
+    }));
   };
-
 
   const handleChange = <K extends keyof Projects>(
     index: number,
@@ -1111,9 +1066,11 @@ function ProjectForm({ nextStep }: StepProps) {
   ) => {
     const updatedProjects = [...projects];
     updatedProjects[index][field] = value;
-    setProjects(updatedProjects);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      projects: updatedProjects,
+    }));
   };
-
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -1141,14 +1098,6 @@ function ProjectForm({ nextStep }: StepProps) {
       })
         .then((response) => {
           if (response.data.status) {
-            setProjects([
-              {
-                name: "",
-                link: "",
-                image: null,
-                description: "",
-              },
-            ]);
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -1248,16 +1197,8 @@ function ProjectForm({ nextStep }: StepProps) {
   )
 }
 
-function AchievementForm({ nextStep }: StepProps) {
-  const [achievement, setAchievement] = useState<Projects[]>([
-    {
-      name: "",
-      link: "",
-      image: null,
-      description: "",
-    },
-  ]);
-
+function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const achievement = candidateData.achievements;
   const [loading, setLoading] = useState<boolean>(false)
 
   const addNewAchievement = () => {
@@ -1273,15 +1214,18 @@ function AchievementForm({ nextStep }: StepProps) {
       return;
     }
 
-    setAchievement([
-      ...achievement,
-      {
-        name: "",
-        link: "",
-        image: null,
-        description: "",
-      },
-    ]);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      achievements: [
+        ...achievement,
+        {
+          name: "",
+          link: "",
+          image: null,
+          description: "",
+        },
+      ]
+    }));
   };
 
   const handleChange = <K extends keyof Projects>(
@@ -1289,9 +1233,12 @@ function AchievementForm({ nextStep }: StepProps) {
     field: K,
     value: Projects[K]
   ) => {
-    const updatedProjects = [...achievement];
-    updatedProjects[index][field] = value;
-    setAchievement(updatedProjects);
+    const updatedAchievement = [...achievement];
+    updatedAchievement[index][field] = value;
+    setCandidateData((prevData) => ({
+      ...prevData,
+      achievements: updatedAchievement,
+    }));
   };
 
   async function handleSubmit(event: React.FormEvent) {
@@ -1320,14 +1267,6 @@ function AchievementForm({ nextStep }: StepProps) {
       })
         .then((response) => {
           if (response.data.status) {
-            setAchievement([
-              {
-                name: "",
-                link: "",
-                image: null,
-                description: "",
-              },
-            ]);
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -1432,13 +1371,8 @@ interface SocialActivity {
   description: string
 }
 
-function SocialActivityForm({ nextStep }: StepProps) {
-  const [socialActivity, setSocialActivity] = useState<SocialActivity[]>([
-    {
-      title: "",
-      description: "",
-    },
-  ]);
+function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+  const socialActivity = candidateData.socialActivity
   const [loading, setLoading] = useState<boolean>(false)
 
   const addNewSocialActivity = () => {
@@ -1452,13 +1386,16 @@ function SocialActivityForm({ nextStep }: StepProps) {
       return;
     }
 
-    setSocialActivity([
-      ...socialActivity,
-      {
-        title: "",
-        description: "",
-      },
-    ]);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      socialActivity: [
+        ...socialActivity,
+        {
+          title: "",
+          description: "",
+        },
+      ]
+    }));
   };
 
   const handleChange = (
@@ -1466,15 +1403,18 @@ function SocialActivityForm({ nextStep }: StepProps) {
     field: keyof SocialActivity,
     value: string
   ) => {
-    const updatedExperiences = [...socialActivity];
-    updatedExperiences[index][field] = value;
-    setSocialActivity(updatedExperiences);
+    const updatedSocialActivity = [...socialActivity];
+    updatedSocialActivity[index][field] = value;
+    setCandidateData((prevData) => ({
+      ...prevData,
+      socialActivity: updatedSocialActivity,
+    }));
   };
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true)
-    const userId: string | null = await localStorage.getItem("userId")
+    const userId: string | null = localStorage.getItem("userId")
     const formData = new FormData();
     formData.append("social_activities", JSON.stringify(socialActivity));
     formData.append("user_type", "superadmin")
@@ -1488,12 +1428,60 @@ function SocialActivityForm({ nextStep }: StepProps) {
       axios.post("https://inforbit.in/demo/dpd/candidate-social-activities", formData)
         .then((response) => {
           if (response.data.status) {
-            setSocialActivity([
-              {
-                title: "",
-                description: "",
+            setCandidateData({
+              personalData: {
+                name: "",
+                email: "",
+                phone: "",
+                headline: "",
+                intro: "",
+                facebook: "",
+                insta: "",
+                linkedin: "",
+                twitter: "",
+                yt: ""
               },
-            ]);
+              education: [
+                {
+                  institute: "",
+                  degree: "",
+                  passingYear: "",
+                  description: "",
+                }
+              ],
+              workExp: [
+                {
+                  company: "",
+                  position: "",
+                  workingPeriod: "",
+                  description: "",
+                }
+              ],
+              skills: [],
+              tools: [],
+              projects: [
+                {
+                  name: "",
+                  link: "",
+                  image: null,
+                  description: "",
+                }
+              ],
+              achievements: [
+                {
+                  name: "",
+                  link: "",
+                  image: null,
+                  description: "",
+                }
+              ],
+              socialActivity: [
+                {
+                  title: "",
+                  description: "",
+                }
+              ]
+            })
             localStorage.removeItem("userId");
             setLoading(false);
             nextStep();

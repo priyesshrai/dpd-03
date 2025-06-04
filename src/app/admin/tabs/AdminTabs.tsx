@@ -6,12 +6,13 @@ import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
 import AddSkills from './AddSkills';
 import AddTools from './AddTools';
+import type { FormData } from '../../../../types';
 
 type TabConfig = {
   key: string;
   tabName: string;
   icon: string;
-  component: React.ComponentType<DashboardProps>
+  component: React.ElementType;
 }
 
 export default function AdminTabs() {
@@ -26,12 +27,7 @@ export default function AdminTabs() {
       key: "addProfile",
       tabName: "Add New Profile",
       icon: "hgi hgi-stroke hgi-user-add-01",
-      component: () => (
-        <AddProfile
-          selectedForm={addProfileFormStep}
-          setSelectedForm={setAddProfileFormStep}
-        />
-      )
+      component: AddProfile
     },
     {
       key: "addSkills",
@@ -45,12 +41,66 @@ export default function AdminTabs() {
       icon: "hgi hgi-stroke hgi-code",
       component: AddTools
     },
-  ]
+  ];
+
 
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
-  const [addProfileFormStep, setAddProfileFormStep] = useState(5);
-
+  const [addProfileFormStep, setAddProfileFormStep] = useState(0);
+  const [candidateData, setCandidateData] = useState<FormData>({
+    personalData: {
+      name: "",
+      email: "",
+      phone: "",
+      headline: "",
+      intro: "",
+      facebook: "",
+      insta: "",
+      linkedin: "",
+      twitter: "",
+      yt: ""
+    },
+    education: [
+      {
+        institute: "",
+        degree: "",
+        passingYear: "",
+        description: "",
+      }
+    ],
+    workExp: [
+      {
+        company: "",
+        position: "",
+        workingPeriod: "",
+        description: "",
+      }
+    ],
+    skills: [],
+    tools: [],
+    projects: [
+      {
+        name: "",
+        link: "",
+        image: null,
+        description: "",
+      }
+    ],
+    achievements: [
+      {
+        name: "",
+        link: "",
+        image: null,
+        description: "",
+      }
+    ],
+    socialActivity: [
+      {
+        title: "",
+        description: "",
+      }
+    ]
+  })
 
   return (
     <section className='admin-dashboard-container'>
@@ -89,7 +139,24 @@ export default function AdminTabs() {
             </div>
 
             <div className="admin-component-section">
-              <ActiveTab />
+              <div className="admin-component-section">
+                {(() => {
+                  const TabComponent = tabConfig[selectedTab].component;
+
+                  if (tabConfig[selectedTab].key === "addProfile") {
+                    return (
+                      <TabComponent
+                        selectedForm={addProfileFormStep}
+                        setSelectedForm={setAddProfileFormStep}
+                        candidateData={candidateData}
+                        setCandidateData={setCandidateData}
+                      />
+                    );
+                  }
+                  return <TabComponent />;
+                })()}
+              </div>
+
             </div>
           </div>
         </div>
