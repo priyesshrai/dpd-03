@@ -108,8 +108,6 @@ export default function AddSkills() {
             </div>
           )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
-
-
             <form onSubmit={handleSubmit}>
               <div className="details-edit-body" >
                 <div className="details-edit-wraper">

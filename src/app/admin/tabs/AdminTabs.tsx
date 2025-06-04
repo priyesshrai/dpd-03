@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import { DashboardProps } from '@/app/user/Dashboard/Dashboard'
 import Image from 'next/image';
 import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
@@ -42,11 +41,9 @@ export default function AdminTabs() {
       component: AddTools
     },
   ];
-
-
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
-  const [addProfileFormStep, setAddProfileFormStep] = useState(3);
+  const [addProfileFormStep, setAddProfileFormStep] = useState(0);
   const [candidateData, setCandidateData] = useState<FormData>({
     personalData: {
       name: "",
