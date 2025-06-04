@@ -76,7 +76,7 @@ export default function AddProfile() {
     },
   ]
 
-  const [selectedTab, setSelectedTab] = useState(7)
+  const [selectedTab, setSelectedTab] = useState(5)
   const ActiveTab = formConfig[selectedTab].component;
 
   const nextStep = () => {
@@ -859,7 +859,7 @@ function SkillsForm({ nextStep }: StepProps) {
                     padding: "10px"
                   }}
                 >
-                  {skills.map((skill, idx) => (
+                  {skills.map((skill) => (
                     <label
                       key={skill.nid}
                       style={{
@@ -1023,7 +1023,7 @@ function ToolsForm({ nextStep }: StepProps) {
                     padding: "10px"
                   }}
                 >
-                  {tools.map((tool, idx) => (
+                  {tools.map((tool) => (
                     <label
                       key={tool.nid}
                       style={{
@@ -1101,15 +1101,16 @@ function ProjectForm({ nextStep }: StepProps) {
   };
 
 
-  const handleChange = (
+  const handleChange = <K extends keyof Projects>(
     index: number,
-    field: keyof Projects,
-    value: string | File | null
+    field: K,
+    value: Projects[K]
   ) => {
-    const updatedSkills = [...projects];
-    updatedSkills[index][field] = value as any;
-    setProjects(updatedSkills);
+    const updatedProjects = [...projects];
+    updatedProjects[index][field] = value;
+    setProjects(updatedProjects);
   };
+
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -1280,15 +1281,14 @@ function AchievementForm({ nextStep }: StepProps) {
     ]);
   };
 
-
-  const handleChange = (
+  const handleChange = <K extends keyof Projects>(
     index: number,
-    field: keyof Projects,
-    value: string | File | null
+    field: K,
+    value: Projects[K]
   ) => {
-    const updatedSkills = [...achievement];
-    updatedSkills[index][field] = value as any;
-    setAchievement(updatedSkills);
+    const updatedProjects = [...achievement];
+    updatedProjects[index][field] = value;
+    setAchievement(updatedProjects);
   };
 
   async function handleSubmit(event: React.FormEvent) {
