@@ -31,7 +31,12 @@ type StepProps = {
   nextStep: () => void;
 };
 
-export default function AddProfile() {
+type AddProfileProps = {
+  selectedForm: number;
+  setSelectedForm: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function AddProfile({ selectedForm, setSelectedForm }: AddProfileProps) {
 
   const formConfig: TabConfig[] = [
     {
@@ -75,27 +80,25 @@ export default function AddProfile() {
       component: SocialActivityForm,
     },
   ]
-
-  const [selectedTab, setSelectedTab] = useState(5)
-  const ActiveTab = formConfig[selectedTab].component;
-
+  const ActiveForm = formConfig[selectedForm].component;
   const nextStep = () => {
-    setSelectedTab((prev) =>
+    setSelectedForm((prev) =>
       prev < formConfig.length - 1 ? prev + 1 : 0
     );
   };
+
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
       <AnimatePresence mode='wait'>
         <motion.div
-          key={formConfig[selectedTab].key}
+          key={formConfig[selectedForm].key}
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-          <ActiveTab nextStep={nextStep} />
+          <ActiveForm nextStep={nextStep} />
         </motion.div>
       </AnimatePresence>
       <Toaster />
@@ -1491,8 +1494,9 @@ function SocialActivityForm({ nextStep }: StepProps) {
                 description: "",
               },
             ]);
+            localStorage.removeItem("userId");
             setLoading(false);
-            nextStep()
+            nextStep();
             return response.data.message;
           }
         })

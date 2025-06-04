@@ -26,7 +26,12 @@ export default function AdminTabs() {
       key: "addProfile",
       tabName: "Add New Profile",
       icon: "hgi hgi-stroke hgi-user-add-01",
-      component: AddProfile
+      component: () => (
+        <AddProfile
+          selectedForm={addProfileFormStep}
+          setSelectedForm={setAddProfileFormStep}
+        />
+      )
     },
     {
       key: "addSkills",
@@ -44,6 +49,7 @@ export default function AdminTabs() {
 
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
+  const [addProfileFormStep, setAddProfileFormStep] = useState(5);
 
 
   return (
