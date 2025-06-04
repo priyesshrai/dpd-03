@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@fancyapps/ui": "^5.0.36",
     "@microlink/react": "^5.5.23",
+    "@mui/material": "^7.1.1",
+    "@mui/x-data-grid": "^8.5.0",
     "axios": "^1.9.0",
     "js-cookie": "^3.0.5",
     "motion": "^12.6.3",

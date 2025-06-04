@@ -1,24 +1,20 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import LargeSpinner from '@/components/Spinner/LargeSpinner';
-import axios from 'axios';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
 
-export default function CandidateList() {
-  const [candidateData, setCandidateData] = useState()
-  const [loading, setLoading] = useState<boolean>(true);
+type CandidateListProps = {
+  candidateList: GridRowsProp;
+  loading: boolean;
+};
 
-  useEffect(() => {
-    async function fetchCandateData() {
-      setLoading(true)
-      const response = await axios.get("http://inforbit.in/demo/dpd/candidate-profile-list")
-      if (response.status === 200) {
-        setCandidateData(response.data)
-        setLoading(false)
-      }
-    }
-    fetchCandateData()
-  }, [])
+export default function CandidateList({ candidateList, loading }: CandidateListProps) {
+
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'Id', width: 70, sortable: true },
+    { field: 'name', headerName: 'Name', width: 200, sortable: true },
+    { field: 'email', headerName: 'Email', width: 280 },
+  ];
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
@@ -29,21 +25,27 @@ export default function CandidateList() {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-          {loading && (
-            <div className='edit-loading' style={{ position: "relative", padding: "50px" }} >
-              <LargeSpinner />
-            </div>
-          )}
 
-
-
-
-
-
-
+          <Box sx={{ width: '100%' }}>
+            <DataGrid
+              sx={{ height: 600 }}
+              loading={loading}
+              rows={candidateList}
+              columns={columns}
+              pagination
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[5, 10, 25]}
+            />
+          </Box>
 
         </motion.div>
       </AnimatePresence>
     </div>
-  )
+  );
 }

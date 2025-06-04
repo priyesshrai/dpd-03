@@ -1,11 +1,13 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
 import AddSkills from './AddSkills';
 import AddTools from './AddTools';
 import type { FormData } from '../../../../types';
+import axios from 'axios';
+import { GridRowsProp } from '@mui/x-data-grid';
 
 type TabConfig = {
   key: string;
@@ -99,6 +101,32 @@ export default function AdminTabs() {
     ]
   })
 
+  const [candidateList, setCandidateList] = useState<GridRowsProp>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchcandidateList = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("http://inforbit.in/demo/dpd/candidate-profile-list");
+        if (response.status === 200 && Array.isArray(response.data)) {
+          const rows = response.data.map((item, index) => ({
+            id: index + 1,
+            name: item?.name || '',
+            email: item?.profile_email || '',
+          }));
+          setCandidateList(rows);
+        }
+      } catch (error) {
+        console.error('Failed to fetch candidate data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchcandidateList();
+  }, []);
+
   return (
     <section className='admin-dashboard-container'>
       <div className="admin-dashboard-wraper">
@@ -137,11 +165,9 @@ export default function AdminTabs() {
 
             <div className="admin-component-section">
               {(() => {
-                const TabComponent = tabConfig[selectedTab].component;
-
                 if (tabConfig[selectedTab].key === "addProfile") {
                   return (
-                    <TabComponent
+                    <ActiveTab
                       selectedForm={addProfileFormStep}
                       setSelectedForm={setAddProfileFormStep}
                       candidateData={candidateData}
@@ -149,9 +175,20 @@ export default function AdminTabs() {
                     />
                   );
                 }
-                return <TabComponent />;
+
+                if (tabConfig[selectedTab].key === "candidate") {
+                  return (
+                    <ActiveTab
+                      candidateList={candidateList}
+                      loading={loading}
+                    />
+                  );
+                }
+
+                return <ActiveTab />;
               })()}
             </div>
+
           </div>
         </div>
       </div>
