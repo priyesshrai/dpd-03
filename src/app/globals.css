@@ -2049,11 +2049,42 @@ footer {
   justify-content: center;
 }
 
-
 .work-form-title{
   position: relative;
   display: block;
   margin-bottom: 40px;
+}
+
+.formNavigation{
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  button{
+    background-color: var(--dark);
+    color: var(--primary-bg);
+    padding: 13px 20px ;
+    border: 1px solid var(--dark);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  span{
+    display: block;
+    font-size: 15px;
+    color: var(--light-dark);
+    cursor: pointer;
+
+    &:hover{
+      color: var(--hover-color);
+    }
+    &.active{
+      color: var(--hover-color);
+    }
+  }
 }
 
 @media (max-width: 1092px) {

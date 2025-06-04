@@ -46,7 +46,7 @@ export default function AdminTabs() {
 
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
-  const [addProfileFormStep, setAddProfileFormStep] = useState(0);
+  const [addProfileFormStep, setAddProfileFormStep] = useState(3);
   const [candidateData, setCandidateData] = useState<FormData>({
     personalData: {
       name: "",
@@ -139,24 +139,21 @@ export default function AdminTabs() {
             </div>
 
             <div className="admin-component-section">
-              <div className="admin-component-section">
-                {(() => {
-                  const TabComponent = tabConfig[selectedTab].component;
+              {(() => {
+                const TabComponent = tabConfig[selectedTab].component;
 
-                  if (tabConfig[selectedTab].key === "addProfile") {
-                    return (
-                      <TabComponent
-                        selectedForm={addProfileFormStep}
-                        setSelectedForm={setAddProfileFormStep}
-                        candidateData={candidateData}
-                        setCandidateData={setCandidateData}
-                      />
-                    );
-                  }
-                  return <TabComponent />;
-                })()}
-              </div>
-
+                if (tabConfig[selectedTab].key === "addProfile") {
+                  return (
+                    <TabComponent
+                      selectedForm={addProfileFormStep}
+                      setSelectedForm={setAddProfileFormStep}
+                      candidateData={candidateData}
+                      setCandidateData={setCandidateData}
+                    />
+                  );
+                }
+                return <TabComponent />;
+              })()}
             </div>
           </div>
         </div>

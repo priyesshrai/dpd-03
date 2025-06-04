@@ -30,6 +30,7 @@ type StepProps = {
   nextStep: () => void;
   candidateData: FormData;
   setCandidateData: React.Dispatch<React.SetStateAction<FormData>>;
+  selectedForm: number
 };
 
 export default function AddProfile(
@@ -38,12 +39,12 @@ export default function AddProfile(
   const formConfig: TabConfig[] = [
     {
       key: "profileForm",
-      name: "Profile Form",
+      name: "Profile",
       component: ProfileForm,
     },
     {
       key: "educationForm",
-      name: "Education Form",
+      name: "Education",
       component: EducationForm,
     },
     {
@@ -53,27 +54,27 @@ export default function AddProfile(
     },
     {
       key: "skills",
-      name: "Skills Form",
+      name: "Skills",
       component: SkillsForm,
     },
     {
       key: "tools",
-      name: "Tools Form",
+      name: "Tools",
       component: ToolsForm,
     },
     {
       key: "projects",
-      name: "Projects Form",
+      name: "Projects",
       component: ProjectForm,
     },
     {
       key: "achievement",
-      name: "Achievements Form",
+      name: "Achievements",
       component: AchievementForm,
     },
     {
       key: "social_activity",
-      name: "Social Activity Form",
+      name: "Social Activity",
       component: SocialActivityForm,
     },
   ]
@@ -84,8 +85,94 @@ export default function AddProfile(
     );
   };
 
+  function handleNavigation(index: number) {
+    const userId = localStorage.getItem("userId")
+
+    if (!userId) {
+      alert("Create Candidate Profile First...!")
+      return;
+    }
+    setSelectedForm(index)
+  }
+  function handleNewProfile() {
+    localStorage.removeItem("userId")
+    setCandidateData({
+      personalData: {
+        name: "",
+        email: "",
+        phone: "",
+        headline: "",
+        intro: "",
+        facebook: "",
+        insta: "",
+        linkedin: "",
+        twitter: "",
+        yt: ""
+      },
+      education: [
+        {
+          institute: "",
+          degree: "",
+          passingYear: "",
+          description: "",
+        }
+      ],
+      workExp: [
+        {
+          company: "",
+          position: "",
+          workingPeriod: "",
+          description: "",
+        }
+      ],
+      skills: [],
+      tools: [],
+      projects: [
+        {
+          name: "",
+          link: "",
+          image: null,
+          description: "",
+        }
+      ],
+      achievements: [
+        {
+          name: "",
+          link: "",
+          image: null,
+          description: "",
+        }
+      ],
+      socialActivity: [
+        {
+          title: "",
+          description: "",
+        }
+      ]
+    })
+  }
+
   return (
     <div className='component-common' style={{ padding: 0 }}>
+      <div className='formNavigation'>
+        {localStorage.getItem("userId") ? <button
+          onClick={handleNewProfile}>
+          Create New Profile
+        </button> : ""}
+        {
+          formConfig.map((formName, idx) => (
+            <React.Fragment key={formName.key}>
+              <span
+                className={selectedForm === idx ? "active" : ""}
+                onClick={() => handleNavigation(idx)}
+              >
+                {formName.name}
+              </span>
+              {idx < formConfig.length - 1 && <span className="separator"> &gt; </span>}
+            </React.Fragment>
+          ))
+        }
+      </div>
       <AnimatePresence mode='wait'>
         <motion.div
           key={formConfig[selectedForm].key}
@@ -98,6 +185,7 @@ export default function AddProfile(
             nextStep={nextStep}
             candidateData={candidateData}
             setCandidateData={setCandidateData}
+            selectedForm={selectedForm}
           />
         </motion.div>
       </AnimatePresence>
@@ -124,6 +212,12 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
   const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [isUserIdPresent, setIsUserIdPresent] = useState<boolean>(false)
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    setIsUserIdPresent(!!userId);
+  }, [])
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -217,7 +311,9 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
             <input type='file'
               accept="image/*"
               name='profilepic'
-              onChange={handleProfilePicChange} />
+              onChange={handleProfilePicChange}
+              disabled={isUserIdPresent}
+            />
           </div>
         </div>
       </div>
@@ -234,6 +330,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.name}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Name</label>
           </div>
@@ -247,6 +344,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.email}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Email</label>
           </div>
@@ -260,6 +358,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.phone}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Phone No.</label>
           </div>
@@ -273,6 +372,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.headline}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Headline</label>
           </div>
@@ -286,6 +386,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.facebook}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Facebook</label>
           </div>
@@ -299,6 +400,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.insta}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Instagram</label>
           </div>
@@ -312,6 +414,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.linkedin}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>LinkedIn</label>
           </div>
@@ -325,6 +428,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.twitter}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>Twitter</label>
           </div>
@@ -338,6 +442,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               onChange={handleInputChange}
               value={userData.yt}
               className='inputs'
+              disabled={isUserIdPresent}
             />
             <label className='label'>YouTube</label>
           </div>
@@ -351,6 +456,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               value={userData.intro}
               className='inputs'
               rows={5}
+              disabled={isUserIdPresent}
             />
             <label className='label'>Introduction</label>
           </div>
@@ -360,7 +466,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
       </div>
 
       <div className="details-edit-footer">
-        <button onClick={handleSubmit}>Next</button>
+        <button disabled={isUserIdPresent} onClick={handleSubmit}>Next</button>
       </div>
 
     </div>
@@ -809,7 +915,7 @@ function SkillsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
                 <div
                   className="custom-dropdown"
                   style={{
-                    position: "relative",
+                    position: "fixed",
                     background: "#fff",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
@@ -976,7 +1082,7 @@ function ToolsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
                 <div
                   className="custom-dropdown"
                   style={{
-                    position: "relative",
+                    position: "fixed",
                     background: "#fff",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
