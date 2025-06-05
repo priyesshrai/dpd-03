@@ -8,9 +8,10 @@ import { CandidateRow } from '../../../../types';
 type CandidateListProps = {
   candidateList: GridRowsProp;
   loading: boolean;
+  UpdateUserData: (row: CandidateRow) => void;
 };
 
-export default function CandidateList({ candidateList, loading }: CandidateListProps) {
+export default function CandidateList({ candidateList, loading, UpdateUserData }: CandidateListProps) {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
@@ -23,7 +24,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
       sortable: false,
       renderCell: (params) => (
         <button
-          onClick={() => handleEdit(params.row)}
+          onClick={() => UpdateUserData(params.row)}
           className="btn-edit"
         >
           Update
@@ -32,9 +33,6 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     },
   ];
 
-  const handleEdit = (rowData : CandidateRow) => {
-    console.log("Editing row:", rowData);
-  };
 
 
 
@@ -48,26 +46,29 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
           transition={{ duration: 0.2 }}
         >
           {
-            loading ? (<LargeSpinner />) : (
-              <Box sx={{ width: '100%', height: 640 }}>
-                <DataGrid
-                  showToolbar
-                  loading={loading}
-                  rows={candidateList}
-                  columns={columns}
-                  pagination
-                  initialState={{
-                    pagination: {
-                      paginationModel: {
-                        pageSize: 10,
-                      },
-                    },
-                  }}
-                  pageSizeOptions={[5, 10, 25]}
-                />
-              </Box>
-            )
+            loading ?
+              (<div className='edit-loading'>
+                <LargeSpinner />
+              </div>) : ""
           }
+          <Box sx={{ width: '100%', height: 640 }}>
+            <DataGrid
+              showToolbar
+              loading={loading}
+              rows={candidateList}
+              columns={columns}
+              rowSelection={false}
+              pagination
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[5, 10, 25]}
+            />
+          </Box>
 
 
         </motion.div>

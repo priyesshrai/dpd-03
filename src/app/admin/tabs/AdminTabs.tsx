@@ -5,7 +5,7 @@ import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
 import AddSkills from './AddSkills';
 import AddTools from './AddTools';
-import type { FormData } from '../../../../types';
+import type { CandidateRow, FormData } from '../../../../types';
 import axios from 'axios';
 import { GridRowsProp } from '@mui/x-data-grid';
 
@@ -128,6 +128,18 @@ export default function AdminTabs() {
     fetchcandidateList();
   }, []);
 
+  async function UpdateUserData(userData: CandidateRow) {
+    setLoading(true);
+    if (!userData.profileId) {
+      alert("Please Wait User Data is not loaded fully");
+      return;
+    }
+
+    const response = await axios.get(`http://inforbit.in/demo/dpd/candidate-profile/${userData?.profileId}`)
+    console.log(response.data);
+    setLoading(false)
+  }
+
   return (
     <section className='admin-dashboard-container'>
       <div className="admin-dashboard-wraper">
@@ -182,6 +194,7 @@ export default function AdminTabs() {
                     <ActiveTab
                       candidateList={candidateList}
                       loading={loading}
+                      UpdateUserData={UpdateUserData}
                     />
                   );
                 }
