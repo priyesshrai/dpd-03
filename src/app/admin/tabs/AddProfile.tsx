@@ -187,7 +187,7 @@ export default function AddProfile(
         tempInfo ? (
           <div className='profileWorkingOn'>
             <Image src={tempInfo?.profile || "/images/profile/default.png"}
-              width={60} height={60} alt={tempInfo?.name || "User"} />
+              width={60} height={60} alt={tempInfo?.name || "User"} style={{borderRadius:"50%", objectFit:"cover"}} />
             <span>{tempInfo?.name}</span>
             <strong>{tempInfo?.email}</strong>
             <strong>{tempInfo?.phone}</strong>
@@ -214,7 +214,7 @@ export default function AddProfile(
           ))
         }
       </div>
-      
+
       <AnimatePresence mode='wait'>
         <motion.div
           key={formConfig[selectedForm].key}
