@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DataGrid, GridRowsProp, GridColDef, RowPropsOverrides } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { CandidateRow } from '../../../../types';
