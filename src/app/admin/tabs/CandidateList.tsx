@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import LargeSpinner from '@/components/Spinner/LargeSpinner';
 
 type CandidateListProps = {
   candidateList: GridRowsProp;
@@ -17,14 +18,14 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     {
       field: 'action',
       headerName: 'Action',
-      width: 100,
+      width: 150,
       sortable: false,
       renderCell: (params) => (
         <button
           onClick={() => handleEdit(params.row)}
           className="btn-edit"
         >
-          Edit
+          Update
         </button>
       ),
     },
@@ -43,26 +44,30 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
+          {
+            loading ? (<LargeSpinner />) : (
+              <Box sx={{ width: '100%', height: 640 }}>
+                <DataGrid
+                  showToolbar
+                  loading={loading}
+                  rows={candidateList}
+                  columns={columns}
+                  pagination
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 10,
+                      },
+                    },
+                  }}
+                  pageSizeOptions={[5, 10, 25]}
+                />
+              </Box>
+            )
+          }
 
-          <Box sx={{ width: '100%', height:640 }}>
-            <DataGrid
-              showToolbar
-              loading={loading}
-              rows={candidateList}
-              columns={columns}
-              pagination
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 10,
-                  },
-                },
-              }}
-              pageSizeOptions={[5, 10, 25]}
-            />
-          </Box>
 
         </motion.div>
       </AnimatePresence>
