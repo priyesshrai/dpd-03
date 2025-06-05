@@ -150,6 +150,7 @@ export default function AddProfile(
         }
       ]
     })
+    setSelectedForm(0);
   }
 
   return (
@@ -466,7 +467,7 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
       </div>
 
       <div className="details-edit-footer">
-        <button disabled={isUserIdPresent} onClick={handleSubmit}>Next</button>
+        <button disabled={isUserIdPresent} onClick={handleSubmit}>Save</button>
       </div>
 
     </div>
@@ -628,7 +629,7 @@ function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps)
       }
       <div className="details-edit-footer">
         <button onClick={addNewEducation}>Add New</button>
-        <button onClick={handleSubmit}>Next</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   )
@@ -788,7 +789,7 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
       }
       <div className="details-edit-footer">
         <button onClick={addExperience}>Add New</button>
-        <button onClick={handleSubmit}>Next</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   )
@@ -953,7 +954,7 @@ function SkillsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
         </div>
 
         <div className="details-edit-footer">
-          <button type="submit">Next</button>
+          <button type="submit">Save</button>
         </div>
       </form>
     </div>
@@ -1120,7 +1121,7 @@ function ToolsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
         </div>
 
         <div className="details-edit-footer">
-          <button type="submit">Next</button>
+          <button type="submit">Save</button>
         </div>
       </form>
     </div>
@@ -1297,7 +1298,7 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
       }
       <div className="details-edit-footer">
         <button onClick={addNewProject}>Add New</button>
-        <button onClick={handleSubmit}>Next</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   )
@@ -1466,7 +1467,7 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
       }
       <div className="details-edit-footer">
         <button onClick={addNewAchievement}>Add New</button>
-        <button onClick={handleSubmit}>Next</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   )

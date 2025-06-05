@@ -28,7 +28,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
 
           <Box sx={{ width: '100%' }}>
             <DataGrid
-              sx={{ height: 600 }}
+              sx={{ height: 550 }}
               loading={loading}
               rows={candidateList}
               columns={columns}
