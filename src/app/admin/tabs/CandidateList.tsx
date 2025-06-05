@@ -46,7 +46,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
           transition={{ duration: 0.3 }}
         >
 
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: '100%', height:640 }}>
             <DataGrid
               showToolbar
               loading={loading}

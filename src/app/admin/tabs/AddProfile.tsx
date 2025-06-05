@@ -5,6 +5,8 @@ import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import type { AddProfileProps, FormData } from '../../../../types';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type TabConfig = {
   key: string;
@@ -31,10 +33,20 @@ type StepProps = {
   candidateData: FormData;
   setCandidateData: React.Dispatch<React.SetStateAction<FormData>>;
   selectedForm: number
+  isUserIdPresent: boolean;
 };
+type TempInfo = {
+  name: string;
+  email: string;
+  phone: string;
+  profile: string | null
+}
+
 
 export default function AddProfile(
   { selectedForm, setSelectedForm, candidateData, setCandidateData }: AddProfileProps) {
+  const [isUserIdPresent, setIsUserIdPresent] = useState<boolean>(false)
+  const [tempInfo, setTempInfo] = useState<TempInfo>()
 
   const formConfig: TabConfig[] = [
     {
@@ -85,15 +97,29 @@ export default function AddProfile(
     );
   };
 
+  useEffect(() => {
+    const userId = localStorage.getItem('userId') || '';
+    setIsUserIdPresent(userId ? true : false);
+  }, [selectedForm === 0])
+
+  useEffect(() => {
+    function getTempUser() {
+      const tempUserStr = localStorage.getItem("tempInfo") || ""
+      setTempInfo(tempUserStr ? JSON.parse(tempUserStr) : undefined)
+    }
+    getTempUser()
+  }, [selectedForm === 1, isUserIdPresent])
+
   function handleNavigation(index: number) {
     const userId = localStorage.getItem("userId")
 
-    if (!userId) {
+    if (!userId && index !== 0) {
       alert("Create Candidate Profile First...!")
       return;
     }
     setSelectedForm(index)
   }
+
   function handleNewProfile() {
     localStorage.removeItem("userId")
     setCandidateData({
@@ -151,10 +177,25 @@ export default function AddProfile(
       ]
     })
     setSelectedForm(0);
+    setIsUserIdPresent(false)
+    localStorage.removeItem("tempInfo")
   }
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
+
+      {
+        tempInfo ? (
+          <div className='profileWorkingOn'>
+            <Image src={tempInfo?.profile || "/images/profile/default.png"}
+              width={60} height={60} alt={tempInfo?.name || "User"} />
+            <span>{tempInfo?.name}</span>
+            <strong>{tempInfo?.email}</strong>
+            <strong>{tempInfo?.phone}</strong>
+          </div>
+        ) : ""
+      }
+
       <div className='formNavigation'>
         {localStorage.getItem("userId") ? <button
           onClick={handleNewProfile}>
@@ -187,6 +228,7 @@ export default function AddProfile(
             candidateData={candidateData}
             setCandidateData={setCandidateData}
             selectedForm={selectedForm}
+            isUserIdPresent={isUserIdPresent}
           />
         </motion.div>
       </AnimatePresence>
@@ -208,17 +250,12 @@ type UserData = {
   yt: string,
 }
 
-function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
+function ProfileForm({ nextStep, candidateData, setCandidateData, isUserIdPresent }: StepProps) {
   const userData = candidateData.personalData;
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
   const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [isUserIdPresent, setIsUserIdPresent] = useState<boolean>(false)
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    setIsUserIdPresent(!!userId);
-  }, [])
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -272,8 +309,14 @@ function ProfileForm({ nextStep, candidateData, setCandidateData }: StepProps) {
 
           if (response.data.status) {
             localStorage.setItem("userId", response.data.profile_nid)
-            // setProfilePicURL(null)
-            // setProfilePicPreview(null)
+            localStorage.setItem("tempInfo",
+              JSON.stringify(
+                {
+                  "name": userData.name,
+                  "email": userData.email,
+                  "phone": userData.phone,
+                  "profile": profilePicPreview
+                }))
             setLoading(false);
             nextStep()
             return response.data.message;
@@ -1590,6 +1633,7 @@ function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepP
               ]
             })
             localStorage.removeItem("userId");
+            localStorage.removeItem("tempInfo")
             setLoading(false);
             nextStep();
             return response.data.message;

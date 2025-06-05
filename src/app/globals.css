@@ -1777,7 +1777,7 @@ footer {
     width: 100%;
     margin-top: 30px;
 
-    .details-edit-wraper{
+    .details-edit-wraper {
       position: relative;
       width: 100%;
       display: grid;
@@ -1786,7 +1786,6 @@ footer {
       row-gap: 30px;
       align-items: start;
 
-
       .edit-input-container {
         width: 100%;
         position: relative;
@@ -1794,7 +1793,7 @@ footer {
         padding: 15px;
         border-radius: 8px;
         border: 1px solid #e7e7e7;
-  
+
         input,
         textarea {
           width: 100%;
@@ -1804,22 +1803,20 @@ footer {
           font-size: 24px;
           color: var(--light-dark);
           position: relative;
-  
+
           &:disabled {
             cursor: not-allowed;
           }
         }
-  
+
         &:focus-within {
           border-color: var(--dark);
         }
       }
     }
-    &:first-child{
+    &:first-child {
       margin-top: 0;
     }
-    
-
   }
 
   .details-edit-footer {
@@ -2035,6 +2032,9 @@ footer {
       width: 100%;
       padding: 50px;
       padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
   }
 }
@@ -2049,13 +2049,13 @@ footer {
   justify-content: center;
 }
 
-.work-form-title{
+.work-form-title {
   position: relative;
   display: block;
   margin-bottom: 40px;
 }
 
-.formNavigation{
+.formNavigation {
   position: relative;
   width: 100%;
   padding: 20px;
@@ -2063,25 +2063,25 @@ footer {
   align-items: center;
   gap: 10px;
 
-  button{
+  button {
     background-color: var(--dark);
     color: var(--primary-bg);
-    padding: 13px 20px ;
+    padding: 13px 20px;
     border: 1px solid var(--dark);
     border-radius: 5px;
     cursor: pointer;
   }
 
-  span{
+  span {
     display: block;
     font-size: 15px;
     color: var(--light-dark);
     cursor: pointer;
 
-    &:hover{
+    &:hover {
       color: var(--hover-color);
     }
-    &.active{
+    &.active {
       color: var(--hover-color);
     }
   }
@@ -2098,14 +2098,25 @@ footer {
   margin: 8px auto;
 }
 
+.profileWorkingOn {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
+  span{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--light-dark);
+  }
 
-
-
-
-
-
-
+  strong{
+    color: var(--light);
+  }
+}
 
 @media (max-width: 1092px) {
   .header .navbar .menu-container .links-container {
