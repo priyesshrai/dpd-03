@@ -25,11 +25,6 @@ export default function LoginPage() {
     const [isOtpSent, setIsOtpSent] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    function SendOtp() {
-        setIsOtpSent(true);
-        console.log(`Sending OTP to ${userData.username}`);
-    }
-
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         setIsLoading(true);
@@ -78,6 +73,90 @@ export default function LoginPage() {
         );
     }
 
+    function SendOtp(event: React.FormEvent) {
+        event.preventDefault();
+        setIsLoading(true);
+
+        if (!userData.username) {
+            alert('Please enter valid username.');
+            setIsLoading(false);
+            return;
+        }
+        const data = new FormData();
+        data.append("username", userData.username);
+        toast.promise(
+            axios.post("https://inforbit.in/demo/dpd/generate-otp", data)
+                .then((response) => {
+                    if (response.data.status) {
+                        localStorage.setItem("candidateUserId", response.data.candidate_nid)
+                        setIsLoading(false);
+                        setIsOtpSent(true);
+                        return response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    const errorMessage = error.response?.data?.message || error.message;
+                    throw errorMessage;
+                }),
+            {
+                loading: "Please Wait....",
+                success: (message) => message || "OTP Sent on Register E-Mail & Mobile No.",
+                error: (err) => err || "Failed to send OTP try again after some time...!"
+            }
+        );
+
+    }
+
+    function validateOTP(event: React.FormEvent) {
+        event.preventDefault();
+        setIsLoading(true);
+
+        if (!userData.otp) {
+            alert('Please enter a valid OTP');
+            setIsLoading(false);
+            return;
+        }
+
+        const candidate_nid = localStorage.getItem("candidateUserId") || ""
+        const data = new FormData();
+        data.append("candidate_nid", candidate_nid);
+        data.append("otp", userData.otp);
+
+        toast.promise(
+            axios.post("https://inforbit.in/demo/dpd/check-otp", data)
+                .then((response) => {
+                    if (response.data.status) {
+                        Cookies.set("data", JSON.stringify(response.data), {
+                            expires: 1,
+                            path: "/",
+                        });
+
+                        setUserData({
+                            username: "",
+                            password: "",
+                            otp: ""
+                        });
+
+                        setIsLoading(false);
+                        window.location.href = "/user/profile"
+                        return response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    setIsLoading(false);
+                    const errorMessage = error.response?.data?.message || error.message;
+                    throw errorMessage;
+                }),
+            {
+                loading: "Please Wait....",
+                success: (message) => message || "Login successful!",
+                error: (err) => err || "Login failed!"
+            }
+        );
+
+    }
+
     return (
         <section className="login-container">
             {loginType === 'password' ? (
@@ -96,6 +175,7 @@ export default function LoginPage() {
                     isOtpSent={isOtpSent}
                     sendOtp={SendOtp}
                     loading={isLoading}
+                    validateOTP={validateOTP}
                 />
             )}
             <Toaster />
@@ -113,8 +193,9 @@ interface LoginProps {
     error?: string;
     loading?: boolean;
     postData?: () => void;
-    sendOtp?: () => void;
+    sendOtp?: (event: React.FormEvent) => void;
     handleSubmit?: (event: React.FormEvent) => void;
+    validateOTP?: (event: React.FormEvent) => void
 }
 
 function LoginWithPassword({ setLoginType, userData, setUserData, loading, handleSubmit }: LoginProps) {
@@ -174,7 +255,7 @@ function LoginWithPassword({ setLoginType, userData, setUserData, loading, handl
     );
 }
 
-function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading, sendOtp }: LoginProps) {
+function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading, sendOtp, validateOTP }: LoginProps) {
     return (
         <div className="login-card">
             <div className="login-wraper">
@@ -218,12 +299,15 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
                 <div className="card-footer">
                     {
                         !isOtpSent ? (
-                            <button onClick={sendOtp} type="button" disabled={!userData.username || loading}>
+                            <button onClick={(e) => sendOtp && sendOtp(e)}
+                                type="button" disabled={!userData.username || loading}>
                                 {loading ? <Spinner /> : "Send OTP"}
                             </button>
 
                         ) : (
-                            <button type="button" disabled={!isOtpSent || userData.otp.length !== 6 || loading}>
+                            <button type="button"
+                                onClick={(e) => validateOTP && validateOTP(e)}
+                                disabled={!isOtpSent || userData.otp.length !== 6 || loading}>
                                 {loading ? <Spinner /> : "Login"}
                             </button>
                         )
