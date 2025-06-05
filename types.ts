@@ -59,3 +59,10 @@ export type AddProfileProps = {
     candidateData: FormData;
     setCandidateData: React.Dispatch<React.SetStateAction<FormData>>;
 };
+
+export interface CandidateRow {
+  id: number;
+  name: string;
+  email: string;
+  profileId:string
+}
