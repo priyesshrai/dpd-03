@@ -114,6 +114,7 @@ export default function AdminTabs() {
             id: index + 1,
             name: item?.name || '',
             email: item?.profile_email || '',
+            profileId: item?.profile_nid || "",
           }));
           setCandidateList(rows);
         }

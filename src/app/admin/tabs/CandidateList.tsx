@@ -11,10 +11,30 @@ type CandidateListProps = {
 export default function CandidateList({ candidateList, loading }: CandidateListProps) {
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Id', width: 70, sortable: true },
+    { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
     { field: 'name', headerName: 'Name', width: 200, sortable: true },
     { field: 'email', headerName: 'Email', width: 280 },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 100,
+      sortable: false,
+      renderCell: (params) => (
+        <button
+          onClick={() => handleEdit(params.row)}
+          className="btn-edit"
+        >
+          Edit
+        </button>
+      ),
+    },
   ];
+
+  const handleEdit = (rowData: any) => {
+    console.log("Editing row:", rowData);
+  };
+
+
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
@@ -28,7 +48,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
 
           <Box sx={{ width: '100%' }}>
             <DataGrid
-              sx={{ height: 550 }}
+              showToolbar
               loading={loading}
               rows={candidateList}
               columns={columns}
