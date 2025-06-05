@@ -108,7 +108,7 @@ export default function AdminTabs() {
     const fetchcandidateList = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://inforbit.in/demo/dpd/candidate-profile-list");
+        const response = await axios.get("https://inforbit.in/demo/dpd/candidate-profile-list");
         if (response.status === 200 && Array.isArray(response.data)) {
           const rows = response.data.map((item, index) => ({
             id: index + 1,
