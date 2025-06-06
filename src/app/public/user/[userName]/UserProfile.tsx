@@ -25,7 +25,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
             if (!userName) {
                 toast.error('Please provide a valid username!');
                 router.push('/login');
-                // setLoading(false)
+                setLoading(false)
                 return;
             }
 
@@ -34,15 +34,15 @@ export default function UserProfile({ userName }: UserProfileProps) {
                 if (!response.data.status) {
                     toast.error(response.data.message || 'Profile Not Found of This User....!');
                     router.push('/login');
-                    // setLoading(false)
+                    setLoading(false)
                 }
                 setUserData(response?.data?.data)
-                // setLoading(false)
+                setLoading(false)
             } catch (error) {
                 console.log(error);
                 toast.error('Profile Not Found of This User....!');
                 router.push('/login');
-                // setLoading(false)
+                setLoading(false)
             }
         }
 
@@ -176,10 +176,11 @@ function SideBar({ userData, loading }: HeroProps) {
                     >
                         <div className="side-bar-wraper">
                             <div className="profile-container">
-                                <Image src='/images/profile/profile.png' width={200} height={278} alt='Profile' />
+                                <Image src={userData?.profile_photo || "/images/profile/default.png"}
+                                    width={200} height={278} alt='Profile' />
                             </div>
                             <div className="user-data">
-                                <h1>Ravi Khetan</h1>
+                                <h1>{userData?.name || ""}</h1>
 
                                 <p dangerouslySetInnerHTML={{ __html: getTrimmedBio() }} />
 
@@ -188,10 +189,21 @@ function SideBar({ userData, loading }: HeroProps) {
                                 </div>
 
                                 <div className="social-media-container">
-                                    <Link href='https://www.instagram.com/ravikhtnvns/' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>
-                                    <Link href='https://www.linkedin.com/in/ravi-khetan-a5127261/' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-linkedin-01"></i></Link>
-                                    <Link href='https://www.facebook.com/ravi.khetan.2025' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-facebook-01"></i></Link>
-                                    <Link href='https://www.youtube.com/@Ravi2147' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-youtube"></i></Link>
+                                    {
+                                        userData?.instagram_link ? (<Link href={userData.instagram_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>) : ("")
+                                    }
+                                    {
+                                        userData?.linkedin_link ? (<Link href={userData?.linkedin_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-linkedin-01"></i></Link>) : ("")
+                                    }
+                                    {
+                                        userData?.facebook_link ? (<Link href={userData?.facebook_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-facebook-01"></i></Link>) : ("")
+                                    }
+                                    {
+                                        userData?.youtube_link ? (<Link href={userData?.youtube_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-youtube"></i></Link>) : ("")
+                                    }
+                                    {
+                                        userData?.twitter_link ? (<Link href={userData?.twitter_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-new-twitter"></i></Link>) : ("")
+                                    }
                                 </div>
                             </div>
                         </div>
