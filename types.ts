@@ -66,3 +66,9 @@ export interface CandidateRow {
   email: string;
   profileId:string
 }
+
+
+export type HeroProps = {
+    userData: any;
+    loading:boolean
+};

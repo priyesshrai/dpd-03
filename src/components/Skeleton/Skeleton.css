@@ -1,0 +1,143 @@
+.skeleton-profile {
+  height: 280px;
+}
+
+.skeleton-data h1 {
+  height: 40px;
+  background-color: #f0f2f5;
+  border-radius: 5px;
+}
+.skeleton-data p {
+  display: block;
+  width: 100%;
+  height: 150px;
+  background-color: #f0f2f5;
+  border-radius: 5px;
+}
+
+.skeleton-data .cta-button-container {
+  display: block;
+  width: 100%;
+  height: 50px;
+  background-color: #f0f2f5;
+  border-radius: 5px;
+}
+.skeleton-data .social-media-container div {
+  width: 40px;
+  height: 40px;
+  background-color: #f0f2f5;
+  border-radius: 5px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.skeleton-profile,
+.skeleton-data h1,
+.skeleton-data p,
+.skeleton-data .cta-button-container,
+.skeleton-data .social-media-container div,
+.skeleton-company-name p,
+.hero-skeleton-title,
+.skeleton-company-name h2,
+.skeleton-company-name span,
+.skill-skeleton-icon,
+.spn,.card-skeleton .card-icon, .video-card-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+.skeleton-profile::before,
+.skeleton-data h1::before,
+.skeleton-data p::before,
+.skeleton-data .cta-button-container::before,
+.skeleton-data .social-media-container div::before,
+.skeleton-company-name span::before,
+.skeleton-company-name h2::before,
+.hero-skeleton-title::before,
+.skeleton-company-name p::before,
+.skill-skeleton-icon::before,
+.spn::before,
+.card-skeleton span::before,
+.card-skeleton .card-icon::before,
+.video-card-skeleton::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #f0f2f5 0%, #e0e0e0 50%, #f0f2f5 100%);
+  animation: shimmer 1.5s infinite;
+  background-size: 1000px 100%;
+}
+
+.hero-skeleton-title,
+.skeleton-company-name h2 {
+  position: relative;
+  width: 90%;
+  background-color: #f0f2f5;
+  height: 30px;
+  border-radius: 5px;
+}
+.skeleton-details-wraper {
+  padding: 0;
+}
+.skeleton-content-wraper {
+  margin-top: 20px;
+}
+.skeleton-company-name {
+  width: 100%;
+}
+.skeleton-company-name p {
+  opacity: 1;
+  display: block;
+  position: relative;
+  width: 85%;
+  background-color: #f0f2f5;
+  height: 20px;
+  border-radius: 3px;
+}
+.skeleton-company-name span {
+  opacity: 1;
+  display: block;
+  position: relative;
+  width: 70%;
+  background-color: #f0f2f5;
+  height: 10px;
+  border-radius: 1px;
+}
+
+.skill-skeleton-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 3px;
+  background-color: #f0f2f5;
+}
+
+.spn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 15px;
+  border-radius: 2px;
+  background-color: #f0f2f5;
+}
+
+.card-skeleton span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 15px;
+  border-radius: 2px;
+  background-color: #ffffff;
+}
