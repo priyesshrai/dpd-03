@@ -1014,7 +1014,7 @@ function ToolsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
   useEffect(() => {
     async function fetchTools() {
       try {
-        const response = await axios.get('http://inforbit.in/demo/dpd/tools-master-display');
+        const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
         if (response.data) {
           setCandidateData((prevData) => ({
             ...prevData,
