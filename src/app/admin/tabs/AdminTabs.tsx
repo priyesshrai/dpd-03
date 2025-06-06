@@ -115,6 +115,7 @@ export default function AdminTabs() {
             name: item?.name || '',
             email: item?.profile_email || '',
             profileId: item?.profile_nid || "",
+            slug:item?.profile_slug || "",
           }));
           setCandidateList(rows);
         }

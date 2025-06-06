@@ -4,6 +4,7 @@ import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { CandidateRow } from '../../../../types';
+import Link from 'next/link';
 
 type CandidateListProps = {
   candidateList: GridRowsProp;
@@ -29,6 +30,21 @@ export default function CandidateList({ candidateList, loading, UpdateUserData }
         >
           Update
         </button>
+      ),
+    },
+    {
+      field: 'profile',
+      headerName: 'Profile',
+      width: 200,
+      sortable: false,
+      renderCell: (params) => (
+        <Link
+          href={`/public/user/${params?.row?.slug}`}
+          className="btn-edit"
+          target='_blank'
+        >
+          View Profile
+        </Link >
       ),
     },
   ];
