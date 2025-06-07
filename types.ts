@@ -1,4 +1,6 @@
-type UserData = {
+import UpdateProfile from "@/app/admin/user/update/[username]/UpdateProfile";
+
+export type UserData = {
     name: string,
     email: string,
     phone: string,
@@ -10,34 +12,48 @@ type UserData = {
     twitter: string,
     yt: string,
 }
+export type UpdateUserData = {
+    profile_nid:string;
+    name: string,
+    email: string,
+    phone: string,
+    headline: string,
+    intro: string,
+    facebook: string,
+    insta: string,
+    linkedin: string,
+    twitter: string,
+    yt: string,
+    profile: string | File;
+}
 
-type Education = {
+export type Education = {
     institute: string,
     degree: string,
     passingYear: string
     description: string;
 }
 
-type WorkExperience = {
+export type WorkExperience = {
     company: string;
     position: string;
     workingPeriod: string;
     description: string;
 }
 
-type Skill = {
+export type Skill = {
     nid: string;
     name: string;
 }
 
-type Projects = {
+export type Projects = {
     name: string,
     link: string,
     image: File | null,
     description: string
 }
 
-type SocialActivity = {
+export type SocialActivity = {
     title: string,
     description: string
 }
@@ -61,14 +77,74 @@ export type AddProfileProps = {
 };
 
 export interface CandidateRow {
-  id: number;
-  name: string;
-  email: string;
-  profileId:string
+    id: number;
+    name: string;
+    email: string;
+    profileId: string
 }
-
 
 export type HeroProps = {
     userData: any;
-    loading:boolean
+    loading: boolean
 };
+
+export type UpdateEducation = {
+    education_nid:string,
+    institute: string,
+    degree: string,
+    passingYear: string
+    description: string;
+}
+
+export type UpdateWorkExperience = {
+    work_exp_nid:string,
+    company: string;
+    position: string;
+    workingPeriod: string;
+    description: string;
+}
+
+export type UpdateSkill = {
+    expert_area_nid:string;
+    nid: string;
+    name: string;
+}
+
+export type UpdateTools = {
+    tools_nid:string;
+    nid: string;
+    name: string;
+}
+
+export type UpdateProjects = {
+    recent_project_nid: string
+    name: string,
+    link: string,
+    image: File | null,
+    description: string
+}
+
+export type UpdateAchievement = {
+    achievement_nid: string
+    name: string,
+    link: string,
+    image: File | null,
+    description: string
+}
+
+export type UpdateSocialActivity = {
+    social_activities_nid:string;
+    title: string,
+    description: string
+}
+
+export type UpdateFormData = {
+    personalData: UpdateUserData,
+    education: UpdateEducation[],
+    workExp: UpdateWorkExperience[],
+    skills: UpdateSkill[],
+    tools: UpdateTools[],
+    projects: UpdateProjects[],
+    achievements: UpdateAchievement[],
+    socialActivity: UpdateSocialActivity[],
+}

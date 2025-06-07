@@ -24,12 +24,12 @@ export default function CandidateList({ candidateList, loading, UpdateUserData }
       width: 150,
       sortable: false,
       renderCell: (params) => (
-        <button
-          onClick={() => UpdateUserData(params.row)}
+        <Link
+          href={`/admin/user/update/${params?.row?.slug}`}
           className="btn-edit"
         >
           Update
-        </button>
+        </Link>
       ),
     },
     {

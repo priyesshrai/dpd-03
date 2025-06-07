@@ -1886,10 +1886,11 @@ footer {
 }
 .admin-tabs-container {
   position: fixed;
+  width:280px;
   top: 0;
   bottom: 0;
   background-color: var(--primary-bg);
-  width: max-content;
+  /* width: max-content; */
   flex-shrink: 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -1972,8 +1973,7 @@ footer {
 
 .admin-component-container {
   position: relative;
-  max-width: 1111px;
-  width: 100%;
+  width: calc(100% - 280px);
   margin-left: auto;
 
   .admin-component-wraper {
@@ -2116,6 +2116,13 @@ footer {
     color: var(--light);
   }
 }
+
+
+
+
+
+
+
 
 @media (max-width: 1092px) {
   .header .navbar .menu-container .links-container {
