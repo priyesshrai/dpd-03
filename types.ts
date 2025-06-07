@@ -106,14 +106,15 @@ export type UpdateWorkExperience = {
 
 export type UpdateSkill = {
     expert_area_nid:string;
-    nid: string;
-    name: string;
+    skill_name:string,
+    skill_desc:string,
+    skill_icon:string | File
 }
 
 export type UpdateTools = {
     tools_nid:string;
-    nid: string;
-    name: string;
+    title: string;
+    tools_image: string | File;
 }
 
 export type UpdateProjects = {

@@ -99,7 +99,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         },
         education: [
             {
-                education_nid:"",
+                education_nid: "",
                 institute: "",
                 degree: "",
                 passingYear: "",
@@ -108,18 +108,29 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         ],
         workExp: [
             {
-                work_exp_nid:"",
+                work_exp_nid: "",
                 company: "",
                 position: "",
                 workingPeriod: "",
                 description: "",
             }
         ],
-        skills: [],
-        tools: [],
+        skills: [{
+            expert_area_nid: "",
+            skill_name: "",
+            skill_desc: "",
+            skill_icon: "",
+        }],
+        tools: [
+            {
+                tools_nid: "",
+                title: "",
+                tools_image: "",
+            }
+        ],
         projects: [
             {
-                recent_project_nid:"",
+                recent_project_nid: "",
                 name: "",
                 link: "",
                 image: null,
@@ -128,7 +139,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         ],
         achievements: [
             {
-                achievement_nid:"",
+                achievement_nid: "",
                 name: "",
                 link: "",
                 image: null,
@@ -137,7 +148,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         ],
         socialActivity: [
             {
-                social_activities_nid:"",
+                social_activities_nid: "",
                 title: "",
                 description: "",
             }
@@ -188,27 +199,32 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                         description: work.brief_job_profile || "",
                     })),
                     skills: apiData.expert_area_list.map((skill) => ({
-                        expert_area_nid: skill.expert_area_nid,
-                        // nid: skill.,
-                        name: skill.name,
+                        expert_area_nid: skill.expert_area_nid || "",
+                        skill_name: skill.expertise_name || "",
+                        skill_desc: skill.expertise_name_details || "",
+                        skill_icon: skill.expertise_icon || "",
                     })),
-                    tools: apiData.tools_list || [],
+                    tools: apiData.tools_list.map((tool) => ({
+                        tools_nid: tool.tools_nid || "",
+                        title: tool.title || "",
+                        tools_image: tool.ools_image || "",
+                    })),
                     projects: apiData.recent_project_list.map((proj) => ({
-                        recent_project_nid:proj.recent_project_nid || "",
+                        recent_project_nid: proj.recent_project_nid || "",
                         name: proj.project_name || "",
                         link: proj.project_link || "",
                         image: proj.project_image || null,
                         description: proj.project_profile || "",
                     })),
                     achievements: apiData.achievement_list.map((ach) => ({
-                        achievement_nid:ach.achievement_nid || "",
+                        achievement_nid: ach.achievement_nid || "",
                         name: ach.achievement_title || "",
                         link: ach.achievement_link || "",
                         image: ach.achievement_image || null,
                         description: ach.achievement_profile || "",
                     })),
                     socialActivity: apiData.social_activities_list.map((act) => ({
-                        social_activities_nid:act.social_activities_nid || "",
+                        social_activities_nid: act.social_activities_nid || "",
                         title: act.title || "",
                         description: act.description || "",
                     })),
