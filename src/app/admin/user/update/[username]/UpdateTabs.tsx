@@ -1,9 +1,8 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
-import UpdateTools from './UpdateTools';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -13,7 +12,19 @@ import UpdateUserSkill from './UpdateSkill';
 import UpdateUserProjects from './UpdateProjects';
 import UpdateUserAchievement from './UpdateAchievement';
 import UpdateUserSocialActivity from './UpdateSocialActivity';
+import UpdateUserTools from './UpdateTools';
 
+
+enum TabKey {
+    Profile = 'profile',
+    Education = 'education',
+    Work = 'work',
+    Skill = 'skill',
+    Tools = 'tools',
+    Project = 'project',
+    Achievement = 'achievement',
+    Social = 'social',
+}
 
 type TabConfig = {
     key: string;
@@ -29,57 +40,16 @@ type UserProfileProps = {
 export default function UpdateTabs({ userName }: UserProfileProps) {
     const router = useRouter();
     const tabConfig: TabConfig[] = [
-        {
-            key: "profile",
-            tabName: "Profile",
-            icon: "hgi hgi-stroke hgi-user-list",
-            component: UpdateProfile
-        },
-        {
-            key: "education",
-            tabName: "Education",
-            icon: "hgi hgi-stroke hgi-user-add-01",
-            component: UpdateUserEducation
-        },
-        {
-            key: "work",
-            tabName: "Work Experience",
-            icon: "hgi hgi-stroke hgi-idea-01",
-            component: UpdateUserWorkExe
-        },
-        {
-            key: "skill",
-            tabName: "Skills",
-            icon: "hgi hgi-stroke hgi-code",
-            component: UpdateUserSkill
-        },
-        {
-            key: "tools",
-            tabName: "Tools",
-            icon: "hgi hgi-stroke hgi-code",
-            component: UpdateTools
-        },
-        {
-            key: "project",
-            tabName: "Projects",
-            icon: "hgi hgi-stroke hgi-code",
-            component: UpdateUserProjects
-        },
-        {
-            key: "achievement",
-            tabName: "Achievements",
-            icon: "hgi hgi-stroke hgi-code",
-            component: UpdateUserAchievement
-        },
-        {
-            key: "social",
-            tabName: "Social Activity",
-            icon: "hgi hgi-stroke hgi-code",
-            component: UpdateUserSocialActivity
-        },
+        { key: TabKey.Profile, tabName: 'Profile', icon: 'hgi hgi-stroke hgi-user-list', component: UpdateProfile },
+        { key: TabKey.Education, tabName: 'Education', icon: 'hgi hgi-stroke hgi-user-add-01', component: UpdateUserEducation },
+        { key: TabKey.Work, tabName: 'Work Experience', icon: 'hgi hgi-stroke hgi-idea-01', component: UpdateUserWorkExe },
+        { key: TabKey.Skill, tabName: 'Skills', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserSkill },
+        { key: TabKey.Tools, tabName: 'Tools', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserTools },
+        { key: TabKey.Project, tabName: 'Projects', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserProjects },
+        { key: TabKey.Achievement, tabName: 'Achievements', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserAchievement },
+        { key: TabKey.Social, tabName: 'Social Activity', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserSocialActivity },
     ];
     const [selectedTab, setSelectedTab] = useState(0)
-    const ActiveTab = tabConfig[selectedTab].component;
     const [loading, setLoading] = useState<boolean>(true);
     const [candidateData, setCandidateData] = useState<UpdateFormData>({
         personalData: {
@@ -240,6 +210,23 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         fetchData();
     }, [userName]);
 
+    const propsMapper: Record<TabKey, any> = useMemo(
+        () => ({
+            [TabKey.Profile]: { candidateProfile: candidateData.personalData },
+            [TabKey.Education]: { candidateEducation: candidateData.education },
+            [TabKey.Work]: { candidateWork: candidateData.workExp },
+            [TabKey.Skill]: { candidateSkills: candidateData.skills },
+            [TabKey.Tools]: { candidateTools: candidateData.tools },
+            [TabKey.Project]: { candidateProject: candidateData.projects },
+            [TabKey.Achievement]: { candidateachievement: candidateData.achievements },
+            [TabKey.Social]: { candidateSocial: candidateData.socialActivity },
+        }),
+        [candidateData]
+    );
+
+    const ActiveTab = tabConfig[selectedTab].component;
+    const currentTabKey = tabConfig[selectedTab].key;
+
     return (
         <section className='admin-dashboard-container'>
             <div className="admin-dashboard-wraper">
@@ -276,78 +263,14 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                         </div>
 
                         <div className="admin-component-section">
-                            {(() => {
-                                if (tabConfig[selectedTab].key === "profile") {
-                                    return (
-                                        <ActiveTab
-                                            candidateProfile={candidateData.personalData}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
+                            <ActiveTab
+                                {
+                                ...propsMapper[currentTabKey as TabKey]}
+                                loading={loading}
+                                setLoading={setLoading}
+                                setCandidateData={setCandidateData
                                 }
-                                if (tabConfig[selectedTab].key === "education") {
-                                    return (
-                                        <ActiveTab
-                                            candidateEducation={candidateData.education}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                                if (tabConfig[selectedTab].key === "work") {
-                                    return (
-                                        <ActiveTab
-                                            candidateWork={candidateData.workExp}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                                if (tabConfig[selectedTab].key === "skill") {
-                                    return (
-                                        <ActiveTab
-                                            candidateSkills={candidateData.skills}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                                if (tabConfig[selectedTab].key === "project") {
-                                    return (
-                                        <ActiveTab
-                                            candidateProject={candidateData.projects}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                                if (tabConfig[selectedTab].key === "achievement") {
-                                    return (
-                                        <ActiveTab
-                                            candidateachievement={candidateData.achievements}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                                if (tabConfig[selectedTab].key === "social") {
-                                    return (
-                                        <ActiveTab
-                                            candidateSocial={candidateData.socialActivity}
-                                            loading={loading}
-                                            setLoading={setLoading}
-                                            setCandidateData={setCandidateData}
-                                        />
-                                    )
-                                }
-                            })()}
+                            />
                         </div>
 
                     </div>

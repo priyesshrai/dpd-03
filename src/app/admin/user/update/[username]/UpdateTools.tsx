@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function UpdateTools() {
+export default function UpdateUserTools() {
   return (
     <div>UpdateTools</div>
   )
