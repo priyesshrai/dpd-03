@@ -3,7 +3,6 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
-import UpdateEducation from './UpdateEducation';
 import UpdateWorkExe from './UpdateWorkExe';
 import UpdateTools from './UpdateTools';
 import UpdateProjects from './UpdateProjects';
@@ -13,6 +12,7 @@ import UpdateSkill from './UpdateSkill';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import UpdateUserEducation from './UpdateEducation';
 
 
 type TabConfig = {
@@ -39,7 +39,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             key: "education",
             tabName: "Education",
             icon: "hgi hgi-stroke hgi-user-add-01",
-            component: UpdateEducation
+            component: UpdateUserEducation
         },
         {
             key: "work",
@@ -281,6 +281,16 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     return (
                                         <ActiveTab
                                             candidateProfile={candidateData.personalData}
+                                            loading={loading}
+                                            setLoading={setLoading}
+                                            setCandidateData={setCandidateData}
+                                        />
+                                    )
+                                }
+                                if (tabConfig[selectedTab].key === "education") {
+                                    return (
+                                        <ActiveTab
+                                            candidateEducation={candidateData.education}
                                             loading={loading}
                                             setLoading={setLoading}
                                             setCandidateData={setCandidateData}
