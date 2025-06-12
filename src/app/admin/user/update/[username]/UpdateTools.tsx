@@ -1,7 +1,152 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect } from 'react';
+import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Toaster, toast } from 'react-hot-toast';
+import { UpdateFormData, UpdateTools } from '../../../../../../types';
+import axios from 'axios';
 
-export default function UpdateUserTools() {
+
+type Candidate = {
+  loading: boolean;
+  candidateTools: UpdateTools[];
+  setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+type Tools = {
+  nid: string;
+  name: string;
+  image_file: string;
+};
+
+export default function UpdateUserTools({ candidateTools, loading, setCandidateData, setLoading, }: Candidate) {
+  const [allToolList, setAllToolList] = useState<Tools[]>([]);
+  const [userTools, setUserTools] = useState<UpdateTools[]>([]);
+  const [selectedToolIds, setSelectedToolIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
+        if (response.data) setAllToolList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSkills();
+  }, []);
+
+  useEffect(() => {
+    setUserTools(candidateTools);
+    const selected = candidateTools.map(tool => tool.tools_nid);
+    setSelectedToolIds(selected);
+  }, [candidateTools]);
+
+  const availableSkills = allToolList.filter(
+    tool => !selectedToolIds.includes(tool.nid)
+  );
+
+  const handleCheckboxChange = (tool: Tools) => {
+    setSelectedToolIds(prev => [...prev, tool.nid]);
+    setUserTools(prev => [
+      ...prev,
+      {
+        tools_nid: tool.nid,
+        title: tool.name,
+        tools_image: tool.image_file || '',
+      },
+    ]);
+  };
+
+  const handleRemoveSkill = (nid: string) => {
+    setUserTools(prev => prev.filter(tool => tool.tools_nid !== nid));
+    setSelectedToolIds(prev => prev.filter(id => id !== nid));
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("tools", JSON.stringify(userTools.map((tool) => tool.tools_nid)));
+    formData.append("user_type", "superadmin");
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+  };
   return (
-    <div>UpdateTools</div>
-  )
+    <div className="component-common" style={{ padding: 0 }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="details-edit-component" style={{ padding: '30px' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>
+                Tools
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="edit-loading">
+                <LargeSpinner />
+              </div>
+            ) : (
+              <>
+                <div
+                  className="details-edit-body"
+                  style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
+                >
+                  <div className="initial-skill-update-wraper">
+                    {userTools.map(tool => (
+                      <div className="initial-items" key={tool.tools_nid}>
+                        <span>{tool.title}</span>
+                        <div className="del-btn" onClick={() => handleRemoveSkill(tool.tools_nid)}>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {
+                  availableSkills ? (
+                    <div
+                      className="details-edit-body"
+                      style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
+                    >
+                      <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Tools</span>
+                      <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
+                        {availableSkills.map(tool => (
+                          <div className="update-skill-items" key={tool.nid}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                value={tool.nid}
+                                onChange={() => handleCheckboxChange(tool)}
+                              />
+                              {tool.name}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : ""
+                }
+
+                <div className="details-edit-footer">
+                  <button onClick={handleSave}>Save</button>
+                </div>
+              </>
+            )}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <Toaster />
+    </div>
+  );
 }
