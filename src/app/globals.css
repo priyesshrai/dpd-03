@@ -1886,7 +1886,7 @@ footer {
 }
 .admin-tabs-container {
   position: fixed;
-  width:280px;
+  width: 280px;
   top: 0;
   bottom: 0;
   background-color: var(--primary-bg);
@@ -2106,23 +2106,106 @@ footer {
   justify-content: center;
   gap: 10px;
 
-  span{
+  span {
     font-size: 24px;
     font-weight: 700;
     color: var(--light-dark);
   }
 
-  strong{
+  strong {
     color: var(--light);
   }
 }
 
+.initial-skill-update-wraper{
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 
+  .initial-items{
+    position: relative;
+    width: max-content;
+    background-color: #f0f0f0;
+    border: 1px solid #dadada;
+    padding: 6px 5px 6px 15px;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
 
+    &:hover .del-btn{
+      opacity: 1;
+      width: 25px;
+      height: 25px;
+    }
 
+    span{
+      color: var(--dark);
+      font-size: 22px;
+    }
 
+    .del-btn{
+      position: relative;
+      width: 0;
+      height: 0;
+      background-color: #dddddd;
+      border-radius: 50%;
+      opacity: 0;
 
+      span{
+        display: block;
+        position: absolute;
+        width: 15px;
+        height: 1px;
+        background-color: #272727;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
 
+        &:last-child{
+          transform: translate(-50%, -50%) rotate(-45deg);
+        }
+      }
+
+      &:hover{
+        background-color: var(--dark);
+      }
+      &:hover span{
+        background-color: var(--primary-bg);
+      }
+    }
+  }
+}
+
+.skill-update-wraper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+
+  .update-skill-items {
+    position: relative;
+    width: max-content;
+    height: 100%;
+    background-color: #f0f0f0;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 10px;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+}
 
 @media (max-width: 1092px) {
   .header .navbar .menu-container .links-container {
