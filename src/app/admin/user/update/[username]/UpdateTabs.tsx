@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { UpdateFormData } from '../../../../../../types';
+import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import UpdateEducation from './UpdateEducation';
 import UpdateWorkExe from './UpdateWorkExe';
@@ -81,7 +81,6 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
     const [selectedTab, setSelectedTab] = useState(0)
     const ActiveTab = tabConfig[selectedTab].component;
     const [loading, setLoading] = useState<boolean>(true);
-
     const [candidateData, setCandidateData] = useState<UpdateFormData>({
         personalData: {
             profile_nid: "",
@@ -184,46 +183,46 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                         yt: apiData.youtube_link || "",
                         profile: apiData.profile_photo || ""
                     },
-                    education: apiData?.education_list.map((edu) => ({
+                    education: apiData?.education_list.map((edu:ApiEducation) => ({
                         education_nid: edu.education_nid || "",
                         institute: edu.from_institute || "",
                         degree: edu.degree_title || "",
                         passingYear: edu.passing_year || "",
                         description: edu.education_profile || "",
                     })),
-                    workExp: apiData.work_exp_list.map((work) => ({
+                    workExp: apiData.work_exp_list.map((work:ApiWorkExp) => ({
                         work_exp_nid: work.work_exp_nid || "",
                         company: work.company_name || "",
                         position: work.last_designation || "",
                         workingPeriod: work.working_years || "",
                         description: work.brief_job_profile || "",
                     })),
-                    skills: apiData.expert_area_list.map((skill) => ({
+                    skills: apiData.expert_area_list.map((skill:ApiSkill) => ({
                         expert_area_nid: skill.expert_area_nid || "",
                         skill_name: skill.expertise_name || "",
                         skill_desc: skill.expertise_name_details || "",
                         skill_icon: skill.expertise_icon || "",
                     })),
-                    tools: apiData.tools_list.map((tool) => ({
+                    tools: apiData.tools_list.map((tool:ApiTool) => ({
                         tools_nid: tool.tools_nid || "",
                         title: tool.title || "",
-                        tools_image: tool.ools_image || "",
+                        tools_image: tool.tools_image || "",
                     })),
-                    projects: apiData.recent_project_list.map((proj) => ({
+                    projects: apiData.recent_project_list.map((proj:ApiProject) => ({
                         recent_project_nid: proj.recent_project_nid || "",
                         name: proj.project_name || "",
                         link: proj.project_link || "",
                         image: proj.project_image || null,
                         description: proj.project_profile || "",
                     })),
-                    achievements: apiData.achievement_list.map((ach) => ({
+                    achievements: apiData.achievement_list.map((ach:ApiAchievement) => ({
                         achievement_nid: ach.achievement_nid || "",
                         name: ach.achievement_title || "",
                         link: ach.achievement_link || "",
                         image: ach.achievement_image || null,
                         description: ach.achievement_profile || "",
                     })),
-                    socialActivity: apiData.social_activities_list.map((act) => ({
+                    socialActivity: apiData.social_activities_list.map((act:ApiSocialActivity) => ({
                         social_activities_nid: act.social_activities_nid || "",
                         title: act.title || "",
                         description: act.description || "",

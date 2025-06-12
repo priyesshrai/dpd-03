@@ -12,20 +12,6 @@ export type UserData = {
     twitter: string,
     yt: string,
 }
-export type UpdateUserData = {
-    profile_nid:string;
-    name: string,
-    email: string,
-    phone: string,
-    headline: string,
-    intro: string,
-    facebook: string,
-    insta: string,
-    linkedin: string,
-    twitter: string,
-    yt: string,
-    profile: string | File;
-}
 
 export type Education = {
     institute: string,
@@ -88,6 +74,21 @@ export type HeroProps = {
     loading: boolean
 };
 
+export type UpdateUserData = {
+    profile_nid:string;
+    name: string,
+    email: string,
+    phone: string,
+    headline: string,
+    intro: string,
+    facebook: string,
+    insta: string,
+    linkedin: string,
+    twitter: string,
+    yt: string,
+    profile: string | File;
+}
+
 export type UpdateEducation = {
     education_nid:string,
     institute: string,
@@ -149,3 +150,54 @@ export type UpdateFormData = {
     achievements: UpdateAchievement[],
     socialActivity: UpdateSocialActivity[],
 }
+
+export type ApiEducation = {
+  education_nid: string;
+  from_institute: string;
+  degree_title: string;
+  passing_year: string;
+  education_profile: string;
+};
+
+export type ApiWorkExp = {
+  work_exp_nid: string;
+  company_name: string;
+  last_designation: string;
+  working_years: string;
+  brief_job_profile: string;
+};
+
+export type ApiSkill = {
+  expert_area_nid: string;
+  expertise_name: string;
+  expertise_name_details: string;
+  expertise_icon: string;
+};
+
+export type ApiTool = {
+  tools_nid: string;
+  title: string;
+  tools_image: string; 
+};
+
+export type ApiProject = {
+  recent_project_nid: string;
+  project_name: string;
+  project_link: string;
+  project_image: string | null;
+  project_profile: string;
+};
+
+export type ApiAchievement = {
+  achievement_nid: string;
+  achievement_title: string;
+  achievement_link: string;
+  achievement_image: string | null;
+  achievement_profile: string;
+};
+
+export type ApiSocialActivity = {
+  social_activities_nid: string;
+  title: string;
+  description: string;
+};
