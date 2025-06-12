@@ -12,7 +12,7 @@ type CandidateListProps = {
   UpdateUserData: (row: CandidateRow) => void;
 };
 
-export default function CandidateList({ candidateList, loading, UpdateUserData }: CandidateListProps) {
+export default function CandidateList({ candidateList, loading }: CandidateListProps) {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
