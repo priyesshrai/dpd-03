@@ -182,10 +182,10 @@ export type ApiTool = {
 
 export type ApiProject = {
   recent_project_nid: string;
-  project_name: string;
+  title: string;
   project_link: string;
-  project_image: string | null;
-  project_profile: string;
+  recent_project_img: string | null;
+  project_description: string;
 };
 
 export type ApiAchievement = {

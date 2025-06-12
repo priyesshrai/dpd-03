@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import UpdateTools from './UpdateTools';
-import UpdateProjects from './UpdateProjects';
 import UpdateAchievement from './UpdateAchievement';
 import UpdateSocialActivity from './UpdateSocialActivity';
-import UpdateSkill from './UpdateSkill';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import UpdateUserEducation from './UpdateEducation';
 import UpdateUserWorkExe from './UpdateWorkExe';
+import UpdateUserSkill from './UpdateSkill';
+import UpdateUserProjects from './UpdateProjects';
 
 
 type TabConfig = {
@@ -51,7 +51,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             key: "skill",
             tabName: "Skills",
             icon: "hgi hgi-stroke hgi-code",
-            component: UpdateSkill
+            component: UpdateUserSkill
         },
         {
             key: "tools",
@@ -63,7 +63,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             key: "project",
             tabName: "Projects",
             icon: "hgi hgi-stroke hgi-code",
-            component: UpdateProjects
+            component: UpdateUserProjects
         },
         {
             key: "achievement",
@@ -183,46 +183,46 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                         yt: apiData.youtube_link || "",
                         profile: apiData.profile_photo || ""
                     },
-                    education: apiData?.education_list.map((edu:ApiEducation) => ({
+                    education: apiData?.education_list.map((edu: ApiEducation) => ({
                         education_nid: edu.education_nid || "",
                         institute: edu.from_institute || "",
                         degree: edu.degree_title || "",
                         passingYear: edu.passing_year || "",
                         description: edu.education_profile || "",
                     })),
-                    workExp: apiData.work_exp_list.map((work:ApiWorkExp) => ({
+                    workExp: apiData.work_exp_list.map((work: ApiWorkExp) => ({
                         work_exp_nid: work.work_exp_nid || "",
                         company: work.company_name || "",
                         position: work.last_designation || "",
                         workingPeriod: work.working_years || "",
                         description: work.brief_job_profile || "",
                     })),
-                    skills: apiData.expert_area_list.map((skill:ApiSkill) => ({
+                    skills: apiData.expert_area_list.map((skill: ApiSkill) => ({
                         expert_area_nid: skill.expert_area_nid || "",
                         skill_name: skill.expertise_name || "",
                         skill_desc: skill.expertise_name_details || "",
                         skill_icon: skill.expertise_icon || "",
                     })),
-                    tools: apiData.tools_list.map((tool:ApiTool) => ({
+                    tools: apiData.tools_list.map((tool: ApiTool) => ({
                         tools_nid: tool.tools_nid || "",
                         title: tool.title || "",
                         tools_image: tool.tools_image || "",
                     })),
-                    projects: apiData.recent_project_list.map((proj:ApiProject) => ({
+                    projects: apiData.recent_project_list.map((proj: ApiProject) => ({
                         recent_project_nid: proj.recent_project_nid || "",
-                        name: proj.project_name || "",
+                        name: proj.title || "",
                         link: proj.project_link || "",
-                        image: proj.project_image || null,
-                        description: proj.project_profile || "",
+                        image: proj.recent_project_img || null,
+                        description: proj.project_description || "",
                     })),
-                    achievements: apiData.achievement_list.map((ach:ApiAchievement) => ({
+                    achievements: apiData.achievement_list.map((ach: ApiAchievement) => ({
                         achievement_nid: ach.achievement_nid || "",
                         name: ach.achievement_title || "",
                         link: ach.achievement_link || "",
                         image: ach.achievement_image || null,
                         description: ach.achievement_profile || "",
                     })),
-                    socialActivity: apiData.social_activities_list.map((act:ApiSocialActivity) => ({
+                    socialActivity: apiData.social_activities_list.map((act: ApiSocialActivity) => ({
                         social_activities_nid: act.social_activities_nid || "",
                         title: act.title || "",
                         description: act.description || "",
@@ -301,6 +301,26 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     return (
                                         <ActiveTab
                                             candidateWork={candidateData.workExp}
+                                            loading={loading}
+                                            setLoading={setLoading}
+                                            setCandidateData={setCandidateData}
+                                        />
+                                    )
+                                }
+                                if (tabConfig[selectedTab].key === "skill") {
+                                    return (
+                                        <ActiveTab
+                                            candidateSkills={candidateData.skills}
+                                            loading={loading}
+                                            setLoading={setLoading}
+                                            setCandidateData={setCandidateData}
+                                        />
+                                    )
+                                }
+                                if (tabConfig[selectedTab].key === "project") {
+                                    return (
+                                        <ActiveTab
+                                            candidateProject={candidateData.projects}
                                             loading={loading}
                                             setLoading={setLoading}
                                             setCandidateData={setCandidateData}
