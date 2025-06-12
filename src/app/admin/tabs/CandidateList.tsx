@@ -27,6 +27,7 @@ export default function CandidateList({ candidateList, loading, UpdateUserData }
         <Link
           href={`/admin/user/update/${params?.row?.slug}`}
           className="btn-edit"
+          target='_blank'
         >
           Update
         </Link>
