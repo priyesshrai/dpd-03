@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import UpdateTools from './UpdateTools';
-import UpdateAchievement from './UpdateAchievement';
 import UpdateSocialActivity from './UpdateSocialActivity';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -13,6 +12,7 @@ import UpdateUserEducation from './UpdateEducation';
 import UpdateUserWorkExe from './UpdateWorkExe';
 import UpdateUserSkill from './UpdateSkill';
 import UpdateUserProjects from './UpdateProjects';
+import UpdateUserAchievement from './UpdateAchievement';
 
 
 type TabConfig = {
@@ -69,7 +69,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             key: "achievement",
             tabName: "Achievements",
             icon: "hgi hgi-stroke hgi-code",
-            component: UpdateAchievement
+            component: UpdateUserAchievement
         },
         {
             key: "social",
@@ -217,10 +217,10 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                     })),
                     achievements: apiData.achievement_list.map((ach: ApiAchievement) => ({
                         achievement_nid: ach.achievement_nid || "",
-                        name: ach.achievement_title || "",
-                        link: ach.achievement_link || "",
+                        name: ach.title || "",
+                        link: ach.achievement_url || "",
                         image: ach.achievement_image || null,
-                        description: ach.achievement_profile || "",
+                        description: ach.achievement_description || "",
                     })),
                     socialActivity: apiData.social_activities_list.map((act: ApiSocialActivity) => ({
                         social_activities_nid: act.social_activities_nid || "",
@@ -321,6 +321,16 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     return (
                                         <ActiveTab
                                             candidateProject={candidateData.projects}
+                                            loading={loading}
+                                            setLoading={setLoading}
+                                            setCandidateData={setCandidateData}
+                                        />
+                                    )
+                                }
+                                if (tabConfig[selectedTab].key === "achievement") {
+                                    return (
+                                        <ActiveTab
+                                            candidateachievement={candidateData.achievements}
                                             loading={loading}
                                             setLoading={setLoading}
                                             setCandidateData={setCandidateData}

@@ -190,10 +190,10 @@ export type ApiProject = {
 
 export type ApiAchievement = {
   achievement_nid: string;
-  achievement_title: string;
-  achievement_link: string;
+  title: string;
+  achievement_url: string;
   achievement_image: string | null;
-  achievement_profile: string;
+  achievement_description: string;
 };
 
 export type ApiSocialActivity = {
