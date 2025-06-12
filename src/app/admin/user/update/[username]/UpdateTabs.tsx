@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import UpdateTools from './UpdateTools';
-import UpdateSocialActivity from './UpdateSocialActivity';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -13,6 +12,7 @@ import UpdateUserWorkExe from './UpdateWorkExe';
 import UpdateUserSkill from './UpdateSkill';
 import UpdateUserProjects from './UpdateProjects';
 import UpdateUserAchievement from './UpdateAchievement';
+import UpdateUserSocialActivity from './UpdateSocialActivity';
 
 
 type TabConfig = {
@@ -75,7 +75,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             key: "social",
             tabName: "Social Activity",
             icon: "hgi hgi-stroke hgi-code",
-            component: UpdateSocialActivity
+            component: UpdateUserSocialActivity
         },
     ];
     const [selectedTab, setSelectedTab] = useState(0)
@@ -331,6 +331,16 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     return (
                                         <ActiveTab
                                             candidateachievement={candidateData.achievements}
+                                            loading={loading}
+                                            setLoading={setLoading}
+                                            setCandidateData={setCandidateData}
+                                        />
+                                    )
+                                }
+                                if (tabConfig[selectedTab].key === "social") {
+                                    return (
+                                        <ActiveTab
+                                            candidateSocial={candidateData.socialActivity}
                                             loading={loading}
                                             setLoading={setLoading}
                                             setCandidateData={setCandidateData}
