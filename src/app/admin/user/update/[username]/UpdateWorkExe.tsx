@@ -1,4 +1,3 @@
-'use client';
 import React from 'react'
 import { UpdateFormData, UpdateWorkExperience } from '../../../../../../types';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
