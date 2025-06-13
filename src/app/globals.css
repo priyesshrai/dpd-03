@@ -583,10 +583,17 @@ main {
       h3 {
         position: relative;
         width: 100%;
-        margin-top: 10px;
-        font-size: 20px;
-        color: var(--dark);
-        opacity: 0.8;
+        a {
+          color: var(--dark);
+          opacity: 0.8;
+          font-weight: 600;
+          font-size: 24px;
+        }
+      }
+      p{
+        margin-top: 5px;
+        display: block;
+        color: var(--light-dark);
       }
       ul {
         margin-top: 15px;
@@ -600,6 +607,10 @@ main {
           list-style: disc !important;
           list-style-position: outside;
           position: relative;
+
+          a {
+            color: var(--light-dark);
+          }
 
           &::after {
             content: "";
@@ -799,6 +810,10 @@ main {
                 border-radius: 50%;
                 left: -10px;
                 top: 5px;
+              }
+
+              a {
+                color: var(--light-dark);
               }
             }
           }
@@ -2117,7 +2132,7 @@ footer {
   }
 }
 
-.initial-skill-update-wraper{
+.initial-skill-update-wraper {
   position: relative;
   width: 100%;
   display: flex;
@@ -2125,7 +2140,7 @@ footer {
   align-items: center;
   gap: 10px;
 
-  .initial-items{
+  .initial-items {
     position: relative;
     width: max-content;
     background-color: #f0f0f0;
@@ -2137,18 +2152,18 @@ footer {
     align-items: center;
     cursor: pointer;
 
-    &:hover .del-btn{
+    &:hover .del-btn {
       opacity: 1;
       width: 25px;
       height: 25px;
     }
 
-    span{
+    span {
       color: var(--dark);
       font-size: 22px;
     }
 
-    .del-btn{
+    .del-btn {
       position: relative;
       width: 0;
       height: 0;
@@ -2156,7 +2171,7 @@ footer {
       border-radius: 50%;
       opacity: 0;
 
-      span{
+      span {
         display: block;
         position: absolute;
         width: 15px;
@@ -2166,15 +2181,15 @@ footer {
         top: 50%;
         transform: translate(-50%, -50%) rotate(45deg);
 
-        &:last-child{
+        &:last-child {
           transform: translate(-50%, -50%) rotate(-45deg);
         }
       }
 
-      &:hover{
+      &:hover {
         background-color: var(--dark);
       }
-      &:hover span{
+      &:hover span {
         background-color: var(--primary-bg);
       }
     }
