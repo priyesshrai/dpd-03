@@ -40,14 +40,54 @@ type UserProfileProps = {
 export default function UpdateTabs({ userName }: UserProfileProps) {
     const router = useRouter();
     const tabConfig: TabConfig[] = [
-        { key: TabKey.Profile, tabName: 'Profile', icon: 'hgi hgi-stroke hgi-user-list', component: UpdateProfile },
-        { key: TabKey.Education, tabName: 'Education', icon: 'hgi hgi-stroke hgi-user-add-01', component: UpdateUserEducation },
-        { key: TabKey.Work, tabName: 'Work Experience', icon: 'hgi hgi-stroke hgi-idea-01', component: UpdateUserWorkExe },
-        { key: TabKey.Skill, tabName: 'Skills', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserSkill },
-        { key: TabKey.Tools, tabName: 'Tools', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserTools },
-        { key: TabKey.Project, tabName: 'Projects', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserProjects },
-        { key: TabKey.Achievement, tabName: 'Achievements', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserAchievement },
-        { key: TabKey.Social, tabName: 'Social Activity', icon: 'hgi hgi-stroke hgi-code', component: UpdateUserSocialActivity },
+        {
+            key: TabKey.Profile,
+            tabName: 'Profile',
+            icon: 'hgi hgi-stroke hgi-account-setting-03',
+            component: UpdateProfile
+        },
+        {
+            key: TabKey.Education,
+            tabName: 'Education',
+            icon: 'hgi hgi-stroke hgi-library',
+            component: UpdateUserEducation
+        },
+        {
+            key: TabKey.Work,
+            tabName: 'Work Experience',
+            icon: 'hgi hgi-stroke hgi-suit-02',
+            component: UpdateUserWorkExe
+        },
+        {
+            key: TabKey.Skill,
+            tabName: 'Skills',
+            icon: 'hgi hgi-stroke hgi-idea-01',
+            component: UpdateUserSkill
+        },
+        {
+            key: TabKey.Tools,
+            tabName: 'Tools',
+            icon: 'hgi hgi-stroke hgi-clipboard',
+            component: UpdateUserTools
+        },
+        {
+            key: TabKey.Project,
+            tabName: 'Projects',
+            icon: 'hgi hgi-stroke hgi-code',
+            component: UpdateUserProjects
+        },
+        {
+            key: TabKey.Achievement,
+            tabName: 'Achievements',
+            icon: 'hgi hgi-stroke hgi-champion',
+            component: UpdateUserAchievement
+        },
+        {
+            key: TabKey.Social,
+            tabName: 'Social Activity',
+            icon: 'hgi hgi-stroke hgi-agreement-02',
+            component: UpdateUserSocialActivity
+        },
     ];
     const [selectedTab, setSelectedTab] = useState(0)
     const [loading, setLoading] = useState<boolean>(true);
