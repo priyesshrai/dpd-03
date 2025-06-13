@@ -32,7 +32,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
             try {
                 const response = await axios.get(`https://inforbit.in/demo/dpd/profile/${userName}`);
                 if (!response.data.status) {
-                    toast.error(response.data.message || 'Profile Not Found of This User....!');
+                    toast.error(response.data.message ?? 'Profile Not Found of This User....!');
                     router.push('/login');
                     setLoading(false)
                 }
@@ -153,7 +153,7 @@ function Header() {
 function SideBar({ userData, loading }: HeroProps) {
     const currentPath = usePathname()
 
-    const bio = userData?.introduction || ""
+    const bio = userData?.introduction ?? ""
 
     const getTrimmedBio = () => {
         if (currentPath.startsWith("/public")) {
@@ -176,11 +176,11 @@ function SideBar({ userData, loading }: HeroProps) {
                     >
                         <div className="side-bar-wraper">
                             <div className="profile-container">
-                                <Image src={userData?.profile_photo || "/images/profile/default.png"}
+                                <Image src={userData?.profile_photo ?? "/images/profile/default.png"}
                                     width={200} height={278} alt='Profile' />
                             </div>
                             <div className="user-data">
-                                <h1>{userData?.name || ""}</h1>
+                                <h1>{userData?.name ?? ""}</h1>
 
                                 <p dangerouslySetInnerHTML={{ __html: getTrimmedBio() }} />
 
@@ -343,7 +343,7 @@ function Hero({ userData, loading }: HeroProps) {
                                         userData?.recent_project_list?.map((project: ApiProject) => (
                                             <React.Fragment key={project.recent_project_nid}>
                                                 <h3>
-                                                    <Link href={project.project_link || ""}>
+                                                    <Link href={project.project_link ?? ""}>
                                                         {project.title}
                                                     </Link>
                                                 </h3>
@@ -432,7 +432,7 @@ function Hero({ userData, loading }: HeroProps) {
                                                 <div className="card" key={tools.tools_nid}>
                                                     <div className="card-icon">
                                                         <Image
-                                                            src={tools.tools_image || "/images/icons/dummy.svg"}
+                                                            src={tools.tools_image ?? "/images/icons/dummy.svg"}
                                                             alt={tools?.title}
                                                             width={60} height={60} />
                                                     </div>
