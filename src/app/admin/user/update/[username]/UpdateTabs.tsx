@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData, UpdateUserData } from '../../../../../../types';
+import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import axios from 'axios';
 import toast from 'react-hot-toast';
