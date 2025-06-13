@@ -64,10 +64,26 @@ export default function UpdateUserSkill({
         skill_icon: skill.image_file || '',
       },
     ]);
+    setCandidateData(prev => ({
+      ...prev,
+      skills: [
+        ...(prev.skills || []),
+        {
+          expert_area_nid: skill.nid,
+          skill_name: skill.name,
+          skill_desc: skill.description || '',
+          skill_icon: skill.image_file || '',
+        },
+      ],
+    }));
   };
 
   const handleRemoveSkill = (nid: string) => {
     setUserSkills(prev => prev.filter(skill => skill.expert_area_nid !== nid));
+    setCandidateData(prev => ({
+      ...prev,
+      skills: (prev.skills || []).filter(skill => skill.expert_area_nid !== nid),
+    }));
     setSelectedSkillIds(prev => prev.filter(id => id !== nid));
   };
 

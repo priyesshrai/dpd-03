@@ -58,10 +58,25 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
         tools_image: tool.image_file || '',
       },
     ]);
+    setCandidateData(prev => ({
+      ...prev,
+      tools: [
+        ...(prev.tools || []),
+        {
+          tools_nid: tool.nid,
+          title: tool.name,
+          tools_image: tool.image_file || '',
+        },
+      ]
+    }));
   };
 
   const handleRemoveSkill = (nid: string) => {
     setUserTools(prev => prev.filter(tool => tool.tools_nid !== nid));
+    setCandidateData(prev => ({
+      ...prev,
+      tools: (prev.tools || []).filter(tool => tool.tools_nid !== nid),
+    }));
     setSelectedToolIds(prev => prev.filter(id => id !== nid));
   };
 
