@@ -56,7 +56,7 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
     formData.append("education", JSON.stringify(education));
     formData.append("user_type", "superadmin")
@@ -64,6 +64,7 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
 
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-education-api", formData)

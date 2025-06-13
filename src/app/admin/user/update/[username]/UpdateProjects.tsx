@@ -1,7 +1,7 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateProjects } from '../../../../../../types';
 import Image from 'next/image';
 
@@ -44,17 +44,13 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
     }));
   };
 
-  const handleChange = (
+  const handleChange = <K extends keyof UpdateProjects>(
     index: number,
-    field: keyof UpdateProjects,
-    value: any
+    field: K,
+    value: UpdateProjects[K]
   ) => {
     const updatedProjects = [...projects];
-    if (field === "image") {
-      updatedProjects[index][field] = value as File | null;
-    } else {
-      updatedProjects[index][field] = value;
-    }
+    updatedProjects[index][field] = value;
     setCandidateData((prevData) => ({
       ...prevData,
       projects: updatedProjects,
@@ -63,7 +59,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
 
     const formData = new FormData();
     projects.forEach((project, index) => {
@@ -80,6 +76,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
 
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-recent-project", formData, {

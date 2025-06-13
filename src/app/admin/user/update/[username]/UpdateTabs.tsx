@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData } from '../../../../../../types';
+import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, UpdateFormData, UpdateUserData } from '../../../../../../types';
 import UpdateProfile from './UpdateProfile';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -35,7 +35,6 @@ type TabConfig = {
 type UserProfileProps = {
     userName: string;
 };
-
 
 export default function UpdateTabs({ userName }: UserProfileProps) {
     const router = useRouter();
@@ -250,7 +249,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         fetchData();
     }, [userName]);
 
-    const propsMapper: Record<TabKey, any> = useMemo(
+    const propsMapper = useMemo(
         () => ({
             [TabKey.Profile]: { candidateProfile: candidateData.personalData },
             [TabKey.Education]: { candidateEducation: candidateData.education },

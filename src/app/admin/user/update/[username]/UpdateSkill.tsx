@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateSkill } from '../../../../../../types';
 import axios from 'axios';
 
@@ -88,6 +88,7 @@ export default function UpdateUserSkill({
   };
 
   const handleSave = async () => {
+    setLoading(true)
     const formData = new FormData();
     formData.append("skills", JSON.stringify(userSkills.map((skill) => skill.expert_area_nid)));
     formData.append("user_type", "superadmin");
@@ -95,6 +96,7 @@ export default function UpdateUserSkill({
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
   };
 
   return (

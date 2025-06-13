@@ -1,9 +1,9 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UpdateAchievement, UpdateFormData } from '../../../../../../types';
-import axios from 'axios';
+// import axios from 'axios';
 import Image from 'next/image';
 
 
@@ -46,26 +46,23 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
     }));
   };
 
-  const handleChange = (
+  const handleChange = <K extends keyof UpdateAchievement>(
     index: number,
-    field: keyof UpdateAchievement,
-    value: any
+    field: K,
+    value: UpdateAchievement[K]
   ) => {
     const updatedAchievement = [...achievement];
-    if (field === "image") {
-      updatedAchievement[index][field] = value as File | null;
-    } else {
-      updatedAchievement[index][field] = value;
-    }
+    updatedAchievement[index][field] = value;
     setCandidateData((prevData) => ({
       ...prevData,
       achievements: updatedAchievement,
     }));
   };
 
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
 
     achievement.forEach((achievement, index) => {
@@ -81,6 +78,7 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
 
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-achievement", formData, {

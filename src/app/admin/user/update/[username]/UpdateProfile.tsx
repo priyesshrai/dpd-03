@@ -15,7 +15,6 @@ type Candidate = {
 export default function UpdateProfile({ candidateProfile, loading, setCandidateData, setLoading }: Candidate) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
 
-
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -53,7 +52,7 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
 
     Object.keys(candidateProfile).forEach((key) => {
@@ -64,6 +63,7 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
 
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)

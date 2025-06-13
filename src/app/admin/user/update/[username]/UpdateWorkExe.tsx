@@ -53,7 +53,7 @@ export default function UpdateUserWorkExe({ candidateWork, loading, setCandidate
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
     formData.append("work_experiences", JSON.stringify(workExperiences));
     formData.append("user_type", "superadmin")
@@ -61,6 +61,7 @@ export default function UpdateUserWorkExe({ candidateWork, loading, setCandidate
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
 
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-work-experience-api", formData)

@@ -1,9 +1,9 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateSocialActivity } from '../../../../../../types';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 type Candidate = {
@@ -55,7 +55,7 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
     formData.append("social_activities", JSON.stringify(socialActivity));
     formData.append("user_type", "superadmin")
@@ -63,7 +63,7 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
-
+    setLoading(false)
     // toast.promise(
     //   axios.post("https://inforbit.in/demo/dpd/candidate-social-activities", formData)
     //     .then((response) => {

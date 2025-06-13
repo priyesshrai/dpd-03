@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateTools } from '../../../../../../types';
 import axios from 'axios';
 
@@ -81,6 +81,7 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
   };
 
   const handleSave = async () => {
+    setLoading(true)
     const formData = new FormData();
     formData.append("tools", JSON.stringify(userTools.map((tool) => tool.tools_nid)));
     formData.append("user_type", "superadmin");
@@ -88,6 +89,7 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
+    setLoading(false)
   };
   return (
     <div className="component-common" style={{ padding: 0 }}>
