@@ -18,6 +18,24 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
 
   const addNewProject = () => {
     const lastSkill = projects[projects.length - 1];
+
+    if (!lastSkill) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        projects: [
+          ...projects,
+          {
+            recent_project_nid: "",
+            name: "",
+            link: "",
+            image: null,
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
     const allFieldsFilled =
       lastSkill.name.trim() !== "" &&
       lastSkill.link.trim() !== "" &&
@@ -104,6 +122,19 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
     //   }
     // );
   }
+
+  function handleRemove(id: string) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Project?");
+    if (!confirmDelete || !id) return;
+
+    const updatedProject = projects.filter((project) => project.recent_project_nid !== id || !id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      projects: updatedProject
+    }));
+  }
+
+
   return (
     <div className='component-common' style={{ padding: 0 }}>
 
@@ -127,6 +158,10 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                         <div className="details-edit-body" key={index}
                           style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                           <span className='work-form-title'>Project {index + 1} </span>
+
+                          <div className='remove' onClick={() => handleRemove(project.recent_project_nid)}>
+                            <i className="hgi hgi-stroke hgi-delete-02"></i>
+                          </div>
 
                           <div className="details-edit-wraper">
 
