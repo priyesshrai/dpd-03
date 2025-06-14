@@ -45,6 +45,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
                 setLoading(false)
             } catch (error) {
                 Cookies.remove("data");
+                console.log(error);
                 toast.error('Profile Not Found of This User....!');
                 router.push('/login');
                 setLoading(false)
