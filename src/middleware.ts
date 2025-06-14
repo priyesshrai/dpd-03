@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
     if (userData.login_type === "superadmin") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     } else if (userData.login_type === "candidate") {
-      return NextResponse.redirect(new URL("/user/profile", request.url));
+      return NextResponse.redirect(new URL("/user/" + userData.profile_slug, request.url));
     }
   }
 
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
     if (userData.login_type === "superadmin") {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     } else if (userData.login_type === "candidate") {
-      return NextResponse.redirect(new URL("/user/profile", request.url));
+      return NextResponse.redirect(new URL("/user/" + userData.profile_slug, request.url));
     }
   }
 
