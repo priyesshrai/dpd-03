@@ -20,6 +20,24 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
 
   const addNewAchievement = () => {
     const lastSkill = achievement[achievement.length - 1];
+
+    if (!lastSkill) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        achievements: [
+          ...achievement,
+          {
+            achievement_nid: "",
+            name: "",
+            link: "",
+            image: null,
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
     const allFieldsFilled =
       lastSkill.name.trim() !== "" &&
       lastSkill.link.trim() !== "" &&
@@ -107,6 +125,17 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
     // );
   }
 
+  function handleRemove(id: string) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Achievement?");
+    if (!confirmDelete || !id) return;
+
+    const updatedAchievement = achievement.filter((achi) => achi.achievement_nid !== id || !id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      achievements: updatedAchievement
+    }));
+  }
+
   return (
     <div className='component-common' style={{ padding: 0 }}>
 
@@ -130,6 +159,10 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
                         <div className="details-edit-body" key={index}
                           style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                           <span className='work-form-title'>Achievements {index + 1} </span>
+
+                          <div className='remove' onClick={() => handleRemove(achievement.achievement_nid)}>
+                            <i className="hgi hgi-stroke hgi-delete-02"></i>
+                          </div>
 
                           <div className="details-edit-wraper">
 

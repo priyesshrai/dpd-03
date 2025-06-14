@@ -15,8 +15,27 @@ type Candidate = {
 }
 export default function UpdateUserWorkExe({ candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const workExperiences = candidateWork;
+
   const addNewExperience = () => {
     const lastExperience = workExperiences[workExperiences.length - 1];
+
+    if (!lastExperience) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        workExp: [
+          ...workExperiences,
+          {
+            work_exp_nid: "",
+            company: "",
+            position: "",
+            workingPeriod: "",
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );

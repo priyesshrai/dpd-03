@@ -32,6 +32,24 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
 
   const addNewEducation = () => {
     const lastExperience = education[education.length - 1];
+
+    if (!lastExperience) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        education: [
+          ...education,
+          {
+            education_nid: "",
+            institute: "",
+            degree: "",
+            passingYear: "",
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );
