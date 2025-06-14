@@ -201,3 +201,15 @@ export type ApiSocialActivity = {
   title: string;
   description: string;
 };
+
+export type CandidateNewData = {
+  personalData: UpdateUserData;
+  education: ApiEducation[];
+  workExp: ApiWorkExp[];
+  skills: ApiSkill[];
+  tools: ApiTool[];
+  projects: ApiProject[];
+  achievements: ApiAchievement[];
+  socialActivity: ApiSocialActivity[];
+};
+

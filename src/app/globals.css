@@ -590,7 +590,7 @@ main {
           font-size: 24px;
         }
       }
-      p{
+      p {
         margin-top: 5px;
         display: block;
         color: var(--light-dark);
@@ -2021,6 +2021,24 @@ footer {
 
         .logo-container {
           position: relative;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          button{
+            background-color: var(--dark);
+            color: var(--primary-bg);
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+
+            i{
+              color: var(--primary-bg);
+              font-size: 30px;
+            }
+          }
 
           .admin-logo {
             position: relative;
@@ -2218,6 +2236,172 @@ footer {
       gap: 15px;
       font-size: 16px;
       cursor: pointer;
+    }
+  }
+}
+
+.share-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background-color: #e2e3e6;
+  margin: 5px 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--dark);
+  }
+  &:hover i {
+    color: var(--primary-bg);
+  }
+  i {
+    font-size: 22px;
+    color: #2196f3;
+  }
+}
+
+.share-section {
+  position: fixed;
+  inset: 0;
+  background-color: #00000070;
+  /* backdrop-filter: blur(5px); */
+  padding: 20px;
+
+  .share-section-wraper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .share-card {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      background-color: #353535;
+      padding: 20px;
+      border-radius: 15px;
+
+      .share-card-wraper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        .share-close-btn {
+          position: relative;
+          width: 100%;
+
+          div {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin-left: auto;
+            background-color: #494949;
+            border-radius: 50%;
+            cursor: pointer;
+
+            span {
+              position: absolute;
+              width: 30px;
+              height: 1.5px;
+              background-color: var(--primary-bg);
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%) rotate(45deg);
+
+              &:last-child {
+                transform: translate(-50%, -50%) rotate(-45deg);
+              }
+            }
+          }
+        }
+
+        .share-icons{
+          position: relative;
+          width: 100%;
+          margin-top: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+
+          .share-icons-container{
+            position: relative;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            
+            i{
+              font-size: 35px;
+              color: white;
+            }
+            &.wp{
+              background-color: #25D366;
+            }
+            &.fb{
+              background-color: #3B5998;
+            }
+            &.lk{
+              background-color: #1469C7;
+            }
+            &.tw{
+              background-color: #21A5F8;
+            }
+            &.in{
+              background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            }
+          }
+        }
+
+        .copy-link{
+          position: relative;
+          width: 100%;
+          margin-top: 40px;
+          border: 1px solid #535353;
+          background-color: #2c2c2c;
+          padding: 15px;
+          border-radius: 5px;
+          cursor: pointer;
+
+          input{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            pointer-events: none;
+            font-size: 18px;
+            color: var(--light-bg);
+            padding-right: 30px;
+          }
+          i{
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background-color: #e4e4e4;
+            border-radius: 50%;
+            z-index: 9;
+          }
+        }
+
+      }
     }
   }
 }
