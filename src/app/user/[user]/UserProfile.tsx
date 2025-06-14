@@ -352,7 +352,7 @@ function Hero({ userData, loading }: HeroProps) {
                                         userData?.recent_project_list?.map((project: ApiProject) => (
                                             <React.Fragment key={project.recent_project_nid}>
                                                 <h3>
-                                                    <Link href={project.project_link ?? ""}>
+                                                    <Link href={project.project_link ?? ""} target='_blank'>
                                                         {project.title}
                                                     </Link>
                                                 </h3>
@@ -384,7 +384,8 @@ function Hero({ userData, loading }: HeroProps) {
                                             {
                                                 userData?.achievement_list?.map((achi: ApiAchievement) => (
                                                     <li key={achi.achievement_nid}>
-                                                        <Link href={achi.achievement_url ?? ""} target='_blank'><strong>{achi.title}</strong></Link> -
+                                                        <Link href={achi.achievement_url ?? ""} target='_blank'>
+                                                            <strong>{achi.title}</strong></Link> -
                                                         {achi.achievement_description}
                                                     </li>
                                                 ))

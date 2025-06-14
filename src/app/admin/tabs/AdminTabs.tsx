@@ -17,6 +17,17 @@ type TabConfig = {
   icon: string;
   component: React.ElementType;
 }
+export type ToolList = {
+  image_file: string;
+  name: string;
+  nid: string;
+}
+export type SkillList = {
+  image_file: string;
+  name: string;
+  nid: string;
+  description: string;
+}
 
 export default function AdminTabs() {
   const tabConfig: TabConfig[] = [
@@ -102,9 +113,10 @@ export default function AdminTabs() {
       }
     ]
   })
-
   const [candidateList, setCandidateList] = useState<GridRowsProp>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [toolList, setToolList] = useState<ToolList[]>();
+  const [skillList, setSkillList] = useState<SkillList[]>();
 
   useEffect(() => {
     const fetchcandidateList = async () => {
@@ -130,6 +142,36 @@ export default function AdminTabs() {
 
     fetchcandidateList();
   }, []);
+  useEffect(() => {
+    async function fetchTools() {
+      try {
+        const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
+        if (response.data) {
+          setToolList(response.data)
+        } else {
+          toast.error(response.data.message || 'Failed to fetch Tools.');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Error fetching Tools.');
+      }
+    }
+    async function fetchSkills() {
+      try {
+        const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
+        if (response.data) {
+          setSkillList(response.data)
+        } else {
+          toast.error(response.data.message || 'Failed to fetch skills.');
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('Error fetching skills.');
+      }
+    }
+    fetchSkills();
+    fetchTools();
+  }, [])
 
   async function UpdateUserData(userData: CandidateRow) {
     setLoading(true);
@@ -143,9 +185,9 @@ export default function AdminTabs() {
     setLoading(false)
   }
 
-  function handleLogOut(){
+  function handleLogOut() {
     Cookies.remove("data");
-    toast.success("Logout Successful...!")  
+    toast.success("Logout Successful...!")
     window.location.href = '/';
   }
 
@@ -211,7 +253,7 @@ export default function AdminTabs() {
                   );
                 }
 
-                return <ActiveTab />;
+                return <ActiveTab toolList={toolList} skillList={skillList} />;
               })()}
             </div>
 

@@ -5,14 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import { SkillList } from './AdminTabs';
 
 interface Skills {
   skillName: string;
   image: File | null;
   description: string;
 }
+interface SkillsListProps {
+  skillList: SkillList[];
+}
 
-export default function AddSkills() {
+export default function AddSkills({ skillList }: SkillsListProps) {
+  console.log(skillList);
 
   const [skills, setSkills] = useState<Skills>({
     skillName: "",
@@ -101,7 +106,7 @@ export default function AddSkills() {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-          
+
           {loading && (
             <div className='edit-loading'>
               <LargeSpinner />
@@ -147,6 +152,17 @@ export default function AddSkills() {
                       required
                     />
                     <label className='label'>Skill Description</label>
+                  </div>
+
+                  <div className="edit-input-container">
+                    <span className='list-title'>Available Skill</span>
+                    <div className='props-list'>
+                      {
+                        skillList?.map((skill: SkillList) => (
+                          <div key={skill.nid}>{skill.name}</div>
+                        ))
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
