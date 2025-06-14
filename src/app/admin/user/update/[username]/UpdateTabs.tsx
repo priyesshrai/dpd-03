@@ -13,6 +13,7 @@ import UpdateUserProjects from './UpdateProjects';
 import UpdateUserAchievement from './UpdateAchievement';
 import UpdateUserSocialActivity from './UpdateSocialActivity';
 import UpdateUserTools from './UpdateTools';
+import Cookies from "js-cookie";
 
 
 enum TabKey {
@@ -249,6 +250,12 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         fetchData();
     }, [userName]);
 
+    function handleLogOut() {
+        Cookies.remove("data");
+        toast.success("Logout Successful...!")
+        window.location.href = '/';
+    }
+
     const propsMapper = useMemo(
         () => ({
             [TabKey.Profile]: { candidateProfile: candidateData.personalData },
@@ -297,6 +304,9 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     <div className="admin-logo">
                                         <i className="hgi hgi-stroke hgi-user-story"></i>
                                     </div>
+                                    <button onClick={handleLogOut}>
+                                        <i className="hgi hgi-stroke hgi-keyframes-double-remove"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>

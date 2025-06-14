@@ -8,6 +8,8 @@ import AddTools from './AddTools';
 import type { CandidateRow, FormData } from '../../../../types';
 import axios from 'axios';
 import { GridRowsProp } from '@mui/x-data-grid';
+import Cookies from "js-cookie";
+import toast, { Toaster } from 'react-hot-toast';
 
 type TabConfig = {
   key: string;
@@ -115,7 +117,7 @@ export default function AdminTabs() {
             name: item?.name || '',
             email: item?.profile_email || '',
             profileId: item?.profile_nid || "",
-            slug:item?.profile_slug || "",
+            slug: item?.profile_slug || "",
           }));
           setCandidateList(rows);
         }
@@ -139,6 +141,12 @@ export default function AdminTabs() {
     const response = await axios.get(`http://inforbit.in/demo/dpd/candidate-profile/${userData?.profileId}`)
     console.log(response.data);
     setLoading(false)
+  }
+
+  function handleLogOut(){
+    Cookies.remove("data");
+    toast.success("Logout Successful...!")  
+    window.location.href = '/';
   }
 
   return (
@@ -173,6 +181,9 @@ export default function AdminTabs() {
                   <div className="admin-logo">
                     <i className="hgi hgi-stroke hgi-user-story"></i>
                   </div>
+                  <button onClick={handleLogOut}>
+                    <i className="hgi hgi-stroke hgi-keyframes-double-remove"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -207,6 +218,7 @@ export default function AdminTabs() {
           </div>
         </div>
       </div>
+      <Toaster />
     </section>
   )
 }
