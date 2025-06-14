@@ -142,33 +142,33 @@ export default function AdminTabs() {
 
     fetchcandidateList();
   }, []);
+  async function fetchTools() {
+    try {
+      const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
+      if (response.data) {
+        setToolList(response.data)
+      } else {
+        toast.error(response.data.message || 'Failed to fetch Tools.');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Error fetching Tools.');
+    }
+  }
+  async function fetchSkills() {
+    try {
+      const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
+      if (response.data) {
+        setSkillList(response.data)
+      } else {
+        toast.error(response.data.message || 'Failed to fetch skills.');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Error fetching skills.');
+    }
+  }
   useEffect(() => {
-    async function fetchTools() {
-      try {
-        const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
-        if (response.data) {
-          setToolList(response.data)
-        } else {
-          toast.error(response.data.message || 'Failed to fetch Tools.');
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error('Error fetching Tools.');
-      }
-    }
-    async function fetchSkills() {
-      try {
-        const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
-        if (response.data) {
-          setSkillList(response.data)
-        } else {
-          toast.error(response.data.message || 'Failed to fetch skills.');
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error('Error fetching skills.');
-      }
-    }
     fetchSkills();
     fetchTools();
   }, [])
@@ -253,7 +253,7 @@ export default function AdminTabs() {
                   );
                 }
 
-                return <ActiveTab toolList={toolList} skillList={skillList} />;
+                return <ActiveTab toolList={toolList} skillList={skillList} fetchTools={fetchTools} fetchSkills={fetchSkills} />;
               })()}
             </div>
 

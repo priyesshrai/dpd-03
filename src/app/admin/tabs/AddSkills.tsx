@@ -14,11 +14,10 @@ interface Skills {
 }
 interface SkillsListProps {
   skillList: SkillList[];
+  fetchSkills:()=>void;
 }
 
-export default function AddSkills({ skillList }: SkillsListProps) {
-  console.log(skillList);
-
+export default function AddSkills({ skillList,fetchSkills }: SkillsListProps) {
   const [skills, setSkills] = useState<Skills>({
     skillName: "",
     image: null,
@@ -77,6 +76,7 @@ export default function AddSkills({ skillList }: SkillsListProps) {
             if (fileInputRef.current) {
               fileInputRef.current.value = "";
             }
+            fetchSkills();
             setLoading(false);
             return response.data.message || "Skill added successfully!";
           } else {

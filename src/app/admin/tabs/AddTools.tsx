@@ -5,14 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import { ToolList } from './AdminTabs';
 
 interface Tools {
   tools_name: string;
   image: File | null;
 }
+interface ToolListProps {
+  toolList: ToolList[]
+  fetchTools:()=>void
+}
 
 
-export default function AddTools() {
+export default function AddTools({ toolList,fetchTools }: ToolListProps) {
   const [skills, setSkills] = useState<Tools>({
     tools_name: "",
     image: null,
@@ -67,6 +72,7 @@ export default function AddTools() {
             if (fileInputRef.current) {
               fileInputRef.current.value = "";
             }
+            fetchTools();
             setLoading(false);
             return response.data.message || "Tool added successfully!";
           } else {
@@ -96,11 +102,11 @@ export default function AddTools() {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
         >
-            {loading && (
-              <div className='edit-loading'>
-                <LargeSpinner />
-              </div>
-            )}
+          {loading && (
+            <div className='edit-loading'>
+              <LargeSpinner />
+            </div>
+          )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
             <form onSubmit={handleSubmit}>
               <div className="details-edit-body" >
@@ -128,6 +134,17 @@ export default function AddTools() {
                       required
                     />
                     <label className='label'>Tool Image</label>
+                  </div>
+
+                  <div className="edit-input-container">
+                    <span className='list-title'>Available Tools</span>
+                    <div className='props-list'>
+                      {
+                        toolList?.map((tool: ToolList) => (
+                          <div key={tool.nid}>{tool.name}</div>
+                        ))
+                      }
+                    </div>
                   </div>
 
                 </div>
