@@ -78,122 +78,125 @@ export default function Profile({ goBack, name }: DashboardProps) {
           </div>
 
           <div className="details-edit-body">
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='name'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.name}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>Name</label>
-            </div>
+            <div className='details-edit-wraper'>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='headline'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.headline}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>Headline</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='name'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.name}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>Name</label>
+              </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='facebook'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.facebook}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>Facebook</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='headline'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.headline}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>Headline</label>
+              </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='insta'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.insta}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>Instagram</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='facebook'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.facebook}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>Facebook</label>
+              </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='linkedin'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.linkedin}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>LinkedIn</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='insta'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.insta}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>Instagram</label>
+              </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='twitter'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.twitter}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>Twitter</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='linkedin'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.linkedin}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>LinkedIn</label>
+              </div>
 
-            <div className="edit-input-container">
-              <input
-                type="text"
-                name='yt'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.yt}
-                className='inputs'
-                disabled={isDisable}
-              />
-              <label className='label'>YouTube</label>
-            </div>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='twitter'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.twitter}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>Twitter</label>
+              </div>
 
-            <div className="edit-input-container">
-              <textarea
-                name='intro'
-                placeholder=''
-                required
-                onChange={handleInputChange}
-                value={userData.intro}
-                className='inputs'
-                rows={5}
-                disabled={isDisable}
-              />
-              <label className='label'>Introduction</label>
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='yt'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.yt}
+                  className='inputs'
+                  disabled={isDisable}
+                />
+                <label className='label'>YouTube</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='intro'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={userData.intro}
+                  className='inputs'
+                  rows={5}
+                  disabled={isDisable}
+                />
+                <label className='label'>Introduction</label>
+              </div>
             </div>
 
           </div>
 
           <div className="details-edit-footer">
-            <button onClick={()=>setIsDisable(false)}>Edit</button>
+            <button onClick={() => setIsDisable(false)}>Edit</button>
             <button>Save</button>
           </div>
 
