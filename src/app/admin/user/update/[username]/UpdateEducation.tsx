@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
 type Candidate = {
-  profileNid:string;
+  profileNid: string;
   loading: boolean;
   candidateEducation: UpdateEducation[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
@@ -16,7 +16,7 @@ type Candidate = {
 
 export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const education = candidateEducation
-  
+
   const handleChange = (
     index: number,
     field: keyof UpdateEducation,
@@ -86,6 +86,17 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     );
   }
 
+  function handleRemove(id: string) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Education?");
+    if (!confirmDelete || !id) return;
+
+    const updatedEdu = education.filter((edu) => edu.education_nid !== id || !id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      education: updatedEdu
+    }));
+  }
+
   return (
     <div className='component-common' style={{ padding: 0 }}>
 
@@ -109,6 +120,9 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
                         <div className="details-edit-body" key={index}
                           style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                           <span className='work-form-title'>Education {index + 1} </span>
+                          <div className='remove' onClick={() => handleRemove(edu.education_nid)}>
+                            <i className="hgi hgi-stroke hgi-delete-02"></i>
+                          </div>
                           <div className="details-edit-wraper">
 
                             <div className="edit-input-container">
