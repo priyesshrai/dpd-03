@@ -23,6 +23,12 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     await navigator.clipboard.writeText(`https://dreampathdevelopment/public/user/${shareLink}`);
     toast.success("Link copied!");
   }
+
+  function openShareModal(slug : string) {
+    setShareLink(slug)
+    setShowShareMenu(true)
+  }
+
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
     { field: 'name', headerName: 'Name', width: 200, sortable: true },
@@ -64,7 +70,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
       sortable: false,
       renderCell: (params) => {
         return (
-          <div className='share-btn' onClick={() => { (setShareLink(params?.row?.slug), setShowShareMenu(true)) }}>
+          <div className='share-btn' onClick={()=>openShareModal(params?.row?.slug)}>
             <i className="hgi hgi-stroke hgi-share-08"></i>
           </div>
         )
