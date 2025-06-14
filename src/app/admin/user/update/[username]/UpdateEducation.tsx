@@ -64,15 +64,9 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     formData.append("user_type", "superadmin")
     formData.append("user_nid", profileNid)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/upd-candidate-education-api", formData)
         .then((response) => {
-          console.log(response.data);
-          
           if (response.data.status) {
             setLoading(false);
             return response.data.message;
