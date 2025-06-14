@@ -151,103 +151,100 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
               loading ?
                 (<div className='edit-loading'>
                   <LargeSpinner />
-                </div>) : (
-                  <>
-                    {
-                      projects.map((project, index) => (
-                        <div className="details-edit-body" key={index}
-                          style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
-                          <span className='work-form-title'>Project {index + 1} </span>
-
-                          <div className='remove' onClick={() => handleRemove(project.recent_project_nid)}>
-                            <i className="hgi hgi-stroke hgi-delete-02"></i>
-                          </div>
-
-                          <div className="details-edit-wraper">
-
-                            <div className="edit-input-container">
-                              <input
-                                type="text"
-                                placeholder=''
-                                onChange={(e) => handleChange(index, "name", e.target.value)}
-                                value={project.name}
-                                className='inputs'
-                                required
-                              />
-                              <label className='label'>Project Name</label>
-                            </div>
-
-                            <div className="edit-input-container">
-                              {
-                                project.image ? (
-                                  <div>
-                                    <Image
-                                      src={
-                                        typeof project.image === "string"
-                                          ? project.image
-                                          : project.image instanceof File
-                                            ? URL.createObjectURL(project.image)
-                                            : "/"
-                                      }
-                                      width={300}
-                                      height={200}
-                                      alt='project image'
-                                    />
-                                  </div>
-
-                                ) : (
-                                  <>
-                                    <input
-                                      type="file"
-                                      onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                                      className="inputs"
-                                      required
-                                    />
-                                    <label className='label'>Project Image</label>
-                                  </>
-                                )
-                              }
-                            </div>
-
-                            <div className="edit-input-container">
-                              <input
-                                type="text"
-                                placeholder=""
-                                value={project.link}
-                                onChange={(e) => handleChange(index, "link", e.target.value)}
-                                required
-                                className='inputs'
-                              />
-                              <label className='label'>Project Link</label>
-                            </div>
-
-                            <div className="edit-input-container">
-                              <textarea
-                                name='intro'
-                                placeholder=''
-                                value={project.description}
-                                onChange={(e) =>
-                                  handleChange(index, "description", e.target.value)
-                                }
-                                className='inputs'
-                                rows={5}
-                                required
-                              />
-                              <label className='label'>Project Summary</label>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      ))
-                    }
-                    <div className="details-edit-footer">
-                      <button onClick={addNewProject}>Add New</button>
-                      <button onClick={handleSubmit}>Save</button>
-                    </div>
-                  </>
-                )
+                </div>) : ("")
             }
+            {
+              projects.map((project, index) => (
+                <div className="details-edit-body" key={index}
+                  style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+                  <span className='work-form-title'>Project {index + 1} </span>
+
+                  <div className='remove' onClick={() => handleRemove(project.recent_project_nid)}>
+                    <i className="hgi hgi-stroke hgi-delete-02"></i>
+                  </div>
+
+                  <div className="details-edit-wraper">
+
+                    <div className="edit-input-container">
+                      <input
+                        type="text"
+                        placeholder=''
+                        onChange={(e) => handleChange(index, "name", e.target.value)}
+                        value={project.name}
+                        className='inputs'
+                        required
+                      />
+                      <label className='label'>Project Name</label>
+                    </div>
+
+                    <div className="edit-input-container">
+                      {
+                        project.image ? (
+                          <div>
+                            <Image
+                              src={
+                                typeof project.image === "string"
+                                  ? project.image
+                                  : project.image instanceof File
+                                    ? URL.createObjectURL(project.image)
+                                    : "/"
+                              }
+                              width={300}
+                              height={200}
+                              alt='project image'
+                            />
+                          </div>
+
+                        ) : (
+                          <>
+                            <input
+                              type="file"
+                              onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                              className="inputs"
+                              required
+                            />
+                            <label className='label'>Project Image</label>
+                          </>
+                        )
+                      }
+                    </div>
+
+                    <div className="edit-input-container">
+                      <input
+                        type="text"
+                        placeholder=""
+                        value={project.link}
+                        onChange={(e) => handleChange(index, "link", e.target.value)}
+                        required
+                        className='inputs'
+                      />
+                      <label className='label'>Project Link</label>
+                    </div>
+
+                    <div className="edit-input-container">
+                      <textarea
+                        name='intro'
+                        placeholder=''
+                        value={project.description}
+                        onChange={(e) =>
+                          handleChange(index, "description", e.target.value)
+                        }
+                        className='inputs'
+                        rows={5}
+                        required
+                      />
+                      <label className='label'>Project Summary</label>
+                    </div>
+                  </div>
+
+
+                </div>
+              ))
+            }
+            <div className="details-edit-footer">
+              <button onClick={addNewProject}>Add New</button>
+              <button onClick={handleSubmit}>Save</button>
+            </div>
 
 
           </div>

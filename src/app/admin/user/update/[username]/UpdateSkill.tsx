@@ -119,55 +119,53 @@ export default function UpdateUserSkill({
               <div className="edit-loading">
                 <LargeSpinner />
               </div>
-            ) : (
-              <>
+            ) : ("")
+            }
+            <div
+              className="details-edit-body"
+              style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
+            >
+              <div className="initial-skill-update-wraper">
+                {userSkills.map(skill => (
+                  <div className="initial-items" key={skill.expert_area_nid}>
+                    <span>{skill.skill_name}</span>
+                    <div className="del-btn" onClick={() => handleRemoveSkill(skill.expert_area_nid)}>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {
+              availableSkills ? (
                 <div
                   className="details-edit-body"
                   style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
                 >
-                  <div className="initial-skill-update-wraper">
-                    {userSkills.map(skill => (
-                      <div className="initial-items" key={skill.expert_area_nid}>
-                        <span>{skill.skill_name}</span>
-                        <div className="del-btn" onClick={() => handleRemoveSkill(skill.expert_area_nid)}>
-                          <span></span>
-                          <span></span>
-                        </div>
+                  <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Skills</span>
+                  <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
+                    {availableSkills.map(skill => (
+                      <div className="update-skill-items" key={skill.nid}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={skill.nid}
+                            onChange={() => handleCheckboxChange(skill)}
+                          />
+                          {skill.name}
+                        </label>
                       </div>
                     ))}
                   </div>
                 </div>
+              ) : ""
+            }
 
-                {
-                  availableSkills ? (
-                    <div
-                      className="details-edit-body"
-                      style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
-                    >
-                      <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Skills</span>
-                      <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
-                        {availableSkills.map(skill => (
-                          <div className="update-skill-items" key={skill.nid}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={skill.nid}
-                                onChange={() => handleCheckboxChange(skill)}
-                              />
-                              {skill.name}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : ""
-                }
-
-                <div className="details-edit-footer">
-                  <button onClick={handleSave}>Save</button>
-                </div>
-              </>
-            )}
+            <div className="details-edit-footer">
+              <button onClick={handleSave}>Save</button>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>

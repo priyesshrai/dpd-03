@@ -163,7 +163,10 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
     const confirmDelete = window.confirm("Are you sure you want to remove this Social Activity?");
     if (!confirmDelete || !id) return;
 
-    const updatedActivity = socialActivity.filter((activity) => activity.social_activities_nid !== id || !id);
+    const updatedActivity = socialActivity.filter((activity) => {
+      return activity.social_activities_nid !== id || id === "";
+    });
+
     setCandidateData((prevData) => ({
       ...prevData,
       socialActivity: updatedActivity
@@ -186,59 +189,56 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
               loading ?
                 (<div className='edit-loading'>
                   <LargeSpinner />
-                </div>) : (
-                  <>
-                    {
-                      socialActivity.map((activity, index) => (
-                        <div className="details-edit-body" key={index}
-                          style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
-                          <span className='work-form-title'>Social Activity {index + 1} </span>
-
-                          <div className='remove' onClick={() => handleRemove(activity.social_activities_nid)}>
-                            <i className="hgi hgi-stroke hgi-delete-02"></i>
-                          </div>
-
-                          <div className="details-edit-wraper">
-
-                            <div className="edit-input-container">
-                              <input
-                                type="text"
-                                placeholder=''
-                                onChange={(e) => handleChange(index, "title", e.target.value)}
-                                value={activity.title}
-                                className='inputs'
-                                required
-                              />
-                              <label className='label'>Social Activity Title</label>
-                            </div>
-
-                            <div className="edit-input-container">
-                              <textarea
-                                name='intro'
-                                placeholder=''
-                                value={activity.description}
-                                onChange={(e) =>
-                                  handleChange(index, "description", e.target.value)
-                                }
-                                className='inputs'
-                                rows={5}
-                                required
-                              />
-                              <label className='label'>Social Activity Description</label>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      ))
-                    }
-                    <div className="details-edit-footer">
-                      <button onClick={addNewSocialActivity}>Add New</button>
-                      <button onClick={handleSubmit}>Save</button>
-                    </div>
-                  </>
-                )
+                </div>) : ("")
             }
+            {
+              socialActivity.map((activity, index) => (
+                <div className="details-edit-body" key={index}
+                  style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+                  <span className='work-form-title'>Social Activity {index + 1} </span>
+
+                  <div className='remove' onClick={() => handleRemove(activity.social_activities_nid)}>
+                    <i className="hgi hgi-stroke hgi-delete-02"></i>
+                  </div>
+
+                  <div className="details-edit-wraper">
+
+                    <div className="edit-input-container">
+                      <input
+                        type="text"
+                        placeholder=''
+                        onChange={(e) => handleChange(index, "title", e.target.value)}
+                        value={activity.title}
+                        className='inputs'
+                        required
+                      />
+                      <label className='label'>Social Activity Title</label>
+                    </div>
+
+                    <div className="edit-input-container">
+                      <textarea
+                        name='intro'
+                        placeholder=''
+                        value={activity.description}
+                        onChange={(e) =>
+                          handleChange(index, "description", e.target.value)
+                        }
+                        className='inputs'
+                        rows={5}
+                        required
+                      />
+                      <label className='label'>Social Activity Description</label>
+                    </div>
+                  </div>
+
+
+                </div>
+              ))
+            }
+            <div className="details-edit-footer">
+              <button onClick={addNewSocialActivity}>Add New</button>
+              <button onClick={handleSubmit}>Save</button>
+            </div>
 
 
           </div>

@@ -111,55 +111,52 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
               <div className="edit-loading">
                 <LargeSpinner />
               </div>
-            ) : (
-              <>
+            ) : ("")}
+            <div
+              className="details-edit-body"
+              style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
+            >
+              <div className="initial-skill-update-wraper">
+                {userTools.map(tool => (
+                  <div className="initial-items" key={tool.tools_nid}>
+                    <span>{tool.title}</span>
+                    <div className="del-btn" onClick={() => handleRemoveSkill(tool.tools_nid)}>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {
+              availableSkills ? (
                 <div
                   className="details-edit-body"
                   style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
                 >
-                  <div className="initial-skill-update-wraper">
-                    {userTools.map(tool => (
-                      <div className="initial-items" key={tool.tools_nid}>
-                        <span>{tool.title}</span>
-                        <div className="del-btn" onClick={() => handleRemoveSkill(tool.tools_nid)}>
-                          <span></span>
-                          <span></span>
-                        </div>
+                  <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Tools</span>
+                  <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
+                    {availableSkills.map(tool => (
+                      <div className="update-skill-items" key={tool.nid}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={tool.nid}
+                            onChange={() => handleCheckboxChange(tool)}
+                          />
+                          {tool.name}
+                        </label>
                       </div>
                     ))}
                   </div>
                 </div>
+              ) : ""
+            }
 
-                {
-                  availableSkills ? (
-                    <div
-                      className="details-edit-body"
-                      style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
-                    >
-                      <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Tools</span>
-                      <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
-                        {availableSkills.map(tool => (
-                          <div className="update-skill-items" key={tool.nid}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={tool.nid}
-                                onChange={() => handleCheckboxChange(tool)}
-                              />
-                              {tool.name}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : ""
-                }
-
-                <div className="details-edit-footer">
-                  <button onClick={handleSave}>Save</button>
-                </div>
-              </>
-            )}
+            <div className="details-edit-footer">
+              <button onClick={handleSave}>Save</button>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>

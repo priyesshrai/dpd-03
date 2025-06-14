@@ -152,102 +152,99 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
               loading ?
                 (<div className='edit-loading'>
                   <LargeSpinner />
-                </div>) : (
-                  <>
-                    {
-                      achievement.map((achievement, index) => (
-                        <div className="details-edit-body" key={index}
-                          style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
-                          <span className='work-form-title'>Achievements {index + 1} </span>
-
-                          <div className='remove' onClick={() => handleRemove(achievement.achievement_nid)}>
-                            <i className="hgi hgi-stroke hgi-delete-02"></i>
-                          </div>
-
-                          <div className="details-edit-wraper">
-
-                            <div className="edit-input-container">
-                              <input
-                                type="text"
-                                placeholder=''
-                                onChange={(e) => handleChange(index, "name", e.target.value)}
-                                value={achievement.name}
-                                className='inputs'
-                                required
-                              />
-                              <label className='label'>Achievement Name</label>
-                            </div>
-
-                            <div className="edit-input-container">
-                              {
-                                achievement.image ? (
-                                  <div>
-                                    <Image
-                                      src={
-                                        typeof achievement.image === "string"
-                                          ? achievement.image
-                                          : achievement.image instanceof File
-                                            ? URL.createObjectURL(achievement.image)
-                                            : "/"
-                                      }
-                                      width={300}
-                                      height={200}
-                                      alt='project image'
-                                    />
-                                  </div>
-                                ) : (
-                                  <>
-                                    <input
-                                      type="file"
-                                      onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                                      className="inputs"
-                                      required
-                                    />
-                                    <label className='label'>Achievement Image</label>
-                                  </>
-                                )
-                              }
-                            </div>
-
-                            <div className="edit-input-container">
-                              <input
-                                type="text"
-                                placeholder=""
-                                value={achievement.link}
-                                onChange={(e) => handleChange(index, "link", e.target.value)}
-                                required
-                                className='inputs'
-                              />
-                              <label className='label'>Achievement Link</label>
-                            </div>
-
-                            <div className="edit-input-container">
-                              <textarea
-                                name='intro'
-                                placeholder=''
-                                value={achievement.description}
-                                onChange={(e) =>
-                                  handleChange(index, "description", e.target.value)
-                                }
-                                className='inputs'
-                                rows={5}
-                                required
-                              />
-                              <label className='label'>Achievement Summary</label>
-                            </div>
-                          </div>
-
-
-                        </div>
-                      ))
-                    }
-                    <div className="details-edit-footer">
-                      <button onClick={addNewAchievement}>Add New</button>
-                      <button onClick={handleSubmit}>Save</button>
-                    </div>
-                  </>
-                )
+                </div>) : ("")
             }
+            {
+              achievement.map((achievement, index) => (
+                <div className="details-edit-body" key={index}
+                  style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
+                  <span className='work-form-title'>Achievements {index + 1} </span>
+
+                  <div className='remove' onClick={() => handleRemove(achievement.achievement_nid)}>
+                    <i className="hgi hgi-stroke hgi-delete-02"></i>
+                  </div>
+
+                  <div className="details-edit-wraper">
+
+                    <div className="edit-input-container">
+                      <input
+                        type="text"
+                        placeholder=''
+                        onChange={(e) => handleChange(index, "name", e.target.value)}
+                        value={achievement.name}
+                        className='inputs'
+                        required
+                      />
+                      <label className='label'>Achievement Name</label>
+                    </div>
+
+                    <div className="edit-input-container">
+                      {
+                        achievement.image ? (
+                          <div>
+                            <Image
+                              src={
+                                typeof achievement.image === "string"
+                                  ? achievement.image
+                                  : achievement.image instanceof File
+                                    ? URL.createObjectURL(achievement.image)
+                                    : "/"
+                              }
+                              width={300}
+                              height={200}
+                              alt='project image'
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <input
+                              type="file"
+                              onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                              className="inputs"
+                              required
+                            />
+                            <label className='label'>Achievement Image</label>
+                          </>
+                        )
+                      }
+                    </div>
+
+                    <div className="edit-input-container">
+                      <input
+                        type="text"
+                        placeholder=""
+                        value={achievement.link}
+                        onChange={(e) => handleChange(index, "link", e.target.value)}
+                        required
+                        className='inputs'
+                      />
+                      <label className='label'>Achievement Link</label>
+                    </div>
+
+                    <div className="edit-input-container">
+                      <textarea
+                        name='intro'
+                        placeholder=''
+                        value={achievement.description}
+                        onChange={(e) =>
+                          handleChange(index, "description", e.target.value)
+                        }
+                        className='inputs'
+                        rows={5}
+                        required
+                      />
+                      <label className='label'>Achievement Summary</label>
+                    </div>
+                  </div>
+
+
+                </div>
+              ))
+            }
+            <div className="details-edit-footer">
+              <button onClick={addNewAchievement}>Add New</button>
+              <button onClick={handleSubmit}>Save</button>
+            </div>
           </div>
 
         </motion.div>
