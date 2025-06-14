@@ -2,9 +2,11 @@ import React from 'react'
 import type { UpdateEducation, UpdateFormData } from '../../../../../../types';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 type Candidate = {
+  profileNid:string;
   loading: boolean;
   candidateEducation: UpdateEducation[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
@@ -12,9 +14,9 @@ type Candidate = {
 }
 
 
-export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const education = candidateEducation
-
+  
   const handleChange = (
     index: number,
     field: keyof UpdateEducation,
@@ -60,33 +62,34 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     const formData = new FormData();
     formData.append("education", JSON.stringify(education));
     formData.append("user_type", "superadmin")
+    formData.append("user_nid", profileNid)
 
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
-    setLoading(false)
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-education-api", formData)
-    //     .then((response) => {
-    //       if (response.data.status) {
-    //         setLoading(false);
-    //         nextStep()
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Education Added successful!",
-    //     error: (err) => err || "Failed to Add Education"
-    //   }
-    // );
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-education-api", formData)
+        .then((response) => {
+          console.log(response.data);
+          
+          if (response.data.status) {
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Education Added successful!",
+        error: (err) => err || "Failed to Add Education"
+      }
+    );
   }
 
   return (

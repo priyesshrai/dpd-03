@@ -14,7 +14,7 @@ type CandidateListProps = {
 };
 
 export default function CandidateList({ candidateList, loading }: CandidateListProps) {
-  let defaultLink: string = "https://dreampathdevelopment/public/user/"
+  const defaultLink: string = "https://dreampathdevelopment/public/user/"
   const [shareLink, setShareLink] = useState<string>("")
   const [showShareMenu, setShowShareMenu] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement | null>(null)

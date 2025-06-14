@@ -313,12 +313,11 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
 
                         <div className="admin-component-section">
                             <ActiveTab
-                                {
-                                ...propsMapper[currentTabKey as TabKey]}
+                                {...propsMapper[currentTabKey as TabKey]}
                                 loading={loading}
+                                profileNid={candidateData?.personalData?.profile_nid}
                                 setLoading={setLoading}
-                                setCandidateData={setCandidateData
-                                }
+                                setCandidateData={setCandidateData}
                             />
                         </div>
 
