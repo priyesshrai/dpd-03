@@ -66,7 +66,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
     return (
         <>
             <Header />
-            <Hero userData={userData} loading={loading} />
+            <Hero userData={userData} loading={loading} userName={userName} />
             <Footer />
             <Toaster />
         </>
@@ -159,7 +159,7 @@ function Header() {
     )
 }
 
-function SideBar({ userData, loading }: HeroProps) {
+function SideBar({ userData, loading, userName }: HeroProps) {
     const currentPath = usePathname()
 
     const bio = userData?.introduction ?? ""
@@ -193,10 +193,6 @@ function SideBar({ userData, loading }: HeroProps) {
 
                                 <p dangerouslySetInnerHTML={{ __html: getTrimmedBio() }} />
 
-                                <div className="cta-button-container">
-                                    <button>Ping to Show Interest<i className="hgi hgi-stroke hgi-touch-09"></i> </button>
-                                </div>
-
                                 <div className="social-media-container">
                                     {
                                         userData?.instagram_link ? (<Link href={userData.instagram_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>) : ("")
@@ -214,6 +210,10 @@ function SideBar({ userData, loading }: HeroProps) {
                                         userData?.twitter_link ? (<Link href={userData?.twitter_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-new-twitter"></i></Link>) : ("")
                                     }
                                 </div>
+
+                                <div className="cta-button-container">
+                                    <Link href={`${userName}/profile`}>Update Profile</Link>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -223,11 +223,11 @@ function SideBar({ userData, loading }: HeroProps) {
     )
 }
 
-function Hero({ userData, loading }: HeroProps) {
+function Hero({ userData, loading, userName }: HeroProps) {
     return (
         <section className='hero-section'>
             <div className="hero-section-wraper">
-                <SideBar userData={userData} loading={loading} />
+                <SideBar userData={userData} loading={loading} userName={userName} />
 
                 <div className="work-block">
                     <div className="work-block-wraper">

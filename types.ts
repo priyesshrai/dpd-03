@@ -72,6 +72,7 @@ export interface CandidateRow {
 export type HeroProps = {
     userData: any;
     loading: boolean
+    userName:string
 };
 
 export type UpdateUserData = {

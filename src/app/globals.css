@@ -280,7 +280,7 @@ main {
         gap: 10px;
 
         a {
-          flex: 1;
+          /* flex: 1; */
           background-color: var(--hover-color);
           border-radius: 8px;
           padding: 16px 13px;
