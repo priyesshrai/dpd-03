@@ -76,6 +76,12 @@ export default function UserProfile({ userName }: UserProfileProps) {
 
 function Header() {
     const [openMenu, setOpenMenu] = useState(false);
+    function handleLogOut() {
+        Cookies.remove("data");
+        toast.success("Logout Successful...!")
+        window.location.href = '/';
+        return;
+    }
     return (
         <motion.header
             initial={{ opacity: 0 }}
@@ -112,30 +118,7 @@ function Header() {
                                     </span>
                                 </Link>
                             </li>
-                            <li>
-                                <Link href='/services'>
-                                    <i className="hgi hgi-stroke hgi-layers-01"></i>
-                                    <span>
-                                        Education/Experience
-                                    </span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href='/work'>
-                                    <i className="hgi hgi-stroke hgi-ai-beautify"></i>
-                                    <span>
-                                        Projects / Activities
-                                    </span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href='/blog'>
-                                    <i className="hgi hgi-stroke hgi-license-draft"></i>
-                                    <span>
-                                        Skills/ Tools
-                                    </span>
-                                </Link>
-                            </li>
+
                         </ul>
                     </div>
                     <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
@@ -143,10 +126,11 @@ function Header() {
                             {/* <div className="them-toggler">
                                 <i className="hgi hgi-stroke hgi-sharp hgi-sun-02"></i>
                             </div> */}
-                            <Link href='https://www.youtube.com/watch?v=Vmk_Uf1hLmM'>
+                            {/* <Link href='https://www.youtube.com/watch?v=Vmk_Uf1hLmM'>
                                 <i className="hgi hgi-stroke hgi-video-replay"></i>
                                 View Videos
-                            </Link>
+                            </Link> */}
+                            <button onClick={handleLogOut}>Logout</button>
                         </div>
                     </div>
                     <div className="hamberger-container" onClick={() => setOpenMenu(!openMenu)}>

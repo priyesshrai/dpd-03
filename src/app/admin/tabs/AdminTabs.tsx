@@ -189,6 +189,7 @@ export default function AdminTabs() {
     Cookies.remove("data");
     toast.success("Logout Successful...!")
     window.location.href = '/';
+    return;
   }
 
   return (
