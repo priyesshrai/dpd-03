@@ -3,16 +3,18 @@ import React, { useState } from 'react'
 import { UpdateFormData, UpdateUserData } from '../../../../../../types';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 type Candidate = {
   loading: boolean;
   candidateProfile: UpdateUserData;
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  profileNid: string
 }
 
-export default function UpdateProfile({ candidateProfile, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateProfile({ candidateProfile, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,47 +58,37 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
     const formData = new FormData();
 
     Object.keys(candidateProfile).forEach((key) => {
+      if (key === "profile_nid") return;
       formData.append(key, candidateProfile[key as keyof UpdateUserData]);
     });
     formData.append("user_type", "superadmin")
+    formData.append("cnid", profileNid)
 
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
-    setLoading(false)
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-profile-registration-api", formData)
-    //     .then((response) => {
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-profile-api", formData)
+        .then((response) => {
 
-    //       if (response.data.status) {
-    //         localStorage.setItem("userId", response.data.profile_nid)
-    //         localStorage.setItem("tempInfo",
-    //           JSON.stringify(
-    //             {
-    //               "name": userData.name,
-    //               "email": userData.email,
-    //               "phone": userData.phone,
-    //               "profile": profilePicPreview
-    //             }))
-    //         setLoading(false);
-    //         nextStep()
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Profile Added successful!",
-    //     error: (err) => err || "Failed to Add Candidate Profile"
-    //   }
-    // );
-
+          if (response.data.status) {
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Profile Added successful!",
+        error: (err) => err || "Failed to Add Candidate Profile"
+      }
+    );
   }
 
   return (
@@ -124,9 +116,9 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
                           className='profile-img'
                           src={
                             profilePicPreview
-                              ?? (typeof candidateProfile.profile === 'string'
-                                ? candidateProfile.profile
-                                : undefined)
+                            ?? (typeof candidateProfile.profile === 'string'
+                              ? candidateProfile.profile
+                              : undefined)
                           }
                         />
                         <div className='profile-edit-btn-container'>
