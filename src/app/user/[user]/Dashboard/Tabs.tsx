@@ -13,7 +13,11 @@ type TabConfig = {
     component: React.ComponentType<DashboardProps>
 }
 
-export default function Tabs() {
+type TabsProps = {
+    user: string
+};
+
+export default function Tabs({ user }: TabsProps) {
     const tabConfig: TabConfig[] = [
         {
             key: "overview",
@@ -83,7 +87,7 @@ export default function Tabs() {
 
     const handleTabChange = (newIndex: number) => {
         if (newIndex !== selectedTab) {
-            setLastTabIndex(selectedTab); 
+            setLastTabIndex(selectedTab);
             setSelectedTab(newIndex);
         }
     };
@@ -116,10 +120,9 @@ export default function Tabs() {
                     </div>
                 </div>
 
-
                 <div className="component-section">
                     <ActiveTab
-                        name = {tabConfig[selectedTab].tabName}
+                        name={tabConfig[selectedTab].tabName}
                         currentTabKey={tabConfig[selectedTab].key}
                         setTabByKey={setTabByKey}
                         goBack={() => lastTabIndex !== null && handleTabChange(lastTabIndex)}

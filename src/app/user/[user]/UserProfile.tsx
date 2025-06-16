@@ -65,7 +65,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
 
     return (
         <>
-            <Header />
+            <UserHeader userName={userName} />
             <Hero userData={userData} loading={loading} userName={userName} />
             <Footer />
             <Toaster />
@@ -74,7 +74,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
 }
 
 
-function Header() {
+export function UserHeader({ userName }: { userName: string }) {
     const [openMenu, setOpenMenu] = useState(false);
     function handleLogOut() {
         Cookies.remove("data");
@@ -91,19 +91,27 @@ function Header() {
             <nav className='navbar'>
                 <div className="menu-container">
                     <div className="logo-container">
-                        <Link href='/'>
+                        <Link href={'/user/' + userName}>
                             <Image src='/images/user/logo.png' width={200} height={27} alt='This is logo' />
                         </Link>
                     </div>
                     <div className={`links-container ${openMenu ? 'menu-active' : ""}`}>
                         <ul className='links-wraper'>
                             <li className='mob-logo'>
-                                <Link href='/'>
+                                <Link href={'/user/' + userName}>
                                     <Image src='/images/user/logo.png' width={220} height={50} alt='This is logo' />
                                 </Link>
                             </li>
                             <li>
-                                <Link href='/' className='active'>
+                                <Link href={'/user/' + userName} className='active'>
+                                    <i className="hgi hgi-stroke hgi-user-sharing"></i>
+                                    <span>
+                                        Home
+                                    </span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={userName + '/profile'} className=''>
                                     <i className="hgi hgi-stroke hgi-user-sharing"></i>
                                     <span>
                                         Profile
