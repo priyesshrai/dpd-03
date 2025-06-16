@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
+import { UpdateAchievement, UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
@@ -27,7 +27,7 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Das) 
       <DashboardInterest setTabByKey={setTabByKey} loading={loading} candidateSkill={candidateData.skills} />
       <DashboardTools setTabByKey={setTabByKey} loading={loading} candidateTool={candidateData.tools} />
       <DashboardProjects setTabByKey={setTabByKey} candidateProject={candidateData.projects} loading={loading} />
-      <DashboardAchievements setTabByKey={setTabByKey} />
+      <DashboardAchievements setTabByKey={setTabByKey} candidateAchievement={candidateData.achievements} loading={loading} />
       <DashboardCertificate setTabByKey={setTabByKey} />
       <DashboardSocialActivity setTabByKey={setTabByKey} />
     </section>
@@ -332,68 +332,52 @@ function DashboardProjects({ setTabByKey, loading, candidateProject }: DasProjec
   )
 }
 
-function DashboardAchievements({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasAchievement = {
+  setTabByKey?: (key: string) => void;
+  candidateAchievement: UpdateAchievement[]
+  loading: boolean
+}
+
+function DashboardAchievements({ setTabByKey, loading, candidateAchievement }: DasAchievement) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>My Achievements</h2>
-      </div>
+      {
+        loading ? <UpdUserWork /> : (
+          <>
+            <div className="work-component-header">
+              <h2>My Achievements</h2>
+            </div>
 
-      <div className="receent-project-component-wraper common-component-wraper">
+            <div className="receent-project-component-wraper common-component-wraper">
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Guest Lecture - 2022</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Invited as a guest lecturer at Jaipuria Institute of Management, Jaipur, to share insights on entrepreneurship and digital transformation.
-          </p>
-        </div>
+              {
+                candidateAchievement.length !== 0 ? (
+                  candidateAchievement.map((achi) => (
+                    <div className="recent-project-item" key={achi.achievement_nid}>
+                      <div className="item-top">
+                        <Link href={achi.link} target='_blank'>{achi.name}</Link>
+                        <Link href={achi.link} target='_blank' className='recent-project-link'>
+                          <i className="hgi hgi-stroke hgi-globe-02"></i>
+                        </Link>
+                      </div>
+                      <p className='work-summery'>
+                        {achi.description}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div>No Achievement were found.</div>
+                )
+              }
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Innovation Award – 2021</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Recognized as the Most Innovative Tech Entrepreneur by VIT University for outstanding contributions to digital innovation and entrepreneurship.
-          </p>
-        </div>
+            </div>
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Magazine Launch - 2020</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Spearheaded the creation and launch of &quot;Alumni Forum&quot;, a magazine by the ICFAI Alumni Relationship Cell during the MBA program in Hyderabad.
-          </p>
-        </div>
-
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Book Launch - 2018</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Published &quot;Convention to Digital: A Shift in Banking&quot; during the final year of B.Com, highlighting the evolution of traditional banking to digital platforms.
-          </p>
-        </div>
-
-      </div>
-
-      <div className='edit-component' onClick={() => setTabByKey?.('achievements')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('achievements')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
 
   )
