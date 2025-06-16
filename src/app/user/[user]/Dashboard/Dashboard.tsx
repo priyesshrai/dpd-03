@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { UpdateEducation, UpdateFormData, UpdateSkill, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
+import { UpdateEducation, UpdateFormData, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
@@ -25,7 +25,7 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Das) 
       <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData.education} loading={loading} />
       <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData.workExp} loading={loading} />
       <DashboardInterest setTabByKey={setTabByKey} loading={loading} candidateSkill={candidateData.skills} />
-      <DashboardTools setTabByKey={setTabByKey} />
+      <DashboardTools setTabByKey={setTabByKey} loading={loading} candidateTool={candidateData.tools} />
       <DashboardProjects setTabByKey={setTabByKey} />
       <DashboardAchievements setTabByKey={setTabByKey} />
       <DashboardCertificate setTabByKey={setTabByKey} />
@@ -232,6 +232,52 @@ function DashboardInterest({ setTabByKey, loading, candidateSkill }: DasSkill) {
       }
     </div>
 
+  )
+}
+
+type DasTool = {
+  setTabByKey?: (key: string) => void;
+  candidateTool: UpdateTools[]
+  loading: boolean
+}
+
+function DashboardTools({ setTabByKey, loading, candidateTool }: DasTool) {
+  return (
+    <div className="component-common">
+
+      {
+        loading ? <UpdUserSkill /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Tools</h2>
+            </div>
+
+            <div className="tools-component-wraper common-component-wraper">
+              {
+                candidateTool.length !== 0 ? (
+                  candidateTool.map((tool) => (
+                    <div className="tools-item" key={tool.tools_nid}>
+                      <Image
+                        src={typeof tool.tools_image === 'string' ? tool.tools_image : "/images/profile/default.png"}
+                        alt={tool.title}
+                        className='tools-logo'
+                        width={500}
+                        height={500} />
+                    </div>
+                  ))
+                ) : (
+                  <div>No any Tools Found</div>
+                )
+              }
+            </div>
+
+            <div className='edit-component' onClick={() => setTabByKey?.('tools')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
+    </div>
   )
 }
 
@@ -484,100 +530,4 @@ function DashboardSocialActivity({ setTabByKey }: { setTabByKey?: (key: string) 
   )
 }
 
-function DashboardTools({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
-  return (
-    <div className="component-common">
-      <div className="work-component-header">
-        <h2>Tools</h2>
-      </div>
-
-      <div className="tools-component-wraper common-component-wraper">
-        <div className="tools-item">
-          <Image
-            src="/images/svg/figma.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/canva.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/google.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/adobe-illustrator.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/adobe-photoshop.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/adobe-lightroom.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/adobe-premiere-pro.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/final-cut.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/wordpress.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-        <div className="tools-item">
-          <Image
-            src="/images/svg/html.svg"
-            alt='Certificate'
-            className='tools-logo'
-            width={500}
-            height={500} />
-        </div>
-      </div>
-
-      <div className='edit-component' onClick={() => setTabByKey?.('tools')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
-    </div>
-  )
-}
 
