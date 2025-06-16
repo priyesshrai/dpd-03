@@ -107,6 +107,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
       })
         .then((response) => {
           if (response.data.status) {
+            fetchData()
             setLoading(false);
             return response.data.message;
           }
