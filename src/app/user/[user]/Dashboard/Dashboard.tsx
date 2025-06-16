@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { act } from 'react'
+import React from 'react'
 import { UpdateAchievement, UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateSocialActivity, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
