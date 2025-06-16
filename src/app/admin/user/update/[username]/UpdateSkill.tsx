@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateSkill } from '../../../../../../types';
 import axios from 'axios';
 
@@ -11,7 +11,8 @@ type Candidate = {
   candidateSkills: UpdateSkill[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  // fetchData: () => void;
+  fetchData: () => void;
+  profileNid: string
 };
 
 type Skill = {
@@ -26,7 +27,8 @@ export default function UpdateUserSkill({
   loading,
   setCandidateData,
   setLoading,
-  // fetchData
+  fetchData,
+  profileNid
 }: Candidate) {
   const [allSkillList, setAllSkillList] = useState<Skill[]>([]);
   const [userSkills, setUserSkills] = useState<UpdateSkill[]>([]);
@@ -94,11 +96,36 @@ export default function UpdateUserSkill({
     const formData = new FormData();
     formData.append("skills", JSON.stringify(userSkills.map((skill) => skill.expert_area_nid)));
     formData.append("user_type", "superadmin");
+    formData.append("user_nid", profileNid);
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    setLoading(false)
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
+
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-skills-api", formData)
+        .then((response) => {
+
+          if (response.data.status) {
+            fetchData();
+            setLoading(false);
+            return response.data.message || "Skill added successfully!";
+          } else {
+            throw response.data.message || "Failed to add skill.";
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please wait...",
+        success: (message) => message || "Skill added successfully!",
+        error: (err) => err || "Failed to add skill."
+      }
+    );
   };
 
   return (
