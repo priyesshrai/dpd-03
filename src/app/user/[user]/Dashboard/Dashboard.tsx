@@ -10,8 +10,8 @@ export type DashboardProps = {
   setTabByKey?: (key: string) => void;
   goBack?: () => void;
   name?: string;
-  candidateData: UpdateFormData;
-  loading: boolean;
+  candidateData?: UpdateFormData;
+  loading?: boolean;
 };
 
 export default function Dashboard({ setTabByKey, candidateData, loading }: DashboardProps) {
@@ -19,9 +19,9 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Dashb
 
   return (
     <section className='component-section-wraper'>
-      <DashboardTop setTabByKey={setTabByKey} personalData={candidateData.personalData} loading={loading} />
-      <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData.education} loading={loading} />
-      <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData.workExp} loading={loading} />
+      <DashboardTop setTabByKey={setTabByKey} personalData={candidateData!.personalData} loading={loading!} />
+      <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData!.education} loading={loading!} />
+      <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData!.workExp} loading={loading!} />
       <DashboardInterest setTabByKey={setTabByKey} />
       <DashboardTools setTabByKey={setTabByKey} />
       <DashboardProjects setTabByKey={setTabByKey} />
