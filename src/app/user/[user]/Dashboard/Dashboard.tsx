@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { UpdateEducation, UpdateFormData, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
+import { UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
@@ -26,7 +26,7 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Das) 
       <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData.workExp} loading={loading} />
       <DashboardInterest setTabByKey={setTabByKey} loading={loading} candidateSkill={candidateData.skills} />
       <DashboardTools setTabByKey={setTabByKey} loading={loading} candidateTool={candidateData.tools} />
-      <DashboardProjects setTabByKey={setTabByKey} />
+      <DashboardProjects setTabByKey={setTabByKey} candidateProject={candidateData.projects} loading={loading} />
       <DashboardAchievements setTabByKey={setTabByKey} />
       <DashboardCertificate setTabByKey={setTabByKey} />
       <DashboardSocialActivity setTabByKey={setTabByKey} />
@@ -281,80 +281,52 @@ function DashboardTools({ setTabByKey, loading, candidateTool }: DasTool) {
   )
 }
 
-function DashboardProjects({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasProject = {
+  setTabByKey?: (key: string) => void;
+  candidateProject: UpdateProjects[]
+  loading: boolean
+}
+
+function DashboardProjects({ setTabByKey, loading, candidateProject }: DasProject) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>Recent Projects</h2>
-      </div>
+      {
+        loading ? <UpdUserWork /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Recent Projects</h2>
+            </div>
 
-      <div className="receent-project-component-wraper common-component-wraper">
+            <div className="receent-project-component-wraper common-component-wraper">
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Social Media Growth Campaign</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Developed and executed a 3-month content strategy across Instagram and LinkedIn for a local brand, resulting in a 250% increase in follower engagement and a 35% growth in conversions through organic efforts.
-          </p>
-        </div>
+              {
+                candidateProject.length !== 0 ? (
+                  candidateProject.map((project) => (
+                    <div className="recent-project-item" key={project.recent_project_nid}>
+                      <div className="item-top">
+                        <Link href={project.link} target='_blank'>{project.name}</Link>
+                        <Link href={project.link} target='_blank' className='recent-project-link'>
+                          <i className="hgi hgi-stroke hgi-globe-02"></i>
+                        </Link>
+                      </div>
+                      <p className='work-summery'>
+                        {project.description}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div>No Projects were found.</div>
+                )
+              }
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">E-commerce Performance Marketing Project</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Managed Google Ads and Meta Ads for an online fashion store, optimizing ad spend and improving ROI by 4.2x through targeted keyword research, A/B testing, and landing page optimizations.
-          </p>
-        </div>
+            </div>
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Brand Identity & Launch Strategy</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Led the digital branding, logo design, and content rollout for a tech startup. Strategized and implemented the launch plan including SEO-optimized blogs, press releases, and influencer outreach.
-          </p>
-        </div>
-
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">Content Marketing Funnel for a SaaS Product</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Created a multi-channel content marketing funnel with blog posts, email sequences, and lead magnets, which boosted lead generation by 60% in 90 days.
-          </p>
-        </div>
-
-        <div className="recent-project-item">
-          <div className="item-top">
-            <Link href="">YouTube Channel Growth Project</Link>
-            <Link href="" target='_blank' className='recent-project-link'>
-              <i className="hgi hgi-stroke hgi-globe-02"></i>
-            </Link>
-          </div>
-          <p className='work-summery'>
-            Built and scaled a YouTube channel from 0 to 10,000+ subscribers in 6 months through SEO-driven video titles, engaging thumbnails, and content scheduling strategy.
-          </p>
-        </div>
-
-      </div>
-
-      <div className='edit-component' onClick={() => setTabByKey?.('projects')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('projects')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
 
   )
