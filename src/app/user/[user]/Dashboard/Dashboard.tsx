@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { UpdateEducation, UpdateFormData, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
-import { UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
+import { UpdateEducation, UpdateFormData, UpdateSkill, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
+import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
 export type DashboardProps = {
@@ -10,19 +10,21 @@ export type DashboardProps = {
   setTabByKey?: (key: string) => void;
   goBack?: () => void;
   name?: string;
-  candidateData?: UpdateFormData;
-  loading?: boolean;
 };
 
-export default function Dashboard({ setTabByKey, candidateData, loading }: DashboardProps) {
-  // console.log(candidateData);
+type Das = {
+  setTabByKey: (key: string) => void;
+  candidateData: UpdateFormData;
+  loading: boolean;
+}
 
+export default function Dashboard({ setTabByKey, candidateData, loading }: Das) {
   return (
     <section className='component-section-wraper'>
-      <DashboardTop setTabByKey={setTabByKey} personalData={candidateData!.personalData} loading={loading!} />
-      <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData!.education} loading={loading!} />
-      <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData!.workExp} loading={loading!} />
-      <DashboardInterest setTabByKey={setTabByKey} />
+      <DashboardTop setTabByKey={setTabByKey} personalData={candidateData.personalData} loading={loading} />
+      <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData.education} loading={loading} />
+      <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData.workExp} loading={loading} />
+      <DashboardInterest setTabByKey={setTabByKey} loading={loading} candidateSkill={candidateData.skills} />
       <DashboardTools setTabByKey={setTabByKey} />
       <DashboardProjects setTabByKey={setTabByKey} />
       <DashboardAchievements setTabByKey={setTabByKey} />
@@ -111,18 +113,22 @@ function DashboardEducation({ setTabByKey, candidateEdu, loading }: DasEdu) {
             <div className="work-component-wraper common-component-wraper">
 
               {
-                candidateEdu?.map((edu) => (
-                  <div className="work-component-item" key={edu.education_nid}>
-                    <div className="item-top">
-                      <h3>{edu.degree}</h3>
-                      <p>{edu.passingYear}</p>
+                candidateEdu.length !== 0 ? (
+                  candidateEdu.map((edu) => (
+                    <div className="work-component-item" key={edu.education_nid}>
+                      <div className="item-top">
+                        <h3>{edu.degree}</h3>
+                        <p>{edu.passingYear}</p>
+                      </div>
+                      <Link href="#" target='_blank'>{edu.institute}</Link>
+                      <p className='work-summery'>
+                        {edu.description}
+                      </p>
                     </div>
-                    <Link href="#" target='_blank'>{edu.institute}</Link>
-                    <p className='work-summery'>
-                      {edu.description}
-                    </p>
-                  </div>
-                ))
+                  ))
+                ) : (
+                  <div>No Education Found</div>
+                )
               }
 
             </div>
@@ -153,16 +159,20 @@ function DashboardWork({ setTabByKey, loading, candidateWork }: DasWork) {
             </div>
             <div className="work-component-wraper common-component-wraper">
               {
-                candidateWork?.map((work) => (
-                  <div className="work-component-item" key={work.work_exp_nid}>
-                    <div className="item-top">
-                      <h3>{work.position}</h3>
-                      <p>{work.workingPeriod}</p>
+                candidateWork.length !== 0 ? (
+                  candidateWork.map((work) => (
+                    <div className="work-component-item" key={work.work_exp_nid}>
+                      <div className="item-top">
+                        <h3>{work.position}</h3>
+                        <p>{work.workingPeriod}</p>
+                      </div>
+                      <Link href="#" target='_blank'>{work.company}</Link>
+                      <p className='work-summery'>{work.description}</p>
                     </div>
-                    <Link href="#" target='_blank'>{work.company}</Link>
-                    <p className='work-summery'>{work.description}</p>
-                  </div>
-                ))
+                  ))
+                ) : (
+                  <div>No Work Experience Found</div>
+                )
               }
             </div>
             <div className='edit-component' onClick={() => setTabByKey?.('work')}>
@@ -176,92 +186,50 @@ function DashboardWork({ setTabByKey, loading, candidateWork }: DasWork) {
   )
 }
 
-function DashboardInterest({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasSkill = {
+  setTabByKey?: (key: string) => void;
+  candidateSkill: UpdateSkill[]
+  loading: boolean
+}
+
+function DashboardInterest({ setTabByKey, loading, candidateSkill }: DasSkill) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>Expert Area / Skills</h2>
-      </div>
-
-      <div className="skill-component-wraper common-component-wraper">
-
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
+      {
+        loading ? <UpdUserSkill /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Expert Area / Skills</h2>
             </div>
-            <h3>SEO Optimization</h3>
-            <p className='skill-summery'>
-              Expert in optimizing websites for search engines, improving visibility and driving organic traffic.
-            </p>
-          </div>
-        </div>
 
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
+            <div className="skill-component-wraper common-component-wraper">
+              {
+                candidateSkill.length !== 0 ? (
+                  candidateSkill.map((skill) => (
+                    <div className="skill-component-item" key={skill.expert_area_nid}>
+                      <div className='skill-item-wraper'>
+                        <div className='skill-img'>
+                          <Image src={typeof skill.skill_icon === 'string' ? skill.skill_icon : "/images/profile/default.png"} width={200} height={200} alt={skill.skill_name} />
+                        </div>
+                        <h3>{skill.skill_name}</h3>
+                        <p className='skill-summery'>
+                          {skill.skill_desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div>No Skill set were Found</div>
+                )
+              }
             </div>
-            <h3>Social Media Management </h3>
-            <p className='skill-summery'>
-              Building and maintaining brand presence across social media platforms.
-            </p>
-          </div>
-        </div>
 
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
+            <div className='edit-component' onClick={() => setTabByKey?.('skills')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
             </div>
-            <h3>Content Creation</h3>
-            <p className='skill-summery'>
-              Crafting engaging visual and written content for digital platforms.
-            </p>
-          </div>
-        </div>
-
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
-            </div>
-            <h3>Graphic Designing</h3>
-            <p className='skill-summery'>
-              Designing impactful visuals to communicate brand messages effectively.
-            </p>
-          </div>
-        </div>
-
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
-            </div>
-            <h3>Marketing Strategy</h3>
-            <p className='skill-summery'>
-              Planning effective campaigns to meet business and branding goals.
-            </p>
-          </div>
-        </div>
-
-        <div className="skill-component-item">
-          <div className='skill-item-wraper'>
-            <div className='skill-img'>
-
-            </div>
-            <h3>Ad Campaign Management</h3>
-            <p className='skill-summery'>
-              Managing and optimizing paid ads for better reach and results.
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <div className='edit-component' onClick={() => setTabByKey?.('skills')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+          </>
+        )
+      }
     </div>
 
   )

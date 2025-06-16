@@ -372,3 +372,46 @@ export function UpdUserWork() {
         </>
     )
 }
+
+export function UpdUserSkill() {
+    return (
+        <>
+            <div className="skeleton-work-component-header">
+                <h2></h2>
+            </div>
+            <div className="skeleton-skill-component-wraper skeleton-common-component-wraper">
+
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+                <div className="skeleton-skill-component-item">
+                    <div className='skeleton-skill-item-wraper'>
+                        <div className='skeleton-skill-img'></div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
