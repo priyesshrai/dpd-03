@@ -49,16 +49,16 @@ export default function Tabs({ user }: TabsProps) {
             component: Profile
         },
         {
-            key: TabKey.Work,
-            tabName: "Work Experience",
-            icon: "hgi hgi-stroke hgi-suit-02",
-            component: Work
-        },
-        {
             key: TabKey.Education,
             tabName: "Education",
             icon: "hgi hgi-stroke hgi-library",
             component: Education
+        },
+        {
+            key: TabKey.Work,
+            tabName: "Work Experience",
+            icon: "hgi hgi-stroke hgi-suit-02",
+            component: Work
         },
         {
             key: TabKey.Skill,

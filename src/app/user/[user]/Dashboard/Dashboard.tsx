@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { UpdateFormData, UpdateUserData } from '../../../../../types';
+import { UpdateEducation, UpdateFormData, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
-import { UpdUserTop } from '@/components/Skeleton/Skeleton';
+import { UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
 export type DashboardProps = {
@@ -21,8 +21,8 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Dashb
   return (
     <section className='component-section-wraper'>
       <DashboardTop setTabByKey={setTabByKey} personalData={candidateData.personalData} loading={loading} />
-      <DashboardWork setTabByKey={setTabByKey} />
-      <DashboardEducation setTabByKey={setTabByKey} />
+      <DashboardEducation setTabByKey={setTabByKey} candidateEdu={candidateData.education} loading={loading} />
+      <DashboardWork setTabByKey={setTabByKey} candidateWork={candidateData.workExp} loading={loading} />
       <DashboardInterest setTabByKey={setTabByKey} />
       <DashboardTools setTabByKey={setTabByKey} />
       <DashboardProjects setTabByKey={setTabByKey} />
@@ -40,12 +40,10 @@ type DasTop = {
 }
 
 function DashboardTop({ setTabByKey, personalData, loading }: DasTop) {
-  console.log(personalData);
-
   return (
     <div className="component-dashboard-top component-common">
       {
-        loading ? <UpdUserTop/> : (
+        loading ? <UpdUserTop /> : (
           <>
             <div className="component-dashboard-top-wraper">
               <div className='component-block component-block-1'>
@@ -96,96 +94,84 @@ function DashboardTop({ setTabByKey, personalData, loading }: DasTop) {
   )
 }
 
-function DashboardWork({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasEdu = {
+  setTabByKey?: (key: string) => void;
+  candidateEdu: UpdateEducation[]
+  loading: boolean
+}
+
+function DashboardEducation({ setTabByKey, candidateEdu, loading }: DasEdu) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>Work Experience</h2>
-      </div>
-      <div className="work-component-wraper common-component-wraper">
+      {
+        loading ? <UpdUserWork /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Education</h2>
+            </div>
+            <div className="work-component-wraper common-component-wraper">
 
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3>CEO & Founder</h3>
-            <p>Jan 2020 - Present</p>
-          </div>
-          <Link href="#" target='_blank'>Wizards Next LLP</Link>
-          <p className='work-summery'>Leading a team of digital marketing experts, driving innovative strategies to enhance brand visibility and engagement.</p>
-        </div>
+              {
+                candidateEdu?.map((edu) => (
+                  <div className="work-component-item" key={edu.education_nid}>
+                    <div className="item-top">
+                      <h3>{edu.degree}</h3>
+                      <p>{edu.passingYear}</p>
+                    </div>
+                    <Link href="#" target='_blank'>{edu.institute}</Link>
+                    <p className='work-summery'>
+                      {edu.description}
+                    </p>
+                  </div>
+                ))
+              }
 
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3>CEO & Founder</h3>
-            <p>Jan 2020 - Present</p>
-          </div>
-          <Link href="#" target='_blank'>Wizards Next LLP</Link>
-          <p className='work-summery'>Leading a team of digital marketing experts, driving innovative strategies to enhance brand visibility and engagement.</p>
-        </div>
-
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3>CEO & Founder</h3>
-            <p>Jan 2020 - Present</p>
-          </div>
-          <Link href="#" target='_blank'>Wizards Next LLP</Link>
-          <p className='work-summery'>Leading a team of digital marketing experts, driving innovative strategies to enhance brand visibility and engagement.</p>
-        </div>
-
-      </div>
-      <div className='edit-component' onClick={() => setTabByKey?.('work')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+            </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('education')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
-
   )
 }
 
-function DashboardEducation({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasWork = {
+  setTabByKey?: (key: string) => void;
+  candidateWork: UpdateWorkExperience[]
+  loading: boolean
+}
+
+function DashboardWork({ setTabByKey, loading, candidateWork }: DasWork) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>Education</h2>
-      </div>
-      <div className="work-component-wraper common-component-wraper">
-
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3> MBA in Marketing</h3>
-            <p>Jan 2020 - June 2022 </p>
-          </div>
-          <Link href="#" target='_blank'>ICFAI Business School, Hyderabad</Link>
-          <p className='work-summery'>
-            Completed a comprehensive MBA program focused on marketing strategies, digital campaigns, and consumer analytics to drive business growth.
-          </p>
-        </div>
-
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3>B.Com in Computer Application</h3>
-            <p>May 2017 - Jan 2020</p>
-          </div>
-          <Link href="#" target='_blank'>Vellore Institute of Technology, Vellore</Link>
-          <p className='work-summery'>
-            Earned a bachelor&apos;s degree combining commerce principles with computer applications, preparing for tech-driven business environments.
-          </p>
-        </div>
-
-        <div className="work-component-item">
-          <div className="item-top">
-            <h3>Higher Secondary CBSE</h3>
-            <p>April 2014 - March 2016</p>
-          </div>
-          <Link href="#" target='_blank'>HSMS, Durgapur</Link>
-          <p className='work-summery'>
-            Completed senior secondary education with emphasis on commerce and computer science, laying a strong foundation for higher studies.
-
-          </p>
-        </div>
-
-      </div>
-      <div className='edit-component' onClick={() => setTabByKey?.('education')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+      {
+        loading ? <UpdUserWork /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Work Experience</h2>
+            </div>
+            <div className="work-component-wraper common-component-wraper">
+              {
+                candidateWork?.map((work) => (
+                  <div className="work-component-item" key={work.work_exp_nid}>
+                    <div className="item-top">
+                      <h3>{work.position}</h3>
+                      <p>{work.workingPeriod}</p>
+                    </div>
+                    <Link href="#" target='_blank'>{work.company}</Link>
+                    <p className='work-summery'>{work.description}</p>
+                  </div>
+                ))
+              }
+            </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('work')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
 
   )

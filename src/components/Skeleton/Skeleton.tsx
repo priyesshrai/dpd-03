@@ -344,3 +344,31 @@ export function UpdUserTop() {
         </div>
     )
 }
+
+export function UpdUserWork() {
+    return (
+        <>
+            <div className="skeleton-work-component-header">
+                <h2></h2>
+            </div>
+            <div className="skeleton-work-component-wraper skeleton-common-component-wraper">
+                <div className="skeleton-work-component-item">
+                    <div className="skeleton-item-top">
+                        <h3></h3>
+                        <p></p>
+                    </div>
+                    <div></div>
+                    <div className='skeleton-work-summery'>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
