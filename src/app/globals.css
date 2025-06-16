@@ -429,8 +429,8 @@ main {
       position: relative;
       width: 100%;
       height: 238px;
-      overflow-x: scroll;
-      scrollbar-width: none;
+      overflow: auto;
+      
 
       .content-wraper {
         position: relative;
@@ -502,8 +502,7 @@ main {
       position: relative;
       width: 100%;
       margin-top: 5px;
-      overflow: scroll;
-      scrollbar-width: none;
+      overflow: auto;
       height: 245px;
 
       .block-area-wraper {
@@ -591,8 +590,8 @@ main {
       position: relative;
       width: 100%;
       height: calc(100% - 40px);
-      overflow-x: scroll;
-      scrollbar-width: none;
+      overflow: auto;
+      
 
       h3 {
         position: relative;
@@ -659,8 +658,8 @@ main {
       position: relative;
       width: 100%;
       height: 100%;
-      overflow: scroll;
-      scrollbar-width: none;
+      overflow: auto;
+      
 
       .box {
         position: relative;
@@ -801,8 +800,8 @@ main {
           position: relative;
           width: 100%;
           height: calc(100% - 40px);
-          overflow-x: scroll;
-          scrollbar-width: none;
+          overflow: auto;
+          
 
           ul {
             margin-top: 15px;
@@ -899,8 +898,8 @@ main {
           position: relative;
           width: 100%;
           height: calc(100% - 40px);
-          overflow-x: scroll;
-          scrollbar-width: none;
+          overflow: auto;
+          
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
           gap: 20px;
@@ -1904,7 +1903,7 @@ footer {
   position: fixed;
   inset: 0;
   overflow-y: scroll;
-  scrollbar-width: none;
+  
 }
 
 .admin-dashboard-wraper {
@@ -1943,7 +1942,7 @@ footer {
     height: 100%;
     margin-top: 40px;
     overflow-y: scroll;
-    scrollbar-width: none;
+    
 
     .admin-tab-item {
       position: relative;
