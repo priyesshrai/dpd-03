@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateTools } from '../../../../../../types';
 import axios from 'axios';
 
@@ -12,7 +12,8 @@ type Candidate = {
   candidateTools: UpdateTools[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  // fetchData: () => void;
+  fetchData: () => void;
+  profileNid: string
 };
 
 type Tools = {
@@ -21,7 +22,7 @@ type Tools = {
   image_file: string;
 };
 
-export default function UpdateUserTools({ candidateTools, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserTools({ candidateTools, loading, setCandidateData, setLoading, fetchData, profileNid }: Candidate) {
   const [allToolList, setAllToolList] = useState<Tools[]>([]);
   const [userTools, setUserTools] = useState<UpdateTools[]>([]);
   const [selectedToolIds, setSelectedToolIds] = useState<string[]>([]);
@@ -86,11 +87,31 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
     const formData = new FormData();
     formData.append("tools", JSON.stringify(userTools.map((tool) => tool.tools_nid)));
     formData.append("user_type", "superadmin");
+    formData.append("user_nid", profileNid);
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    setLoading(false)
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-tools-api", formData)
+        .then((response) => {
+          if (response.data.status) {
+            fetchData();
+            setLoading(false);
+            return response.data.message || "Tool added successfully!";
+          } else {
+            throw response.data.message || "Failed to add Tool.";
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please wait...",
+        success: (message) => message || "Skill added successfully!",
+        error: (err) => err || "Failed to add skill."
+      }
+    )
   };
   return (
     <div className="component-common" style={{ padding: 0 }}>
