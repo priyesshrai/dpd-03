@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { UpdateEducation, UpdateFormData, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
-import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 

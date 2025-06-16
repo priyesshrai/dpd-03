@@ -11,10 +11,10 @@ type Candidate = {
   candidateSocial: UpdateSocialActivity[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchData: () => void;
+  // fetchData: () => void;
 }
 
-export default function UpdateUserSocialActivity({ candidateSocial, loading, setCandidateData, setLoading, fetchData }: Candidate) {
+export default function UpdateUserSocialActivity({ candidateSocial, loading, setCandidateData, setLoading }: Candidate) {
   const socialActivity = candidateSocial
 
   const addNewSocialActivity = () => {

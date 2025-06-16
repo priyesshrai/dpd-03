@@ -12,9 +12,9 @@ type Candidate = {
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   profileNid: string;
-  fetchData: () => void;
+  // fetchData: () => void;
 }
-export default function UpdateUserWorkExe({ candidateWork, loading, setCandidateData, setLoading, profileNid, fetchData }: Candidate) {
+export default function UpdateUserWorkExe({ candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const workExperiences = candidateWork;
 
   const addNewExperience = () => {

@@ -12,7 +12,7 @@ type Candidate = {
   candidateTools: UpdateTools[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchData: () => void;
+  // fetchData: () => void;
 };
 
 type Tools = {
@@ -21,7 +21,7 @@ type Tools = {
   image_file: string;
 };
 
-export default function UpdateUserTools({ candidateTools, loading, setCandidateData, setLoading, fetchData }: Candidate) {
+export default function UpdateUserTools({ candidateTools, loading, setCandidateData, setLoading }: Candidate) {
   const [allToolList, setAllToolList] = useState<Tools[]>([]);
   const [userTools, setUserTools] = useState<UpdateTools[]>([]);
   const [selectedToolIds, setSelectedToolIds] = useState<string[]>([]);

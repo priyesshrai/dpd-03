@@ -13,10 +13,10 @@ type Candidate = {
   candidateachievement: UpdateAchievement[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchData: () => void;
+  // fetchData: () => void;
 }
 
-export default function UpdateUserAchievement({ candidateachievement, loading, setCandidateData, setLoading, fetchData }: Candidate) {
+export default function UpdateUserAchievement({ candidateachievement, loading, setCandidateData, setLoading }: Candidate) {
   const achievement = candidateachievement
 
   const addNewAchievement = () => {

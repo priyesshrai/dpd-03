@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useMemo, useState } from 'react'
-import Dashboard, { DashboardProps } from './Dashboard'
+import Dashboard from './Dashboard'
 import Work from './Work';
 import Education from './Education';
 import Profile from './Profile';
