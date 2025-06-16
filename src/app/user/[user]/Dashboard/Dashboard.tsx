@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
-import { UpdateAchievement, UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
+import React, { act } from 'react'
+import { UpdateAchievement, UpdateEducation, UpdateFormData, UpdateProjects, UpdateSkill, UpdateSocialActivity, UpdateTools, UpdateUserData, UpdateWorkExperience } from '../../../../../types';
 import { UpdUserSkill, UpdUserTop, UpdUserWork } from '@/components/Skeleton/Skeleton';
 
 
@@ -29,7 +29,7 @@ export default function Dashboard({ setTabByKey, candidateData, loading }: Das) 
       <DashboardProjects setTabByKey={setTabByKey} candidateProject={candidateData.projects} loading={loading} />
       <DashboardAchievements setTabByKey={setTabByKey} candidateAchievement={candidateData.achievements} loading={loading} />
       <DashboardCertificate setTabByKey={setTabByKey} />
-      <DashboardSocialActivity setTabByKey={setTabByKey} />
+      <DashboardSocialActivity setTabByKey={setTabByKey} candidateActivity={candidateData.socialActivity} loading={loading} />
     </section>
   )
 }
@@ -433,55 +433,47 @@ function DashboardCertificate({ setTabByKey }: { setTabByKey?: (key: string) => 
   )
 }
 
-function DashboardSocialActivity({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+type DasActivity = {
+  setTabByKey?: (key: string) => void;
+  candidateActivity: UpdateSocialActivity[]
+  loading: boolean
+}
+
+function DashboardSocialActivity({ setTabByKey, loading, candidateActivity }: DasActivity) {
   return (
     <div className="component-common">
-      <div className="work-component-header">
-        <h2>Social Activity</h2>
-      </div>
+      {
+        loading ? <UpdUserWork /> : (
+          <>
+            <div className="work-component-header">
+              <h2>Social Activity</h2>
+            </div>
 
-      <div className="receent-project-component-wraper common-component-wraper">
+            <div className="receent-project-component-wraper common-component-wraper">
+              {
+                candidateActivity.length !== 0 ? (
+                  candidateActivity.map((activity) => (
+                    <div className="recent-project-item" key={activity.social_activities_nid}>
+                      <div className="item-top">
+                        <span>{activity.title}</span>
+                      </div>
+                      <p className='work-summery' style={{ maxWidth: '100%' }}>
+                        {activity.description}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div>No Social Activity were found.</div>
+                )
+              }
+            </div>
 
-        <div className="recent-project-item">
-          <div className="item-top">
-            <span>Empowering Lives in Urban Slums with JR Digital Marketing Services</span>
-          </div>
-          <p className='work-summery' style={{ maxWidth: '100%' }}>
-            Independently collaborated with team members of JR Digital Marketing Services to support the poor and underprivileged families in slum areas. The initiative included distributing food packets, clothing, and essential supplies, as well as spreading awareness about hygiene and basic healthcare. This effort helped uplift living conditions and brought hope to communities often overlooked.
-          </p>
-        </div>
-
-        <div className="recent-project-item">
-          <div className="item-top">
-            <span>Digital Literacy Workshop for Underprivileged Students at Kutumbh NGO</span>
-          </div>
-          <p className='work-summery' style={{ maxWidth: '100%' }}>
-            Organized and conducted a 7-day hands-on workshop focused on Digital Literacy for students up to class 10th associated with Kutumbh NGO. The workshop aimed to equip young learners with basic computer skills, internet safety knowledge, and tools for educational development. This initiative empowered children with essential digital skills needed in today&apos;s world and bridged the digital divide among marginalized youth.
-          </p>
-        </div>
-        <div className="recent-project-item">
-          <div className="item-top">
-            <span>Documentary Project for Abhinav Vidyalay in Collaboration with Round Table India</span>
-          </div>
-          <p className='work-summery' style={{ maxWidth: '100%' }}>
-            Led the creation of a documentary for Abhinav Vidyalay, a school for underprivileged children in Mirzamurad village, Varanasi. This project was undertaken in association with Round Table India, aiming to highlight the school&apos;s efforts in providing education to children from impoverished backgrounds. The documentary served as a powerful tool to generate awareness and garner support for educational initiatives in rural areas.
-          </p>
-        </div>
-        <div className="recent-project-item">
-          <div className="item-top">
-            <span> Blood Donation Awareness and Support with Red Cross in Varanasi (2022)</span>
-          </div>
-          <p className='work-summery' style={{ maxWidth: '100%' }}>
-            Actively volunteered with the Red Cross Army during their Blood Bank Booth Drive in 2022, held in Varanasi. Assisted in organizing booths, guiding donors, and spreading awareness about the importance of blood donation. Contributed to saving lives by promoting voluntary blood donation and encouraging public participation in this life-saving cause.
-          </p>
-        </div>
-
-
-      </div>
-
-      <div className='edit-component' onClick={() => setTabByKey?.('socialActivity')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('socialActivity')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
   )
 }
