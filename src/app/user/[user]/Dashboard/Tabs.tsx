@@ -4,13 +4,25 @@ import Dashboard, { DashboardProps } from './Dashboard'
 import Work from './Work';
 import Education from './Education';
 import Profile from './Profile';
-import { OverViewIcon, UserIcon, SkillIcon, EducationIcon, WorkIcon, ToolIcon, ProjectIcon, AchievementIcon, CertificateIcon, SocialIcon } from './Icons';
+
+enum TabKey {
+    Overview = "overview",
+    Profile = 'profile',
+    Education = 'education',
+    Work = 'work',
+    Skill = 'skill',
+    Tools = 'tools',
+    Project = 'project',
+    Achievement = 'achievement',
+    Social = 'social',
+    Certificate = 'certificate'
+}
 
 type TabConfig = {
     key: string;
     tabName: string;
-    icon: React.ComponentType<{ isActive: boolean }>;
-    component: React.ComponentType<DashboardProps>
+    icon: string;
+    component: React.ElementType
 }
 
 type TabsProps = {
@@ -20,63 +32,63 @@ type TabsProps = {
 export default function Tabs({ user }: TabsProps) {
     const tabConfig: TabConfig[] = [
         {
-            key: "overview",
+            key: TabKey.Overview,
             tabName: "Overview",
-            icon: OverViewIcon,
+            icon: "hgi hgi-stroke hgi-chart-column",
             component: Dashboard
         },
         {
-            key: "profile",
+            key: TabKey.Profile,
             tabName: "Profile",
-            icon: UserIcon,
+            icon: "hgi hgi-stroke hgi-account-setting-03",
             component: Profile
         },
         {
-            key: "work",
+            key: TabKey.Work,
             tabName: "Work Experience",
-            icon: WorkIcon,
+            icon: "hgi hgi-stroke hgi-suit-02",
             component: Work
         },
         {
-            key: "education",
+            key: TabKey.Education,
             tabName: "Education",
-            icon: EducationIcon,
+            icon: "hgi hgi-stroke hgi-library",
             component: Education
         },
         {
-            key: "skills",
+            key: TabKey.Skill,
             tabName: "Skills / Interests",
-            icon: SkillIcon,
+            icon: "hgi hgi-stroke hgi-idea-01",
             component: Education
         },
         {
-            key: "tools",
+            key: TabKey.Tools,
             tabName: "Tools",
-            icon: ToolIcon,
+            icon: "hgi hgi-stroke hgi-clipboard",
             component: Education
         },
         {
-            key: "projects",
+            key: TabKey.Project,
             tabName: "Projects",
-            icon: ProjectIcon,
+            icon: "hgi hgi-stroke hgi-code",
             component: Education
         },
         {
-            key: "achievements",
+            key: TabKey.Achievement,
             tabName: "Achievements",
-            icon: AchievementIcon,
+            icon: "hgi hgi-stroke hgi-champion",
             component: Education
         },
         {
-            key: "certificate",
+            key: TabKey.Certificate,
             tabName: "Certificate",
-            icon: CertificateIcon,
+            icon: "hgi hgi-stroke hgi-certificate-01",
             component: Education
         },
         {
-            key: "socialActivity",
+            key: TabKey.Social,
             tabName: "Social Activity",
-            icon: SocialIcon,
+            icon: "hgi hgi-stroke hgi-agreement-02",
             component: Education
         },
 
@@ -103,16 +115,13 @@ export default function Tabs({ user }: TabsProps) {
                 <div className="tab-section">
                     <div className="tab-section-wraper">
                         {tabConfig.map((tab, index) => {
-                            const Icon = tab.icon;
-                            const isActive = selectedTab === index;
-
                             return (
                                 <div
                                     key={tab.key}
                                     className={`tab-item ${selectedTab === index ? 'active' : ''}`}
                                     onClick={() => handleTabChange(index)}
                                 >
-                                    <Icon isActive={isActive} />
+                                    <i className={tab.icon}></i>
                                     <span>{tab.tabName}</span>
                                 </div>
                             )
