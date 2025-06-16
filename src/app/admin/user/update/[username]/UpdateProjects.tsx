@@ -1,9 +1,10 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateProjects } from '../../../../../../types';
 import Image from 'next/image';
+import axios from 'axios';
 
 
 type Candidate = {
@@ -11,10 +12,11 @@ type Candidate = {
   candidateProject: UpdateProjects[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  // fetchData: () => void;
+  fetchData: () => void;
+  profileNid: string;
 }
 
-export default function UpdateUserProjects({ candidateProject, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserProjects({ candidateProject, loading, setCandidateData, setLoading, fetchData, profileNid }: Candidate) {
   const projects = candidateProject;
 
   const addNewProject = () => {
@@ -91,37 +93,36 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
       }
     });
     formData.append("user_type", "superadmin")
+    formData.append("user_nid", profileNid)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    setLoading(false)
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-recent-project", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.data.status) {
-    //         setLoading(false);
-    //         nextStep()
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Project Added successful!",
-    //     error: (err) => err || "Failed to Add Project"
-    //   }
-    // );
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-projects-api", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          if (response.data.status) {
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Project Added successful!",
+        error: (err) => err || "Failed to Add Project"
+      }
+    );
   }
 
   function handleRemove(id: string) {
