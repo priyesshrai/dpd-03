@@ -213,4 +213,3 @@ export type CandidateNewData = {
   achievements: ApiAchievement[];
   socialActivity: ApiSocialActivity[];
 };
-

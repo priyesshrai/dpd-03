@@ -11,9 +11,10 @@ type Candidate = {
   candidateProject: UpdateProjects[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchData: () => void;
 }
 
-export default function UpdateUserProjects({ candidateProject, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserProjects({ candidateProject, loading, setCandidateData, setLoading, fetchData }: Candidate) {
   const projects = candidateProject;
 
   const addNewProject = () => {

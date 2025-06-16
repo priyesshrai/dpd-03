@@ -11,10 +11,11 @@ type Candidate = {
   candidateEducation: UpdateEducation[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchData: () => void;
 }
 
 
-export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid }: Candidate) {
+export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid,fetchData }: Candidate) {
   const education = candidateEducation
 
   const handleChange = (
@@ -86,6 +87,7 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
       axios.post("https://inforbit.in/demo/dpd/upd-candidate-education-api", formData)
         .then((response) => {
           if (response.data.status) {
+            fetchData()
             setLoading(false);
             return response.data.message;
           }

@@ -164,89 +164,89 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
         ]
     })
 
-    useEffect(() => {
+    async function fetchData() {
         setLoading(true)
-        async function fetchData() {
-            if (!userName) {
-                toast.error('Please provide a valid username!');
-                router.push('/login');
-                setLoading(false)
-                return;
-            }
-
-            try {
-                const response = await axios.get(`https://inforbit.in/demo/dpd/profile/${userName}`);
-                const apiData = response?.data?.data;
-
-                const mappedData: UpdateFormData = {
-                    personalData: {
-                        profile_nid: apiData.profile_nid || "",
-                        name: apiData.name || "",
-                        email: apiData.profile_email || "",
-                        phone: apiData.phone_number || "",
-                        headline: apiData.profile_heading || "",
-                        intro: apiData.introduction || "",
-                        facebook: apiData.facebook_link || "",
-                        insta: apiData.instagram_link || "",
-                        linkedin: apiData.linkedin_link || "",
-                        twitter: apiData.twitter_link || "",
-                        yt: apiData.youtube_link || "",
-                        profile: apiData.profile_photo || ""
-                    },
-                    education: apiData?.education_list.map((edu: ApiEducation) => ({
-                        education_nid: edu.education_nid || "",
-                        institute: edu.from_institute || "",
-                        degree: edu.degree_title || "",
-                        passingYear: edu.passing_year || "",
-                        description: edu.education_profile || "",
-                    })),
-                    workExp: apiData.work_exp_list.map((work: ApiWorkExp) => ({
-                        work_exp_nid: work.work_exp_nid || "",
-                        company: work.company_name || "",
-                        position: work.last_designation || "",
-                        workingPeriod: work.working_years || "",
-                        description: work.brief_job_profile || "",
-                    })),
-                    skills: apiData.expert_area_list.map((skill: ApiSkill) => ({
-                        expert_area_nid: skill.expert_area_nid || "",
-                        skill_name: skill.expertise_name || "",
-                        skill_desc: skill.expertise_name_details || "",
-                        skill_icon: skill.expertise_icon || "",
-                    })),
-                    tools: apiData.tools_list.map((tool: ApiTool) => ({
-                        tools_nid: tool.tools_nid || "",
-                        title: tool.title || "",
-                        tools_image: tool.tools_image || "",
-                    })),
-                    projects: apiData.recent_project_list.map((proj: ApiProject) => ({
-                        recent_project_nid: proj.recent_project_nid || "",
-                        name: proj.title || "",
-                        link: proj.project_link || "",
-                        image: proj.recent_project_img || null,
-                        description: proj.project_description || "",
-                    })),
-                    achievements: apiData.achievement_list.map((ach: ApiAchievement) => ({
-                        achievement_nid: ach.achievement_nid || "",
-                        name: ach.title || "",
-                        link: ach.achievement_url || "",
-                        image: ach.achievement_image || null,
-                        description: ach.achievement_description || "",
-                    })),
-                    socialActivity: apiData.social_activities_list.map((act: ApiSocialActivity) => ({
-                        social_activities_nid: act.social_activities_nid || "",
-                        title: act.title || "",
-                        description: act.description || "",
-                    })),
-                };
-
-                setCandidateData(mappedData);
-                setLoading(false)
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-                setLoading(false)
-            }
+        if (!userName) {
+            toast.error('Please provide a valid username!');
+            router.push('/login');
+            setLoading(false)
+            return;
         }
 
+        try {
+            const response = await axios.get(`https://inforbit.in/demo/dpd/profile/${userName}`);
+            const apiData = response?.data?.data;
+
+            const mappedData: UpdateFormData = {
+                personalData: {
+                    profile_nid: apiData.profile_nid || "",
+                    name: apiData.name || "",
+                    email: apiData.profile_email || "",
+                    phone: apiData.phone_number || "",
+                    headline: apiData.profile_heading || "",
+                    intro: apiData.introduction || "",
+                    facebook: apiData.facebook_link || "",
+                    insta: apiData.instagram_link || "",
+                    linkedin: apiData.linkedin_link || "",
+                    twitter: apiData.twitter_link || "",
+                    yt: apiData.youtube_link || "",
+                    profile: apiData.profile_photo || ""
+                },
+                education: apiData?.education_list.map((edu: ApiEducation) => ({
+                    education_nid: edu.education_nid || "",
+                    institute: edu.from_institute || "",
+                    degree: edu.degree_title || "",
+                    passingYear: edu.passing_year || "",
+                    description: edu.education_profile || "",
+                })),
+                workExp: apiData.work_exp_list.map((work: ApiWorkExp) => ({
+                    work_exp_nid: work.work_exp_nid || "",
+                    company: work.company_name || "",
+                    position: work.last_designation || "",
+                    workingPeriod: work.working_years || "",
+                    description: work.brief_job_profile || "",
+                })),
+                skills: apiData.expert_area_list.map((skill: ApiSkill) => ({
+                    expert_area_nid: skill.expert_area_nid || "",
+                    skill_name: skill.expertise_name || "",
+                    skill_desc: skill.expertise_name_details || "",
+                    skill_icon: skill.expertise_icon || "",
+                })),
+                tools: apiData.tools_list.map((tool: ApiTool) => ({
+                    tools_nid: tool.tools_nid || "",
+                    title: tool.title || "",
+                    tools_image: tool.tools_image || "",
+                })),
+                projects: apiData.recent_project_list.map((proj: ApiProject) => ({
+                    recent_project_nid: proj.recent_project_nid || "",
+                    name: proj.title || "",
+                    link: proj.project_link || "",
+                    image: proj.recent_project_img || null,
+                    description: proj.project_description || "",
+                })),
+                achievements: apiData.achievement_list.map((ach: ApiAchievement) => ({
+                    achievement_nid: ach.achievement_nid || "",
+                    name: ach.title || "",
+                    link: ach.achievement_url || "",
+                    image: ach.achievement_image || null,
+                    description: ach.achievement_description || "",
+                })),
+                socialActivity: apiData.social_activities_list.map((act: ApiSocialActivity) => ({
+                    social_activities_nid: act.social_activities_nid || "",
+                    title: act.title || "",
+                    description: act.description || "",
+                })),
+            };
+
+            setCandidateData(mappedData);
+            setLoading(false)
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
         fetchData();
     }, [userName]);
 
@@ -318,6 +318,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                 profileNid={candidateData?.personalData?.profile_nid}
                                 setLoading={setLoading}
                                 setCandidateData={setCandidateData}
+                                fetchData={fetchData}
                             />
                         </div>
 

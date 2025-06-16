@@ -11,6 +11,7 @@ type Candidate = {
   candidateSkills: UpdateSkill[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchData: () => void;
 };
 
 type Skill = {
@@ -25,6 +26,7 @@ export default function UpdateUserSkill({
   loading,
   setCandidateData,
   setLoading,
+  fetchData
 }: Candidate) {
   const [allSkillList, setAllSkillList] = useState<Skill[]>([]);
   const [userSkills, setUserSkills] = useState<UpdateSkill[]>([]);

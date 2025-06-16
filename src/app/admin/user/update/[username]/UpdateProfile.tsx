@@ -6,15 +6,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
-type Candidate = {
+export type Candidate = {
   loading: boolean;
   candidateProfile: UpdateUserData;
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   profileNid: string
+  fetchData: () => void;
 }
 
-export default function UpdateProfile({ candidateProfile, loading, setCandidateData, setLoading, profileNid }: Candidate) {
+export default function UpdateProfile({ candidateProfile, loading, setCandidateData, setLoading, profileNid, fetchData }: Candidate) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +74,7 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
         .then((response) => {
 
           if (response.data.status) {
+            fetchData()
             setLoading(false);
             return response.data.message;
           }
