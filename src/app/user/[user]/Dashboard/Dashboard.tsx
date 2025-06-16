@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { UpdateFormData, UpdateUserData } from '../../../../../types';
+import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import { UpdUserTop } from '@/components/Skeleton/Skeleton';
 
 
 export type DashboardProps = {
@@ -8,13 +11,16 @@ export type DashboardProps = {
   setTabByKey?: (key: string) => void;
   goBack?: () => void;
   name?: string;
+  candidateData: UpdateFormData;
+  loading: boolean;
 };
 
-export default function Dashboard({ setTabByKey }: DashboardProps) {
+export default function Dashboard({ setTabByKey, candidateData, loading }: DashboardProps) {
+  // console.log(candidateData);
 
   return (
     <section className='component-section-wraper'>
-      <DashboardTop setTabByKey={setTabByKey} />
+      <DashboardTop setTabByKey={setTabByKey} personalData={candidateData.personalData} loading={loading} />
       <DashboardWork setTabByKey={setTabByKey} />
       <DashboardEducation setTabByKey={setTabByKey} />
       <DashboardInterest setTabByKey={setTabByKey} />
@@ -27,32 +33,65 @@ export default function Dashboard({ setTabByKey }: DashboardProps) {
   )
 }
 
+type DasTop = {
+  setTabByKey?: (key: string) => void;
+  personalData: UpdateUserData
+  loading: boolean
+}
 
-function DashboardTop({ setTabByKey }: { setTabByKey?: (key: string) => void }) {
+function DashboardTop({ setTabByKey, personalData, loading }: DasTop) {
+  console.log(personalData);
+
   return (
     <div className="component-dashboard-top component-common">
-      <div className="component-dashboard-top-wraper">
-        <div className='component-block component-block-1'>
-          <Image src='/images/profile/profile.png' width={200} height={200} alt="User Profile" />
-        </div>
+      {
+        loading ? <UpdUserTop/> : (
+          <>
+            <div className="component-dashboard-top-wraper">
+              <div className='component-block component-block-1'>
+                <Image
+                  src={
+                    typeof personalData?.profile === 'string'
+                      ? personalData.profile
+                      : "/images/profile/default.png"
+                  }
+                  width={200}
+                  height={200}
+                  alt={personalData.name}
+                />
+              </div>
 
-        <div className='component-block component-block-2'>
-          <h1>Ravi Khetan</h1>
-          <h2> CEO & Founder | Wizards Next LLP Varanasi </h2>
-          <p>
-            CEO & Founder | Wizards Next LLP 📍 Varanasi | 💼 Digital Marketing Wizard Crafting spells in the digital realm with 7+ years of marketing magic 🪄. From SEO sorcery 🔍 to social media charm ✨, I help brands grow and glow 🌟. Leading a team of creative wizards 🧑‍🎨👨‍💻, we brew strategy, design, and results-driven campaigns that make businesses unforgettable 💥.
-          </p>
-          <div className='component-block-2-social-media'>
-            <Link href='https://www.instagram.com/ravikhtnvns/' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>
-            <Link href='https://www.linkedin.com/in/ravi-khetan-a5127261/' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-linkedin-01"></i></Link>
-            <Link href='https://www.facebook.com/ravi.khetan.2025' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-facebook-01"></i></Link>
-            <Link href='https://www.youtube.com/@Ravi2147' target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-youtube"></i></Link>
-          </div>
-        </div>
-      </div>
-      <div className='edit-component' onClick={() => setTabByKey?.('profile')}>
-        <i className="hgi hgi-stroke hgi-edit-02"></i>
-      </div>
+              <div className='component-block component-block-2'>
+                <h1>{personalData.name}</h1>
+                <h2> {personalData.headline} </h2>
+                <p>
+                  {personalData.intro}
+                </p>
+                <div className='component-block-2-social-media'>
+                  {
+                    personalData?.insta ? (<Link href={personalData.insta} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>) : ("")
+                  }
+                  {
+                    personalData?.linkedin ? (<Link href={personalData?.linkedin} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-linkedin-01"></i></Link>) : ("")
+                  }
+                  {
+                    personalData?.facebook ? (<Link href={personalData?.facebook} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-facebook-01"></i></Link>) : ("")
+                  }
+                  {
+                    personalData?.yt ? (<Link href={personalData?.yt} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-youtube"></i></Link>) : ("")
+                  }
+                  {
+                    personalData?.twitter ? (<Link href={personalData?.twitter} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-new-twitter"></i></Link>) : ("")
+                  }
+                </div>
+              </div>
+            </div>
+            <div className='edit-component' onClick={() => setTabByKey?.('profile')}>
+              <i className="hgi hgi-stroke hgi-edit-02"></i>
+            </div>
+          </>
+        )
+      }
     </div>
   )
 }

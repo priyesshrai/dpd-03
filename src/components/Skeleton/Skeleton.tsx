@@ -324,3 +324,23 @@ export function YoutubeSkeleton() {
         </div>
     )
 }
+
+export function UpdUserTop() {
+    return (
+        <div className="skeleton-component-dashboard-top-wraper">
+            <div className='skeleton-component-block skeleton-component-block-1'></div>
+
+            <div className='skeleton-component-block skeleton-component-block-2'>
+                <h1></h1>
+                <h2></h2>
+                <p></p>
+                <div className='skeleton-component-block-2-social-media'>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    )
+}

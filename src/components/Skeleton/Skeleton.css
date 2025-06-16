@@ -38,48 +38,6 @@
   }
 }
 
-.skeleton-profile,
-.skeleton-data h1,
-.skeleton-data p,
-.skeleton-data .cta-button-container,
-.skeleton-data .social-media-container div,
-.skeleton-company-name p,
-.hero-skeleton-title,
-.skeleton-company-name h2,
-.skeleton-company-name span,
-.skill-skeleton-icon,
-.spn,.card-skeleton .card-icon, .video-card-skeleton {
-  position: relative;
-  overflow: hidden;
-  background-color: #f0f2f5;
-}
-
-.skeleton-profile::before,
-.skeleton-data h1::before,
-.skeleton-data p::before,
-.skeleton-data .cta-button-container::before,
-.skeleton-data .social-media-container div::before,
-.skeleton-company-name span::before,
-.skeleton-company-name h2::before,
-.hero-skeleton-title::before,
-.skeleton-company-name p::before,
-.skill-skeleton-icon::before,
-.spn::before,
-.card-skeleton span::before,
-.card-skeleton .card-icon::before,
-.video-card-skeleton::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0px;
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(to right, #f0f2f5 0%, #e0e0e0 50%, #f0f2f5 100%);
-  animation: shimmer 1.5s infinite;
-  background-size: 1000px 100%;
-}
-
 .hero-skeleton-title,
 .skeleton-company-name h2 {
   position: relative;
@@ -140,4 +98,133 @@
   height: 15px;
   border-radius: 2px;
   background-color: #ffffff;
+}
+
+.skeleton-component-common {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  overflow: hidden;
+}
+
+.skeleton-component-dashboard-top-wraper {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 20px;
+
+  .skeleton-component-block {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.skeleton-component-block-1 {
+  border-radius: 50%;
+  height: 230px;
+  padding: 5px;
+  background-color: #f0f2f5;
+}
+
+.skeleton-component-block-2 {
+  padding: 20px;
+
+  h1 {
+    width: 80%;
+    background-color: #f0f2f5;
+    height: 25px;
+    border-radius: 5px;
+  }
+  h2 {
+    margin-top: 10px;
+    width: 70%;
+    background-color: #f0f2f5;
+    height: 20px;
+    border-radius: 5px;
+  }
+
+  p {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    background-color: #f0f2f5;
+    height: 80px;
+    border-radius: 5px;
+  }
+
+  .skeleton-component-block-2-social-media {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    div {
+      border-radius: 5px;
+      width: 30px;
+      height: 30px;
+      background-color: #f0f2f5;
+    }
+  }
+}
+
+.skeleton-profile,
+.skeleton-data h1,
+.skeleton-data p,
+.skeleton-data .cta-button-container,
+.skeleton-data .social-media-container div,
+.skeleton-company-name p,
+.hero-skeleton-title,
+.skeleton-company-name h2,
+.skeleton-company-name span,
+.skill-skeleton-icon,
+.spn,
+.card-skeleton .card-icon,
+.video-card-skeleton,
+.skeleton-component-block-1,
+.skeleton-component-block-2 h1,
+.skeleton-component-block-2 h2,
+.skeleton-component-block-2 p,
+.skeleton-component-block-2-social-media div {
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+.skeleton-profile::before,
+.skeleton-data h1::before,
+.skeleton-data p::before,
+.skeleton-data .cta-button-container::before,
+.skeleton-data .social-media-container div::before,
+.skeleton-company-name span::before,
+.skeleton-company-name h2::before,
+.hero-skeleton-title::before,
+.skeleton-company-name p::before,
+.skill-skeleton-icon::before,
+.spn::before,
+.card-skeleton span::before,
+.card-skeleton .card-icon::before,
+.video-card-skeleton::before,
+.skeleton-component-block-1::before,
+.skeleton-component-block-2 h1::before,
+.skeleton-component-block-2 h2::before,
+.skeleton-component-block-2 p::before,
+.skeleton-component-block-2-social-media div::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #f0f2f5 0%, #e0e0e0 50%, #f0f2f5 100%);
+  animation: shimmer 1.5s infinite;
+  background-size: 1000px 100%;
 }
