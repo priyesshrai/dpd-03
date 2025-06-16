@@ -106,11 +106,9 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
 
   function handleRemove(id: string) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Education?");
-    if (!confirmDelete || !id) return;
+    if (!confirmDelete) return;
 
-    const updatedEdu = education.filter((edu) => edu.education_nid !== id || edu.education_nid === "");
-    console.log(updatedEdu);
-
+    const updatedEdu = education.filter((edu) => edu.education_nid !== id || "");
     setCandidateData((prevData) => ({
       ...prevData,
       education: updatedEdu

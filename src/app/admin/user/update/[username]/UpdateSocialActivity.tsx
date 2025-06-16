@@ -161,10 +161,10 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
 
   function handleRemove(id: string) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Social Activity?");
-    if (!confirmDelete || !id) return;
+    if (!confirmDelete) return;
 
     const updatedActivity = socialActivity.filter((activity) => {
-      return activity.social_activities_nid !== id || id === "";
+      return activity.social_activities_nid !== id || "";
     });
 
     setCandidateData((prevData) => ({

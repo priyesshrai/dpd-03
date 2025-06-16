@@ -127,9 +127,9 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
 
   function handleRemove(id: string) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Achievement?");
-    if (!confirmDelete || !id) return;
+    if (!confirmDelete) return;
 
-    const updatedAchievement = achievement.filter((achi) => achi.achievement_nid !== id || !id);
+    const updatedAchievement = achievement.filter((achi) => achi.achievement_nid !== id || "");
     setCandidateData((prevData) => ({
       ...prevData,
       achievements: updatedAchievement

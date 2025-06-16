@@ -103,9 +103,9 @@ export default function UpdateUserWorkExe({ candidateWork, loading, setCandidate
 
   function handleRemove(id: string) {
     const confirmDelete = window.confirm("Are you sure you want to remove this work experience?");
-    if (!confirmDelete || !id) return;
+    if (!confirmDelete) return;
 
-    const updatedWork = workExperiences.filter((work) => work.work_exp_nid !== id || !id);
+    const updatedWork = workExperiences.filter((work) => work.work_exp_nid !== id || "");
     setCandidateData((prevData) => ({
       ...prevData,
       workExp: updatedWork

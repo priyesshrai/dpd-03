@@ -125,9 +125,9 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
 
   function handleRemove(id: string) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Project?");
-    if (!confirmDelete || !id) return;
+    if (!confirmDelete) return;
 
-    const updatedProject = projects.filter((project) => project.recent_project_nid !== id || !id);
+    const updatedProject = projects.filter((project) => project.recent_project_nid !== id || "");
     setCandidateData((prevData) => ({
       ...prevData,
       projects: updatedProject
