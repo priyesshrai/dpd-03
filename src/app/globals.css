@@ -843,6 +843,17 @@ main {
             li {
               list-style-type: circle !important;
               position: relative;
+
+              .li-sep{
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                i{
+                  font-size: 18px;
+                }
+              }
+              
               &::after {
                 content: "";
                 position: absolute;

@@ -389,17 +389,31 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                         <h2>Achievements</h2>
                                     </div>
                                     <div className="block-layout-content">
-                                        <ul>
-                                            {
-                                                userData?.achievement_list?.map((achi: ApiAchievement) => (
-                                                    <li key={achi.achievement_nid}>
-                                                        <Link href={achi.achievement_url ?? ""} target='_blank'>
-                                                            <strong>{achi.title}</strong></Link> -
-                                                        {achi.achievement_description}
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
+                                        <div ref={fancyboxRef} className='im'>
+                                            <ul>
+                                                {
+                                                    userData?.achievement_list?.map((achi: ApiAchievement) => (
+                                                        <li key={achi.achievement_nid}>
+                                                            <div className='li-sep'>
+                                                                <Link href={achi.achievement_url ?? ""} target='_blank'>
+                                                                    <strong>{achi.title}</strong></Link>
+                                                                {
+                                                                    achi.achievement_image ? (
+                                                                        <a href={achi.achievement_image ?? ""} data-fancybox="gallery">
+                                                                            <i className="hgi hgi-stroke hgi-image-01"></i>
+                                                                        </a>
+                                                                    ) : (
+                                                                        <i className="hgi hgi-stroke hgi-image-01"></i>
+                                                                    )
+                                                                }
+                                                            </div>
+
+                                                            {achi.achievement_description}
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
