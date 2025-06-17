@@ -1,34 +1,20 @@
 'use client'
 import React, { useState } from 'react'
-import { DashboardProps } from './Dashboard'
 import BackBtn from './BackBtn'
+import { UpdateFormData, UpdateUserData } from '../../../../../types'
+import LargeSpinner from '@/components/Spinner/LargeSpinner'
 
 type UserData = {
-  name: string,
-  headline: string,
-  intro: string,
-  facebook: string,
-  insta: string,
-  linkedin: string,
-  twitter: string,
-  yt: string,
+  name?: string
+  goBack?: () => void;
+  candidateProfile: UpdateUserData
+  setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
+  profileNid:string;
 }
 
-export default function Profile({ goBack, name }: DashboardProps) {
-  const [userData, setUserData] = useState<UserData>({
-    name: "Ravi Khetan",
-    headline: "CEO & Founder | Wizards Next LLP Varanasi",
-    intro: "CEO & Founder | Wizards Next LLP Varanasi | Digital Marketing Wizard Crafting spells in the digital realm with 7+ years of marketing magic 🪄. From SEO sorcery to social media charm, I help brands grow and glow. Leading a team of creative wizards, we brew strategy, design, and results-driven campaigns that make businesses unforgettable",
-    facebook: "",
-    insta: "",
-    linkedin: "",
-    twitter: "",
-    yt: ""
-  })
+export default function Profile({ goBack, name, candidateProfile, setCandidateData, profileNid }: UserData) {
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
-  // const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
-  // const [loading, setLoading] = useState<boolean>(false)
-  const [isDisable, setIsDisable] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -39,7 +25,13 @@ export default function Profile({ goBack, name }: DashboardProps) {
       alert('Only images (JPEG, PNG, GIF, WebP) are allowed.');
       return;
     }
-    // setProfilePicURL(file)
+    setCandidateData((prev) => ({
+      ...prev,
+      personalData: {
+        ...prev.personalData,
+        profile: file,
+      },
+    }));
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
@@ -47,32 +39,82 @@ export default function Profile({ goBack, name }: DashboardProps) {
     };
     reader.readAsDataURL(file);
   }
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target
+    setCandidateData((prev) => ({
+      ...prev,
+      personalData: {
+        ...prev.personalData,
+        [name]: value,
+      },
+    }));
 
-    setUserData((prevData: UserData) => (
-      {
-        ...prevData,
-        [name]: value
-      }
-    ))
+  }
 
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    // setLoading(true)
+    const formData = new FormData();
+
+    Object.keys(candidateProfile).forEach((key) => {
+      if (key === "profile_nid") return;
+      formData.append(key, candidateProfile[key as keyof UpdateUserData]);
+    });
+    formData.append("user_type", "superadmin")
+    formData.append("cnid", profileNid)
+
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    // toast.promise(
+    //   axios.post("https://inforbit.in/demo/dpd/upd-candidate-profile-api", formData)
+    //     .then((response) => {
+
+    //       if (response.data.status) {
+    //         fetchData()
+    //         setLoading(false);
+    //         return response.data.message;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       setLoading(false);
+    //       console.log(error);
+    //       const errorMessage = error.response?.data?.message || error.message;
+    //       throw errorMessage;
+    //     }),
+    //   {
+    //     loading: "Please Wait....",
+    //     success: (message) => message || "Profile Added successful!",
+    //     error: (err) => err || "Failed to Add Candidate Profile"
+    //   }
+    // );
   }
 
   return (
     <section className='component-section-wraper'>
       <BackBtn goBack={goBack} name={name} />
 
-      <div className="component-common">
-        <div className="details-edit-component">
+      <div className="component-common" style={{padding:"0"}}>
+        <div className="details-edit-component" style={{padding:"20px"}}>
+          {
+            loading ?
+              (<div className='edit-loading'>
+                <LargeSpinner />
+              </div>) : ""
+          }
 
           <div className='details-edit-top'>
             <div className='profile-pic-container'>
-              <img className='profile-img' src={profilePicPreview ?? '/images/profile/profile.png'} />
+              <img className='profile-img' src={
+                profilePicPreview
+                ?? (typeof candidateProfile.profile === 'string'
+                  ? candidateProfile.profile
+                  : undefined)
+              } />
               <div className='profile-edit-btn-container'>
                 <i className="hgi hgi-stroke hgi-edit-02"></i>
-                <input disabled={isDisable} type='file' accept="image/*" name='profilepic' onChange={handleProfilePicChange} />
+                <input type='file' accept="image/*" name='profilepic' onChange={handleProfilePicChange} />
               </div>
             </div>
           </div>
@@ -87,11 +129,37 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.name}
+                  value={candidateProfile.name}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="email"
+                  name='email'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={candidateProfile.email}
+                  className='inputs'
+                />
+                <label className='label'>Email</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="tel"
+                  name='phone'
+                  placeholder=''
+                  required
+                  onChange={handleInputChange}
+                  value={candidateProfile.phone}
+                  className='inputs'
+                />
+                <label className='label'>Phone No.</label>
               </div>
 
               <div className="edit-input-container">
@@ -101,9 +169,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.headline}
+                  value={candidateProfile.headline}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Headline</label>
               </div>
@@ -115,9 +183,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.facebook}
+                  value={candidateProfile.facebook}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Facebook</label>
               </div>
@@ -129,9 +197,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.insta}
+                  value={candidateProfile.insta}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Instagram</label>
               </div>
@@ -143,9 +211,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.linkedin}
+                  value={candidateProfile.linkedin}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>LinkedIn</label>
               </div>
@@ -157,9 +225,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.twitter}
+                  value={candidateProfile.twitter}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Twitter</label>
               </div>
@@ -171,9 +239,9 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.yt}
+                  value={candidateProfile.yt}
                   className='inputs'
-                  disabled={isDisable}
+
                 />
                 <label className='label'>YouTube</label>
               </div>
@@ -184,10 +252,10 @@ export default function Profile({ goBack, name }: DashboardProps) {
                   placeholder=''
                   required
                   onChange={handleInputChange}
-                  value={userData.intro}
+                  value={candidateProfile.intro}
                   className='inputs'
                   rows={5}
-                  disabled={isDisable}
+
                 />
                 <label className='label'>Introduction</label>
               </div>
@@ -196,8 +264,7 @@ export default function Profile({ goBack, name }: DashboardProps) {
           </div>
 
           <div className="details-edit-footer">
-            <button onClick={() => setIsDisable(false)}>Edit</button>
-            <button>Save</button>
+            <button onClick={handleSubmit}>Save</button>
           </div>
 
         </div>
