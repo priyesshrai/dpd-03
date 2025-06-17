@@ -12,6 +12,7 @@ import Skill from './Skill';
 import Tools from './Tools';
 import Projects from './Projects';
 import Achievement from './Achievement';
+import SocialActivity from './SocialActivity';
 
 enum TabKey {
     Overview = "overview",
@@ -23,7 +24,7 @@ enum TabKey {
     Project = 'project',
     Achievement = 'achievement',
     Social = 'social',
-    Certificate = 'certificate'
+    // Certificate = 'certificate'
 }
 
 type TabConfig = {
@@ -88,17 +89,17 @@ export default function Tabs({ user }: TabsProps) {
             icon: "hgi hgi-stroke hgi-champion",
             component: Achievement
         },
-        {
-            key: TabKey.Certificate,
-            tabName: "Certificate",
-            icon: "hgi hgi-stroke hgi-certificate-01",
-            component: Education
-        },
+        // {
+        //     key: TabKey.Certificate,
+        //     tabName: "Certificate",
+        //     icon: "hgi hgi-stroke hgi-certificate-01",
+        //     component: Education
+        // },
         {
             key: TabKey.Social,
             tabName: "Social Activity",
             icon: "hgi hgi-stroke hgi-agreement-02",
-            component: Education
+            component: SocialActivity
         },
 
     ]
@@ -277,7 +278,7 @@ export default function Tabs({ user }: TabsProps) {
             [TabKey.Tools]: { candidateTools: candidateData.tools },
             [TabKey.Project]: { candidateProject: candidateData.projects },
             [TabKey.Achievement]: { candidateachievement: candidateData.achievements },
-            [TabKey.Certificate]: { candidateCertificate: candidateData.achievements },
+            // [TabKey.Certificate]: { candidateCertificate: candidateData.achievements },
             [TabKey.Social]: { candidateSocial: candidateData.socialActivity },
         }),
         [candidateData]
