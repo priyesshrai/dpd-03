@@ -8,6 +8,7 @@ import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, 
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Skill from './Skill';
 
 enum TabKey {
     Overview = "overview",
@@ -64,7 +65,7 @@ export default function Tabs({ user }: TabsProps) {
             key: TabKey.Skill,
             tabName: "Skills / Interests",
             icon: "hgi hgi-stroke hgi-idea-01",
-            component: Education
+            component: Skill
         },
         {
             key: TabKey.Tools,
