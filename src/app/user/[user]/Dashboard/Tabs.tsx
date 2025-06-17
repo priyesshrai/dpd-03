@@ -11,6 +11,7 @@ import axios from 'axios';
 import Skill from './Skill';
 import Tools from './Tools';
 import Projects from './Projects';
+import Achievement from './Achievement';
 
 enum TabKey {
     Overview = "overview",
@@ -85,7 +86,7 @@ export default function Tabs({ user }: TabsProps) {
             key: TabKey.Achievement,
             tabName: "Achievements",
             icon: "hgi hgi-stroke hgi-champion",
-            component: Education
+            component: Achievement
         },
         {
             key: TabKey.Certificate,
