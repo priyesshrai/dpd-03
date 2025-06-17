@@ -53,7 +53,7 @@ export default function Profile({ goBack, name, candidateProfile, setCandidateDa
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    // setLoading(true)
+    setLoading(true)
     const formData = new FormData();
 
     Object.keys(candidateProfile).forEach((key) => {
