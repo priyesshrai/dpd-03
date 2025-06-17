@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Skill from './Skill';
+import Tools from './Tools';
 
 enum TabKey {
     Overview = "overview",
@@ -71,7 +72,7 @@ export default function Tabs({ user }: TabsProps) {
             key: TabKey.Tools,
             tabName: "Tools",
             icon: "hgi hgi-stroke hgi-clipboard",
-            component: Education
+            component: Tools
         },
         {
             key: TabKey.Project,
