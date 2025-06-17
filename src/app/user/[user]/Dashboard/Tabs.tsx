@@ -318,6 +318,7 @@ export default function Tabs({ user }: TabsProps) {
                         currentTabKey={tabConfig[selectedTab].key}
                         setTabByKey={setTabByKey}
                         goBack={() => lastTabIndex !== null && handleTabChange(lastTabIndex)}
+                        loading={loading}
                         setCandidateData={setCandidateData}
                         profileNid={candidateData?.personalData?.profile_nid}
                     />
