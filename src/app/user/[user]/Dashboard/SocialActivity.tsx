@@ -2,9 +2,8 @@
 import LargeSpinner from '@/components/Spinner/LargeSpinner'
 import React, { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import { UpdateAchievement, UpdateFormData, UpdateSocialActivity } from '../../../../../types'
+import { UpdateFormData, UpdateSocialActivity } from '../../../../../types'
 import BackBtn from './BackBtn'
-import Image from 'next/image'
 
 
 type UserData = {
@@ -77,6 +76,8 @@ export default function SocialActivity({ candidateSocial, setCandidateData, name
         const formData = new FormData();
         formData.append("social_activities", JSON.stringify(socialActivity));
         formData.append("user_type", "superadmin")
+        formData.append("user_nid", profileNid)
+        
 
         formData.forEach((value, key) => {
             console.log(`${key}: ${value}`);

@@ -2,7 +2,7 @@
 import LargeSpinner from '@/components/Spinner/LargeSpinner'
 import React, { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import { UpdateEducation, UpdateFormData, UpdateSkill } from '../../../../../types'
+import { UpdateFormData, UpdateSkill } from '../../../../../types'
 import BackBtn from './BackBtn'
 import axios from 'axios'
 

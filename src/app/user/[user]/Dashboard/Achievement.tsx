@@ -93,6 +93,8 @@ export default function Achievement({ candidateachievement, setCandidateData, go
         });
 
         formData.append("user_type", "superadmin")
+        formData.append("user_nid", profileNid)
+
         formData.forEach((value, key) => {
             console.log(`${key}: ${value}`);
         });
