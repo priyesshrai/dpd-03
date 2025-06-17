@@ -15,7 +15,7 @@ type Candidate = {
 }
 
 
-export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid,fetchData }: Candidate) {
+export default function UpdateUserEducation({ candidateEducation, loading, setCandidateData, setLoading, profileNid, fetchData }: Candidate) {
   const education = candidateEducation
 
   const handleChange = (
