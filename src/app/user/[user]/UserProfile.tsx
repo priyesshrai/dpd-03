@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, HeroProps } from '../../../../types'
 import { AchieSkeleton, HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton'
 import Cookies from "js-cookie";
+import useFancybox from '@/hooks/useFancyBox'
 
 
 type UserProfileProps = {
@@ -216,6 +217,10 @@ function SideBar({ userData, loading, userName }: HeroProps) {
 }
 
 function Hero({ userData, loading, userName }: HeroProps) {
+    const [fancyboxRef] = useFancybox({
+        zoomEffect: false,
+        showClass: "f-fadeIn",
+    });
     return (
         <section className='hero-section'>
             <div className="hero-section-wraper">
@@ -340,21 +345,35 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                     </Link>
                                 </div>
                                 <div className="block-layout-content">
-                                    {
-                                        userData?.recent_project_list?.map((project: ApiProject) => (
+                                    <div ref={fancyboxRef} className='im'>
+                                        {userData?.recent_project_list?.map((project: ApiProject) => (
                                             <React.Fragment key={project.recent_project_nid}>
-                                                <h3>
-                                                    <Link href={project.project_link ?? ""} target='_blank'>
-                                                        {project.title}
-                                                    </Link>
-                                                </h3>
+                                                <div className='h3-img'>
+                                                    <h3>
+                                                        <Link href={project.project_link ?? ""} target="_blank">
+                                                            {project.title}
+                                                        </Link>
+                                                    </h3>
+                                                    {project?.recent_project_icon_img && (
+                                                        <a
+                                                            className='ing'
+                                                            data-fancybox="gallery"
+                                                            href={project?.recent_project_img ?? ""}
+                                                        >
+                                                            <img
+                                                                src={project?.recent_project_icon_img}
+                                                                alt={project.title}
+                                                            />
+                                                        </a>
+                                                    )}
+                                                </div>
                                                 <p>{project.project_description}</p>
                                                 <br />
                                             </React.Fragment>
-                                        ))
-                                    }
-
+                                        ))}
+                                    </div>
                                 </div>
+
                             </motion.div>
                         )
                     }

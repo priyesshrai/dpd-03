@@ -186,6 +186,7 @@ export type ApiProject = {
   title: string;
   project_link: string;
   recent_project_img: string | null;
+  recent_project_icon_img?: string | null;
   project_description: string;
 };
 
