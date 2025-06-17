@@ -217,10 +217,8 @@ function SideBar({ userData, loading, userName }: HeroProps) {
 }
 
 function Hero({ userData, loading, userName }: HeroProps) {
-    const [fancyboxRef] = useFancybox({
-        zoomEffect: false,
-        showClass: "f-fadeIn",
-    });
+    const [fancyboxRef] = useFancybox();
+
     return (
         <section className='hero-section'>
             <div className="hero-section-wraper">
