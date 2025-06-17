@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Skill from './Skill';
 import Tools from './Tools';
+import Projects from './Projects';
 
 enum TabKey {
     Overview = "overview",
@@ -78,7 +79,7 @@ export default function Tabs({ user }: TabsProps) {
             key: TabKey.Project,
             tabName: "Projects",
             icon: "hgi hgi-stroke hgi-code",
-            component: Education
+            component: Projects
         },
         {
             key: TabKey.Achievement,
