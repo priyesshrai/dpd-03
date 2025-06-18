@@ -8,7 +8,7 @@ interface PageParams {
   };
 }
 
-export default async function page({ params }: PageParams) {
+export default function page({ params }: PageParams) {
     const { nid, token } = params;
     
   return (
