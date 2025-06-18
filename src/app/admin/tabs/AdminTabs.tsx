@@ -184,10 +184,12 @@ export default function AdminTabs() {
     if (selectedTab !== 1) {
       if (localStorage.getItem("userId")) {
         localStorage.removeItem("userId");
+        setAddProfileFormStep(0)
       }
 
       if (localStorage.getItem("tempInfo")) {
         localStorage.removeItem("tempInfo");
+        setAddProfileFormStep(0)
       }
     }
   }, [selectedTab]);

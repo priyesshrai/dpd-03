@@ -127,7 +127,7 @@ export default function AddProfile(
         tempInfo ? (
           <div className='profileWorkingOn'>
             <Image src={tempInfo?.profile || "/images/profile/default.png"}
-              width={60} height={60} alt={tempInfo?.name || "User"} style={{borderRadius:"50%", objectFit:"cover", width:"60px", height:"60px"}} />
+              width={60} height={60} alt={tempInfo?.name || "User"} style={{ borderRadius: "50%", objectFit: "cover", width: "60px", height: "60px" }} />
             <span>{tempInfo?.name}</span>
             <strong>{tempInfo?.email}</strong>
             <strong>{tempInfo?.phone}</strong>
