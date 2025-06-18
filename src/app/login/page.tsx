@@ -30,7 +30,7 @@ export default function LoginPage() {
         setIsLoading(true);
 
         if (!userData.username || !userData.password) {
-            alert('Please enter both username and password');
+            toast.error('Please enter both username and password');
             setIsLoading(false);
             return;
         }
@@ -129,12 +129,10 @@ export default function LoginPage() {
             axios.post("https://inforbit.in/demo/dpd/check-otp", data)
                 .then((response) => {
                     if (response.data.status) {
-                        console.log(response.data);
-                        
-                        // Cookies.set("data", JSON.stringify(response.data), {
-                        //     expires: 1,
-                        //     path: "/",
-                        // });
+                        Cookies.set("data", JSON.stringify(response.data), {
+                            expires: 1,
+                            path: "/",
+                        });
 
                         setUserData({
                             username: "",
@@ -143,7 +141,7 @@ export default function LoginPage() {
                         });
 
                         setIsLoading(false);
-                        // window.location.href = `/user/${response?.data?.profile_slug}`;
+                        window.location.href = `/user/${response?.data?.profile_slug}`;
                         return response.data.message;
                     }
                 })
