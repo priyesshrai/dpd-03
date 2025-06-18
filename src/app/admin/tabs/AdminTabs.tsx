@@ -149,6 +149,7 @@ export default function AdminTabs() {
 
     fetchcandidateList();
   }, [selectedTab === 0]);
+  
   async function fetchTools() {
     try {
       const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
