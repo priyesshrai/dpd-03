@@ -42,8 +42,7 @@ export default function LoginPage() {
         toast.promise(
             axios.post("https://inforbit.in/demo/dpd/login", data)
                 .then((response) => {
-                    if (response.data.status) {
-
+                    if (response?.data?.status) {
                         Cookies.set("data", JSON.stringify(response.data), {
                             expires: 1,
                             path: "/",
@@ -54,9 +53,12 @@ export default function LoginPage() {
                             password: "",
                             otp: ""
                         });
-
+                        if (response?.data?.login_type === "superadmin") {
+                            window.location.href = "/admin/dashboard";
+                        } else {
+                            window.location.href = `/user/${response?.data?.profile_slug}`;
+                        }
                         setIsLoading(false);
-                        window.location.href = "/admin/dashboard"
                         return response.data.message;
                     }
                 })
