@@ -2437,6 +2437,8 @@ footer {
 .props-list {
   position: relative;
   width: 100%;
+  max-height: 400px;
+  overflow: auto;
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -2445,12 +2447,22 @@ footer {
 
   div {
     flex-shrink: 0;
-    width: max-content;
+    width: 180px;
     background-color: #f0f0f0;
-    padding: 7px 15px;
-    border-radius: 20px;
-    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 3px;
+    }
   }
 }
 
@@ -2518,7 +2530,7 @@ footer {
   }
 }
 
-.candidate-status{
+.candidate-status {
   position: relative;
   width: 100%;
   display: flex;
@@ -2527,15 +2539,14 @@ footer {
   flex-wrap: wrap;
   margin: 8px 0;
 
-  div{
+  div {
     display: block;
     width: max-content;
-    padding:3px 8px;
+    padding: 3px 8px;
     border-radius: 20px;
     font-size: 12px;
-    color: var(--primary-bg); 
+    color: var(--primary-bg);
   }
-
 }
 
 @media (max-width: 1092px) {

@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { SkillList } from './AdminTabs';
+import Image from 'next/image';
 
 interface Skills {
   skillName: string;
@@ -14,10 +15,10 @@ interface Skills {
 }
 interface SkillsListProps {
   skillList: SkillList[];
-  fetchSkills:()=>void;
+  fetchSkills: () => void;
 }
 
-export default function AddSkills({ skillList,fetchSkills }: SkillsListProps) {
+export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
   const [skills, setSkills] = useState<Skills>({
     skillName: "",
     image: null,
@@ -154,12 +155,15 @@ export default function AddSkills({ skillList,fetchSkills }: SkillsListProps) {
                     <label className='label'>Skill Description</label>
                   </div>
 
-                  <div className="edit-input-container">
+                  <div className="edit-input-container ">
                     <span className='list-title'>Available Skill</span>
                     <div className='props-list'>
                       {
                         skillList?.map((skill: SkillList) => (
-                          <div key={skill.nid}>{skill.name}</div>
+                          <div key={skill.nid}>
+                            <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
+                            {skill.name}
+                          </div>
                         ))
                       }
                     </div>
