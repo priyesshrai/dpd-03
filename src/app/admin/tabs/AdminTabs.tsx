@@ -130,6 +130,13 @@ export default function AdminTabs() {
             email: item?.profile_email || '',
             profileId: item?.profile_nid || "",
             slug: item?.profile_slug || "",
+            education: item?.education_list || "",
+            work: item?.work_exp_list || "",
+            skill: item?.expert_area_list || "",
+            project: item?.recent_project_list || "",
+            tools: item?.tools_list || "",
+            achievement: item?.achievement_list || "",
+            socialActivity: item?.social_activities_list || "",
           }));
           setCandidateList(rows);
         }

@@ -24,7 +24,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     toast.success("Link copied!");
   }
 
-  function openShareModal(slug : string) {
+  function openShareModal(slug: string) {
     setShareLink(slug)
     setShowShareMenu(true)
   }
@@ -34,48 +34,47 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     { field: 'name', headerName: 'Name', width: 200, sortable: true },
     { field: 'email', headerName: 'Email', width: 280 },
     {
-      field: 'action',
-      headerName: 'Action',
-      width: 150,
+      field: 'status',
+      headerName: 'Status',
+      width: 210,
       sortable: false,
       renderCell: (params) => (
-        <Link
-          href={`/admin/user/update/${params?.row?.slug}`}
-          className="btn-edit"
-          target='_blank'
-        >
-          Update
-        </Link>
-      ),
+        <div className='candidate-status'>
+          <div style={{ backgroundColor: `${params?.row?.education ? "#36c220" : "#EA2F14"}` }}>Education</div>
+          <div style={{ backgroundColor: `${params?.row?.work ? "#36c220" : "#EA2F14"}` }}>Work</div>
+          <div style={{ backgroundColor: `${params?.row?.skill ? "#36c220" : "#EA2F14"}` }}>Skills</div>
+          <div style={{ backgroundColor: `${params?.row?.tools ? "#36c220" : "#EA2F14"}` }}>Tools</div>
+          <div style={{ backgroundColor: `${params?.row?.project ? "#36c220" : "#EA2F14"}` }}>Projects</div>
+          <div style={{ backgroundColor: `${params?.row?.achievement ? "#36c220" : "#EA2F14"}` }}>Achievements</div>
+          <div style={{ backgroundColor: `${params?.row?.socialActivity ? "#36c220" : "#EA2F14"}` }}>Socaial Activity</div>
+        </div>
+      )
     },
     {
-      field: 'profile',
-      headerName: 'Profile',
+      field: 'actions',
+      headerName: 'Actions',
       width: 200,
       sortable: false,
       renderCell: (params) => (
-        <Link
-          href={`/public/user/${params?.row?.slug}`}
-          className="btn-edit"
-          target='_blank'
-        >
-          View Profile
-        </Link >
-      ),
-    },
-    {
-      field: 'share',
-      headerName: 'Share',
-      width: 120,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <div className='share-btn' onClick={()=>openShareModal(params?.row?.slug)}>
+        <div className='candidate-list-action'>
+          <Link
+            href={`/admin/user/update/${params?.row?.slug}`}
+            target='_blank'
+          >
+            <i className="hgi hgi-stroke hgi-edit-02"></i>
+          </Link>
+
+          <Link
+            href={`/public/user/${params?.row?.slug}`}
+            target='_blank'
+          >
+            <i className="hgi hgi-stroke hgi-view"></i>
+          </Link >
+          <div className='share-btn' onClick={() => openShareModal(params?.row?.slug)}>
             <i className="hgi hgi-stroke hgi-share-08"></i>
           </div>
-        )
-      }
-      ,
+        </div>
+      ),
     },
   ];
 
@@ -122,6 +121,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
               columns={columns}
               rowSelection={false}
               pagination
+              getRowHeight={() => 'auto'}
               initialState={{
                 pagination: {
                   paginationModel: {
