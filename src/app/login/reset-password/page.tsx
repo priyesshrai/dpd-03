@@ -6,6 +6,10 @@ import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function page() {
+  return <ResetPassword/>
+}
+
+function ResetPassword() {
   const [userData, setUserData] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -48,7 +52,6 @@ export default function page() {
         <div className="login-wraper">
           <div className="card-top">
             <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
-            {/* <span>Login</span> */}
           </div>
 
           <div className="card-body">
