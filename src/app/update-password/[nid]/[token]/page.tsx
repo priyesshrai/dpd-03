@@ -1,13 +1,6 @@
 import ResetPassword from './ResetPassword'
 
-interface PageProps {
-  params: {
-    nid: string
-    token: string
-  }
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: {params: Promise<{ nid: string, token:string }>} ) {
   const { nid, token } = await params
   return <ResetPassword nid={nid} token={token} />
 }
