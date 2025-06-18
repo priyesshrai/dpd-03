@@ -7,7 +7,7 @@ interface PageProps {
   }
 }
 
-export default function Page({ params }: PageProps) {
-  const { nid, token } = params
+export default async function Page({ params }: PageProps) {
+  const { nid, token } = await params
   return <ResetPassword nid={nid} token={token} />
 }
