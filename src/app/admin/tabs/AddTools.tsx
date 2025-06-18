@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { ToolList } from './AdminTabs';
+import Image from 'next/image';
 
 interface Tools {
   tools_name: string;
@@ -13,11 +14,11 @@ interface Tools {
 }
 interface ToolListProps {
   toolList: ToolList[]
-  fetchTools:()=>void
+  fetchTools: () => void
 }
 
 
-export default function AddTools({ toolList,fetchTools }: ToolListProps) {
+export default function AddTools({ toolList, fetchTools }: ToolListProps) {
   const [skills, setSkills] = useState<Tools>({
     tools_name: "",
     image: null,
@@ -141,7 +142,10 @@ export default function AddTools({ toolList,fetchTools }: ToolListProps) {
                     <div className='props-list'>
                       {
                         toolList?.map((tool: ToolList) => (
-                          <div key={tool.nid}>{tool.name}</div>
+                          <div key={tool.nid}>
+                            <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
+                            {tool.name}
+                          </div>
                         ))
                       }
                     </div>
