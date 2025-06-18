@@ -148,7 +148,7 @@ export default function AdminTabs() {
     };
 
     fetchcandidateList();
-  }, []);
+  }, [selectedTab === 0]);
   async function fetchTools() {
     try {
       const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
@@ -179,6 +179,19 @@ export default function AdminTabs() {
     fetchSkills();
     fetchTools();
   }, [])
+
+  useEffect(() => {
+    if (selectedTab !== 1) {
+      if (localStorage.getItem("userId")) {
+        localStorage.removeItem("userId");
+      }
+
+      if (localStorage.getItem("tempInfo")) {
+        localStorage.removeItem("tempInfo");
+      }
+    }
+  }, [selectedTab]);
+
 
   async function UpdateUserData(userData: CandidateRow) {
     setLoading(true);
@@ -261,7 +274,12 @@ export default function AdminTabs() {
                   );
                 }
 
-                return <ActiveTab toolList={toolList} skillList={skillList} fetchTools={fetchTools} fetchSkills={fetchSkills} />;
+                return <ActiveTab
+                  toolList={toolList}
+                  skillList={skillList}
+                  fetchTools={fetchTools}
+                  fetchSkills={fetchSkills}
+                />;
               })()}
             </div>
 

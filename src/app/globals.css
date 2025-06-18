@@ -2143,26 +2143,19 @@ footer {
   align-items: center;
   gap: 10px;
 
-  button {
-    background-color: var(--dark);
-    color: var(--primary-bg);
-    padding: 13px 20px;
-    border: 1px solid var(--dark);
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
   span {
     display: block;
-    font-size: 15px;
-    color: var(--light-dark);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--dark);
     cursor: pointer;
 
     &:hover {
       color: var(--hover-color);
     }
     &.active {
-      color: var(--hover-color);
+      font-weight: 700;
+      color: var(--new-colour);
     }
   }
 }

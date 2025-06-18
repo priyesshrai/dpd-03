@@ -119,66 +119,6 @@ export default function AddProfile(
     setSelectedForm(index)
   }
 
-  function handleNewProfile() {
-    localStorage.removeItem("userId")
-    setCandidateData({
-      personalData: {
-        name: "",
-        email: "",
-        phone: "",
-        headline: "",
-        intro: "",
-        facebook: "",
-        insta: "",
-        linkedin: "",
-        twitter: "",
-        yt: ""
-      },
-      education: [
-        {
-          institute: "",
-          degree: "",
-          passingYear: "",
-          description: "",
-        }
-      ],
-      workExp: [
-        {
-          company: "",
-          position: "",
-          workingPeriod: "",
-          description: "",
-        }
-      ],
-      skills: [],
-      tools: [],
-      projects: [
-        {
-          name: "",
-          link: "",
-          image: null,
-          description: "",
-        }
-      ],
-      achievements: [
-        {
-          name: "",
-          link: "",
-          image: null,
-          description: "",
-        }
-      ],
-      socialActivity: [
-        {
-          title: "",
-          description: "",
-        }
-      ]
-    })
-    setSelectedForm(0);
-    setIsUserIdPresent(false)
-    localStorage.removeItem("tempInfo")
-  }
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
@@ -196,10 +136,6 @@ export default function AddProfile(
       }
 
       <div className='formNavigation'>
-        {localStorage.getItem("userId") ? <button
-          onClick={handleNewProfile}>
-          Create New Profile
-        </button> : ""}
         {
           formConfig.map((formName, idx) => (
             <React.Fragment key={formName.key}>
