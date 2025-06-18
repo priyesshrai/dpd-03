@@ -1,18 +1,13 @@
-import React from 'react'
-import ResetPassword from './ResetPassword';
+import ResetPassword from './ResetPassword'
 
-interface PageParams {
+interface PageProps {
   params: {
-    nid: string;
-    token: string;
-  };
+    nid: string
+    token: string
+  }
 }
 
-export default function page({ params }: PageParams) {
-    const { nid, token } = params;
-    
-  return (
-    <ResetPassword nid={nid} token={token} />
-  )
+export default function Page({ params }: PageProps) {
+  const { nid, token } = params
+  return <ResetPassword nid={nid} token={token} />
 }
-
