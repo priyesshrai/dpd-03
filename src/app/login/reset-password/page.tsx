@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function page() {
-  return <ResetPassword/>
+  return <ResetPassword />
 }
 
 function ResetPassword() {
@@ -49,7 +49,7 @@ function ResetPassword() {
   return (
     <section className="login-container">
       <div className="login-card">
-        <div className="login-wraper">
+        <form className="login-wraper" onSubmit={handleSubmit}>
           <div className="card-top">
             <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
           </div>
@@ -68,12 +68,11 @@ function ResetPassword() {
           </div>
 
           <div className="card-footer">
-            <button type="button" onClick={handleSubmit}
-              disabled={!userData || isLoading}>
+            <button type="button" disabled={!userData || isLoading}>
               {isLoading ? <Spinner /> : "Verify"}
             </button>
           </div>
-        </div>
+        </form>
       </div>
       <Toaster />
     </section>
