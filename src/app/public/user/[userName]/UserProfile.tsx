@@ -180,7 +180,7 @@ function SideBar({ userData, loading }: HeroProps) {
                                     width={200} height={278} alt='Profile' />
                             </div>
                             <div className="user-data">
-                                <h1>{userData?.name ?? ""}</h1>
+                                <h1>{userData?.name ?? "User"}</h1>
 
                                 <p dangerouslySetInnerHTML={{ __html: getTrimmedBio() }} />
 
