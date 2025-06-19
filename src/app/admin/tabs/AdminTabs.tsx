@@ -186,16 +186,123 @@ export default function AdminTabs() {
     if (selectedTab !== 1) {
       if (localStorage.getItem("userId")) {
         localStorage.removeItem("userId");
+        setCandidateData({
+          personalData: {
+            name: "",
+            email: "",
+            phone: "",
+            headline: "",
+            intro: "",
+            facebook: "",
+            insta: "",
+            linkedin: "",
+            twitter: "",
+            yt: ""
+          },
+          education: [
+            {
+              institute: "",
+              degree: "",
+              passingYear: "",
+              description: "",
+            }
+          ],
+          workExp: [
+            {
+              company: "",
+              position: "",
+              workingPeriod: "",
+              description: "",
+            }
+          ],
+          skills: [],
+          tools: [],
+          projects: [
+            {
+              name: "",
+              link: "",
+              image: null,
+              description: "",
+            }
+          ],
+          achievements: [
+            {
+              name: "",
+              link: "",
+              image: null,
+              description: "",
+            }
+          ],
+          socialActivity: [
+            {
+              title: "",
+              description: "",
+            }
+          ]
+        })
         setAddProfileFormStep(0)
       }
 
       if (localStorage.getItem("tempInfo")) {
         localStorage.removeItem("tempInfo");
+        setCandidateData({
+          personalData: {
+            name: "",
+            email: "",
+            phone: "",
+            headline: "",
+            intro: "",
+            facebook: "",
+            insta: "",
+            linkedin: "",
+            twitter: "",
+            yt: ""
+          },
+          education: [
+            {
+              institute: "",
+              degree: "",
+              passingYear: "",
+              description: "",
+            }
+          ],
+          workExp: [
+            {
+              company: "",
+              position: "",
+              workingPeriod: "",
+              description: "",
+            }
+          ],
+          skills: [],
+          tools: [],
+          projects: [
+            {
+              name: "",
+              link: "",
+              image: null,
+              description: "",
+            }
+          ],
+          achievements: [
+            {
+              name: "",
+              link: "",
+              image: null,
+              description: "",
+            }
+          ],
+          socialActivity: [
+            {
+              title: "",
+              description: "",
+            }
+          ]
+        })
         setAddProfileFormStep(0)
       }
     }
   }, [selectedTab]);
-
 
   async function UpdateUserData(userData: CandidateRow) {
     setLoading(true);
@@ -228,7 +335,7 @@ export default function AdminTabs() {
               tabConfig.map((tab, index) => (
                 <div className={`admin-tab-item ${selectedTab === index ? 'active' : ''}`}
                   key={tab.key}
-                  onClick={() => {setSelectedTab(index); setOpenMenu(false)}}
+                  onClick={() => { setSelectedTab(index); setOpenMenu(false) }}
                 >
                   <i className={tab.icon}></i>
                   <span>{tab.tabName}</span>
@@ -244,8 +351,8 @@ export default function AdminTabs() {
             <div className="admin-component-header">
               <div className="admin-header-wraper">
                 <div className='header-container-a'>
-                  <div className='hum' onClick={()=>setOpenMenu(!openMenu)}>
-                    <div className='overlay-1' style={{width: openMenu ? '100%' : '0'}}></div>
+                  <div className='hum' onClick={() => setOpenMenu(!openMenu)}>
+                    <div className='overlay-1' style={{ width: openMenu ? '100%' : '0' }}></div>
                     <span className={`${openMenu ? "active" : ""}`}></span>
                     <span className={`${openMenu ? "active" : ""}`}></span>
                     <span className={`${openMenu ? "active" : ""}`}></span>

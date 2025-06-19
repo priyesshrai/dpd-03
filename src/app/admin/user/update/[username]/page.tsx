@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
       title: userData.name,
       description: userData.profile_heading,
       icons: {
-        icon: userData.profile_photo
+        icon: userData.profile_photo || "/images/profile/default.png"
       }
     };
   } catch (error) {

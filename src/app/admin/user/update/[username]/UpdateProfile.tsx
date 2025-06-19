@@ -109,186 +109,180 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
               loading ?
                 (<div className='edit-loading'>
                   <LargeSpinner />
-                </div>) : (
-                  <>
-
-                    <div className='details-edit-top' >
-                      <div className='profile-pic-container'>
-                        <img
-                          className='profile-img'
-                          src={
-                            profilePicPreview
-                            ?? (typeof candidateProfile.profile === 'string'
-                              ? candidateProfile.profile
-                              : undefined)
-                          }
-                        />
-                        <div className='profile-edit-btn-container'>
-                          <i className="hgi hgi-stroke hgi-edit-02"></i>
-                          <input type='file'
-                            accept="image/*"
-                            name='profilepic'
-                            onChange={handleProfilePicChange}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="details-edit-body" style={{ marginTop: "50px" }}>
-                      <div className="details-edit-wraper">
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='name'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.name}
-                            className='inputs'
-                          />
-                          <label className='label'>Name</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="email"
-                            name='email'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.email}
-                            className='inputs'
-                            readOnly
-                            disabled
-                          />
-                          <label className='label'>Email</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="tel"
-                            name='phone'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.phone}
-                            className='inputs'
-                            readOnly
-                            disabled
-                          />
-                          <label className='label'>Phone No.</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='headline'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.headline}
-                            className='inputs'
-                          />
-                          <label className='label'>Headline</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='facebook'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.facebook}
-                            className='inputs'
-                          />
-                          <label className='label'>Facebook</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='insta'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.insta}
-                            className='inputs'
-                          />
-                          <label className='label'>Instagram</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='linkedin'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.linkedin}
-                            className='inputs'
-                          />
-                          <label className='label'>LinkedIn</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='twitter'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.twitter}
-                            className='inputs'
-                          />
-                          <label className='label'>Twitter</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <input
-                            type="text"
-                            name='yt'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.yt}
-                            className='inputs'
-                          />
-                          <label className='label'>YouTube</label>
-                        </div>
-
-                        <div className="edit-input-container">
-                          <textarea
-                            name='intro'
-                            placeholder=''
-                            required
-                            onChange={handleInputChange}
-                            value={candidateProfile.intro}
-                            className='inputs'
-                            rows={5}
-                          />
-                          <label className='label'>Introduction</label>
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    <div className="details-edit-footer">
-                      <button onClick={handleSubmit}>Save</button>
-                    </div>
-                  </>
-
-                )
+                </div>) : ""
             }
+            
+            <div className='details-edit-top' >
+              <div className='profile-pic-container'>
+                <img
+                  className='profile-img'
+                  src={
+                    profilePicPreview
+                    || (typeof candidateProfile?.profile === 'string' && candidateProfile.profile)
+                    || "/images/profile/default.png"
+                  }
+                />
+                <div className='profile-edit-btn-container'>
+                  <i className="hgi hgi-stroke hgi-edit-02"></i>
+                  <input type='file'
+                    accept="image/*"
+                    name='profilepic'
+                    onChange={handleProfilePicChange}
+                  />
+                </div>
+              </div>
+            </div>
 
+            <div className="details-edit-body" style={{ marginTop: "50px" }}>
+              <div className="details-edit-wraper">
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='name'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.name}
+                    className='inputs'
+                  />
+                  <label className='label'>Name</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="email"
+                    name='email'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.email}
+                    className='inputs'
+                    readOnly
+                    disabled
+                  />
+                  <label className='label'>Email</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="tel"
+                    name='phone'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.phone}
+                    className='inputs'
+                    readOnly
+                    disabled
+                  />
+                  <label className='label'>Phone No.</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='headline'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.headline}
+                    className='inputs'
+                  />
+                  <label className='label'>Headline</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='facebook'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.facebook}
+                    className='inputs'
+                  />
+                  <label className='label'>Facebook</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='insta'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.insta}
+                    className='inputs'
+                  />
+                  <label className='label'>Instagram</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='linkedin'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.linkedin}
+                    className='inputs'
+                  />
+                  <label className='label'>LinkedIn</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='twitter'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.twitter}
+                    className='inputs'
+                  />
+                  <label className='label'>Twitter</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='yt'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.yt}
+                    className='inputs'
+                  />
+                  <label className='label'>YouTube</label>
+                </div>
+
+                <div className="edit-input-container">
+                  <textarea
+                    name='intro'
+                    placeholder=''
+                    required
+                    onChange={handleInputChange}
+                    value={candidateProfile.intro}
+                    className='inputs'
+                    rows={5}
+                  />
+                  <label className='label'>Introduction</label>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div className="details-edit-footer">
+              <button onClick={handleSubmit}>Save</button>
+            </div>
 
           </div>
 
         </motion.div>
       </AnimatePresence>
       <Toaster />
-    </div>
+    </div >
   )
 }
