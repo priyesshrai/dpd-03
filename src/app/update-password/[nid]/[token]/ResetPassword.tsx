@@ -50,6 +50,10 @@ export default function ResetPassword({ token, nid }: Props) {
         formData.append("usernid", nid);
         formData.append("updcode", token);
 
+        // formData.forEach((value, key) => {
+        //     console.log(key + " => " + value);
+        // })
+
         toast.promise(
             axios.post("https://inforbit.in/demo/dpd/update-password", formData)
                 .then((response) => {
@@ -67,12 +71,12 @@ export default function ResetPassword({ token, nid }: Props) {
                     setIsLoading(false);
                     console.log(error);
                     const errorMessage = error.response?.data?.message || error.message;
-                    throw errorMessage;
+                    throw new Error(errorMessage);
                 }),
             {
                 loading: "Please Wait....",
                 success: (message) => message || "Password Updated successful!",
-                error: (err) => err || "Failed to Update Password"
+                error: () => "Failed to Update Password"
             }
         );
     }
