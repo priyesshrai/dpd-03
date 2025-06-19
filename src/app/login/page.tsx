@@ -3,7 +3,7 @@ import Spinner from '@/components/Spinner/Spinner';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Cookies from "js-cookie";
 
@@ -159,6 +159,10 @@ export default function LoginPage() {
 
     }
 
+    useEffect(() => {
+
+    }, [])
+
     return (
         <section className="login-container">
             {loginType === 'password' ? (
@@ -203,11 +207,10 @@ interface LoginProps {
 function LoginWithPassword({ setLoginType, userData, setUserData, loading, handleSubmit }: LoginProps) {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     return (
-        <div className="login-card">
+        <form onSubmit={handleSubmit} className="login-card">
             <div className="login-wraper">
                 <div className="card-top">
                     <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
-                    {/* <span>Login</span> */}
                 </div>
 
                 <div className="card-body">
@@ -240,8 +243,7 @@ function LoginWithPassword({ setLoginType, userData, setUserData, loading, handl
                 </div>
 
                 <div className="card-footer">
-                    <button type="button" onClick={handleSubmit}
-                        disabled={!userData.username || !userData.password || loading}>
+                    <button type="submit" disabled={!userData.username || !userData.password || loading}>
                         {loading ? <Spinner /> : "Login"}
                     </button>
 
@@ -253,17 +255,16 @@ function LoginWithPassword({ setLoginType, userData, setUserData, loading, handl
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 
 function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading, sendOtp, validateOTP }: LoginProps) {
     return (
-        <div className="login-card">
+        <form className="login-card" onSubmit={ !isOtpSent ? sendOtp : validateOTP }>
             <div className="login-wraper">
                 <div className="card-top">
                     <Image src='/images/user/logo.png' width={300} height={27} alt="Dream Path Profile Builder" />
-                    {/* <span>OTP Login</span> */}
                 </div>
 
                 <div className="card-body">
@@ -292,7 +293,6 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
                                         onChange={(e) => setUserData({ ...userData, otp: e.target.value })}
                                     />
                                 </div>
-                                <span className='rp'>resend OTP</span>
                             </>
                         ) : ""
                     }
@@ -302,12 +302,12 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
                     {
                         !isOtpSent ? (
                             <button onClick={(e) => sendOtp && sendOtp(e)}
-                                type="button" disabled={!userData.username || loading}>
+                                type="submit" disabled={!userData.username || loading}>
                                 {loading ? <Spinner /> : "Send OTP"}
                             </button>
 
                         ) : (
-                            <button type="button"
+                            <button type="submit"
                                 onClick={(e) => validateOTP && validateOTP(e)}
                                 disabled={!isOtpSent || userData.otp.length !== 6 || loading}>
                                 {loading ? <Spinner /> : "Login"}
@@ -322,6 +322,6 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }

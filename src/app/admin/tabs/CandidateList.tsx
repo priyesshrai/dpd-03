@@ -113,7 +113,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
                 <LargeSpinner />
               </div>) : ""
           }
-          <Box sx={{ width: '100%', height: 640 }}>
+          <Box sx={{ width: '100%', height: 700 }}>
             <DataGrid
               showToolbar
               loading={loading}
@@ -125,7 +125,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 5,
                   },
                 },
               }}
