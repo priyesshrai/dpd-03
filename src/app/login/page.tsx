@@ -325,3 +325,13 @@ function LoginWithOtp({ setLoginType, userData, setUserData, isOtpSent, loading,
         </form>
     );
 }
+
+// export function generateMetadata() {
+//   return {
+//     title: "Super Admin",
+//     description: "DreamPath Development",
+//     icons: {
+//       icon: "/images/user/logo.png"
+//     }
+//   };
+// }

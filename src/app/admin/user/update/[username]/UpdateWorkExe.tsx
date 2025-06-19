@@ -12,9 +12,9 @@ type Candidate = {
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   profileNid: string;
-  // fetchData: () => void;
+  fetchData: () => void;
 }
-export default function UpdateUserWorkExe({ candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
+export default function UpdateUserWorkExe({fetchData, candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const workExperiences = candidateWork;
 
   const addNewExperience = () => {
@@ -84,6 +84,7 @@ export default function UpdateUserWorkExe({ candidateWork, loading, setCandidate
       axios.post("https://inforbit.in/demo/dpd/upd-candidate-work-api", formData)
         .then((response) => {
           if (response.data.status) {
+            fetchData()
             setLoading(false);
             return response.data.message;
           }

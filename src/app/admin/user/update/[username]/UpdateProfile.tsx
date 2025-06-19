@@ -159,6 +159,8 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
                             onChange={handleInputChange}
                             value={candidateProfile.email}
                             className='inputs'
+                            readOnly
+                            disabled
                           />
                           <label className='label'>Email</label>
                         </div>
@@ -172,6 +174,8 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
                             onChange={handleInputChange}
                             value={candidateProfile.phone}
                             className='inputs'
+                            readOnly
+                            disabled
                           />
                           <label className='label'>Phone No.</label>
                         </div>

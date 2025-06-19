@@ -10,7 +10,7 @@ export default function AdminDashboard() {
 }
 
 
-export async function generateMetadata() {
+export function generateMetadata() {
   return {
     title: "Super Admin",
     description: "DreamPath Development",

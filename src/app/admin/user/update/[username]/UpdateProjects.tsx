@@ -41,12 +41,10 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
 
     const allFieldsFilled =
       lastSkill.name.trim() !== "" &&
-      lastSkill.link.trim() !== "" &&
-      lastSkill.image !== null &&
       lastSkill.description.trim() !== "";
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Project before adding a new one.");
+      toast.error("Please Fill Project Title & Description");
       return;
     }
 

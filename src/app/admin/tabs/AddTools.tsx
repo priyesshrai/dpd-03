@@ -64,8 +64,6 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
         },
       })
         .then((response) => {
-          console.log(response.data);
-          
           if (response.data.status) {
             setSkills({
               tools_name: "",

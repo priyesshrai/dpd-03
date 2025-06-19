@@ -1,7 +1,7 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { UpdateAchievement, UpdateFormData } from '../../../../../../types';
 // import axios from 'axios';
 import Image from 'next/image';
@@ -41,12 +41,10 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
 
     const allFieldsFilled =
       lastSkill.name.trim() !== "" &&
-      lastSkill.link.trim() !== "" &&
-      lastSkill.image !== null &&
       lastSkill.description.trim() !== "";
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Achievement before adding a new one.");
+      toast.error("Please fill out Achievement Title & Description before adding a new one.");
       return;
     }
 
