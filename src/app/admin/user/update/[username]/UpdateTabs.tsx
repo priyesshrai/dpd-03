@@ -163,6 +163,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
             }
         ]
     })
+    const [openMenu, setOpenMenu] = useState<boolean>(false)
 
     async function fetchData() {
         setLoading(true)
@@ -276,7 +277,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
     return (
         <section className='admin-dashboard-container'>
             <div className="admin-dashboard-wraper">
-                <div className="admin-tabs-container">
+                <div className={`admin-tabs-container ${openMenu ? "active" : ''}`}>
                     <div className="admin-tab-top">
                         <Image src="/images/user/logo.png" width={500} height={100} alt='DreamPath Development' />
                     </div>
@@ -285,7 +286,7 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                             tabConfig.map((tab, index) => (
                                 <div className={`admin-tab-item ${selectedTab === index ? 'active' : ''}`}
                                     key={tab.key}
-                                    onClick={() => setSelectedTab(index)}
+                                    onClick={() => { setSelectedTab(index); setOpenMenu(false) }}
                                 >
                                     <i className={tab.icon}></i>
                                     <span>{tab.tabName}</span>
@@ -299,7 +300,15 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                     <div className="admin-component-wraper">
                         <div className="admin-component-header">
                             <div className="admin-header-wraper">
-                                <h1>{tabConfig[selectedTab].tabName}</h1>
+                                <div className='header-container-a'>
+                                    <div className='hum' onClick={() => setOpenMenu(!openMenu)}>
+                                        <div className='overlay-1' style={{ width: openMenu ? '100%' : '0' }}></div>
+                                        <span className={`${openMenu ? "active" : ""}`}></span>
+                                        <span className={`${openMenu ? "active" : ""}`}></span>
+                                        <span className={`${openMenu ? "active" : ""}`}></span>
+                                    </div>
+                                    <h1>{tabConfig[selectedTab].tabName}</h1>
+                                </div>
                                 <div className='logo-container'>
                                     <div className="admin-logo">
                                         <i className="hgi hgi-stroke hgi-user-story"></i>

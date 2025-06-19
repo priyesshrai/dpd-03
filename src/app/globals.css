@@ -7,7 +7,7 @@
   list-style: none;
   box-sizing: border-box;
   font-family: sans-serif;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.2s linear;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -2061,9 +2061,56 @@ footer {
         align-items: center;
         justify-content: space-between;
 
-        h1 {
-          color: var(--light-dark);
-          flex-shrink: 0;
+        .header-container-a {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          .hum {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-direction: column;
+
+            span {
+              width: 35px;
+              height: 1px;
+              position: relative;
+              background-color: #000;
+              border-radius: 5px;
+
+              &.active {
+                position: absolute;
+
+                &:first-child,
+                &:nth-child(2) {
+                  transform: rotate(45deg);
+                }
+                &:last-child {
+                  transform: rotate(-45deg);
+                }
+              }
+            }
+            .overlay-1{
+              position: fixed;
+              width: 0%;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              background-color: #0000006b;
+              z-index: 9;
+            }
+          }
+
+          h1 {
+            color: var(--light-dark);
+            flex-shrink: 0;
+          }
         }
 
         .logo-container {
@@ -2142,8 +2189,11 @@ footer {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 
   span {
+    width: max-content;
+    flex-shrink: 0;
     display: block;
     font-size: 18px;
     font-weight: 400;
@@ -2546,6 +2596,25 @@ footer {
     border-radius: 20px;
     font-size: 12px;
     color: var(--primary-bg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .admin-tabs-container {
+    transform: translateX(-100%);
+    z-index: 99;
+    &.active {
+      transform: translateX(0);
+    }
+  }
+  .admin-component-container {
+    width: 100%;
+  }
+  .hum {
+    display: flex !important;
+  }
+  .admin-component-container .admin-component-wraper .admin-component-section{
+    padding: 20px;
   }
 }
 
