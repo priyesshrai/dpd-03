@@ -56,7 +56,7 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     );
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Education before adding a new one.");
+      toast.error("Please fill out all fields in the last Education before adding a new one.");
       return;
     }
 

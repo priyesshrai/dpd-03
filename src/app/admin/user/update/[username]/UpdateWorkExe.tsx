@@ -41,7 +41,7 @@ export default function UpdateUserWorkExe({fetchData, candidateWork, loading, se
       (field) => field.trim() !== ""
     );
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last experience before adding a new one.");
+      toast.error("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
     setCandidateData((prevData) => ({

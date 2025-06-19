@@ -1,7 +1,7 @@
 import React from 'react'
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateSocialActivity } from '../../../../../../types';
 // import axios from 'axios';
 
@@ -40,7 +40,7 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
     );
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last experience before adding a new one.");
+      toast.error("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
 
