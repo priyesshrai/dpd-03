@@ -47,17 +47,19 @@ function DashboardTop({ setTabByKey, personalData, loading }: DasTop) {
         loading ? <UpdUserTop /> : (
           <>
             <div className="component-dashboard-top-wraper">
-              <div className='component-block component-block-1'>
-                <Image
-                  src={
-                    typeof personalData?.profile === 'string'
-                      ? personalData.profile
-                      : "/images/profile/default.png"
-                  }
-                  width={200}
-                  height={200}
-                  alt={personalData.name}
-                />
+              <div className='component-block'>
+                <div className='component-block-1'>
+                  <Image
+                    src={
+                      typeof personalData?.profile === 'string'
+                        ? personalData.profile
+                        : "/images/profile/default.png"
+                    }
+                    width={200}
+                    height={200}
+                    alt={personalData.name}
+                  />
+                </div>
               </div>
 
               <div className='component-block component-block-2'>
