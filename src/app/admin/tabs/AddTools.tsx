@@ -58,13 +58,14 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
     }
 
     toast.promise(
-      axios.post("http://inforbit.in/demo/dpd/tools-master", formData, {
+      axios.post("https://inforbit.in/demo/dpd/tools-master", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
         .then((response) => {
-
+          console.log(response.data);
+          
           if (response.data.status) {
             setSkills({
               tools_name: "",
