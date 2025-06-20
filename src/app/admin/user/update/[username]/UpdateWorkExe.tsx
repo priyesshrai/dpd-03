@@ -14,7 +14,7 @@ type Candidate = {
   profileNid: string;
   fetchData: () => void;
 }
-export default function UpdateUserWorkExe({fetchData, candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
+export default function UpdateUserWorkExe({ fetchData, candidateWork, loading, setCandidateData, setLoading, profileNid }: Candidate) {
   const workExperiences = candidateWork;
 
   const addNewExperience = () => {
@@ -37,7 +37,9 @@ export default function UpdateUserWorkExe({fetchData, candidateWork, loading, se
       return;
     }
 
-    const allFieldsFilled = Object.values(lastExperience).every(
+    const { work_exp_nid, ...restField } = lastExperience;
+
+    const allFieldsFilled = Object.values(restField).every(
       (field) => field.trim() !== ""
     );
     if (!allFieldsFilled) {
@@ -103,11 +105,11 @@ export default function UpdateUserWorkExe({fetchData, candidateWork, loading, se
     );
   }
 
-  function handleRemove(id: string) {
+  function handleRemove(id: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this work experience?");
     if (!confirmDelete) return;
 
-    const updatedWork = workExperiences.filter((work) => work.work_exp_nid !== id || "");
+    const updatedWork = workExperiences.filter((_, index) => index !== id);
     setCandidateData((prevData) => ({
       ...prevData,
       workExp: updatedWork
@@ -137,7 +139,7 @@ export default function UpdateUserWorkExe({fetchData, candidateWork, loading, se
                 <div className="details-edit-body" key={index}
                   style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                   <span className='work-form-title'>Work Experience {index + 1} </span>
-                  <div className='remove' onClick={() => handleRemove(experience.work_exp_nid)}>
+                  <div className='remove' onClick={() => handleRemove(index)}>
                     <i className="hgi hgi-stroke hgi-delete-02"></i>
                   </div>
 
