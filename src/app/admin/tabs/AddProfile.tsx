@@ -531,6 +531,17 @@ function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps)
     );
   }
 
+  function handleRemove(index?: number) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Education?");
+    if (!confirmDelete) return;
+
+    const updatedEdu = education.filter((_, i) => i !== index);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      education: updatedEdu
+    }));
+  }
+
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -546,6 +557,9 @@ function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps)
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
             <span className='work-form-title'>Education {index + 1} </span>
+            <div className='remove' onClick={() => handleRemove(index)}>
+              <i className="hgi hgi-stroke hgi-delete-02"></i>
+            </div>
             <div className="details-edit-wraper">
 
               <div className="edit-input-container">

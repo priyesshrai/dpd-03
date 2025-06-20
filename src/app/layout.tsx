@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Ravi Khetan - CEO & Founder - Wizards Next LLP Varanasi. ",
