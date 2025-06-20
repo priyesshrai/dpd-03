@@ -294,39 +294,42 @@ main {
         gap: 10px;
 
         a {
-          /* flex: 1; */
+          flex: 1;
           background-color: var(--hover-color);
-          border-radius: 8px;
-          padding: 16px 13px;
-          font-size: 15px;
+          border-radius: 5px;
+          padding: 12px 20px;
+          font-size: 18px;
           font-weight: 500;
           color: var(--primary-bg);
           margin-right: 8px;
           display: flex;
+          justify-content: center;
           align-items: center;
           gap: 10px;
-          i {
-            font-size: 20px;
-          }
+
         }
         button {
+          position: relative;
           flex: 1;
-          border-radius: 8px;
-          padding: 16px 13px;
-          font-size: 20px;
+          border-radius: 5px;
+          padding:12px 20px;
+          font-size: 18px;
           font-weight: 500;
           margin-right: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
+          gap: 8px;
           border: 1px solid var(--new-colour);
           background-color: var(--new-colour);
           cursor: pointer;
           color: var(--primary-bg);
           text-align: center;
-          i {
-            font-size: 25px;
+
+          i{
+            position: relative;
+            font-size: 20px;
+            transition: all 0.2s linear;
           }
         }
       }
@@ -2337,6 +2340,7 @@ footer {
   background-color: #00000070;
   /* backdrop-filter: blur(5px); */
   padding: 20px;
+  z-index: 999;
 
   .share-section-wraper {
     position: relative;
