@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
-import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 
 type Password = {

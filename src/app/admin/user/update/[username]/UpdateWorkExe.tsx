@@ -37,15 +37,16 @@ export default function UpdateUserWorkExe({ fetchData, candidateWork, loading, s
       return;
     }
 
-    const { work_exp_nid, ...restField } = lastExperience;
+    // const { work_exp_nid, ...restField } = lastExperience;
 
-    const allFieldsFilled = Object.values(restField).every(
-      (field) => field.trim() !== ""
-    );
-    if (!allFieldsFilled) {
-      toast.error("Please fill out all fields in the last experience before adding a new one.");
-      return;
-    }
+    // const allFieldsFilled = Object.values(restField).every(
+    //   (field) => field.trim() !== ""
+    // );
+    // if (!allFieldsFilled) {
+    //   toast.error("Please fill out all fields in the last experience before adding a new one.");
+    //   return;
+    // }
+    
     setCandidateData((prevData) => ({
       ...prevData,
       workExp: [

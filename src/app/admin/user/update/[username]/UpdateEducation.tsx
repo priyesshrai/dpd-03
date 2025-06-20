@@ -51,16 +51,16 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
       return;
     }
 
-    const { education_nid, ...restFields } = lastEducation;
+    // const { education_nid, ...restFields } = lastEducation;
 
-    const allFieldsFilled = Object.values(restFields).every(
-      (field) => field.trim() !== ""
-    );
+    // const allFieldsFilled = Object.values(restFields).every(
+    //   (field) => field.trim() !== ""
+    // );
 
-    if (!allFieldsFilled) {
-      toast.error("Please fill out all fields in the last Education before adding a new one.");
-      return;
-    }
+    // if (!allFieldsFilled) {
+    //   toast.error("Please fill out all fields in the last Education before adding a new one.");
+    //   return;
+    // }
 
     setCandidateData((prevData) => ({
       ...prevData,

@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, HeroProps } from '../../../../types'
 import { AchieSkeleton, HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton'
 import Cookies from "js-cookie";
-import useFancybox from '@/hooks/useFancyBox'
 
 
 type UserProfileProps = {
