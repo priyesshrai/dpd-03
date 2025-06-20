@@ -160,12 +160,12 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
     // );
   }
 
-  function handleRemove(id: string) {
+  function handleRemove(id: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Social Activity?");
     if (!confirmDelete) return;
 
-    const updatedActivity = socialActivity.filter((activity) => {
-      return activity.social_activities_nid !== id || "";
+    const updatedActivity = socialActivity.filter((_,idx) => {
+      return idx !== id;
     });
 
     setCandidateData((prevData) => ({
@@ -198,7 +198,7 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
                   style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                   <span className='work-form-title'>Social Activity {index + 1} </span>
 
-                  <div className='remove' onClick={() => handleRemove(activity.social_activities_nid)}>
+                  <div className='remove' onClick={() => handleRemove(index)}>
                     <i className="hgi hgi-stroke hgi-delete-02"></i>
                   </div>
 
