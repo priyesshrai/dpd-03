@@ -124,11 +124,11 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
     // );
   }
 
-  function handleRemove(id: string) {
+  function handleRemove(id: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Achievement?");
     if (!confirmDelete) return;
 
-    const updatedAchievement = achievement.filter((achi) => achi.achievement_nid !== id || "");
+    const updatedAchievement = achievement.filter((_, idx) => idx !== id);
     setCandidateData((prevData) => ({
       ...prevData,
       achievements: updatedAchievement
@@ -159,7 +159,7 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
                   style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                   <span className='work-form-title'>Achievements {index + 1} </span>
 
-                  <div className='remove' onClick={() => handleRemove(achievement.achievement_nid)}>
+                  <div className='remove' onClick={() => handleRemove(index)}>
                     <i className="hgi hgi-stroke hgi-delete-02"></i>
                   </div>
 
