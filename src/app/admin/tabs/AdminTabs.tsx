@@ -10,6 +10,7 @@ import axios from 'axios';
 import { GridRowsProp } from '@mui/x-data-grid';
 import Cookies from "js-cookie";
 import toast, { Toaster } from 'react-hot-toast';
+import ChangePassword from './ChangePassword';
 
 type TabConfig = {
   key: string;
@@ -54,6 +55,12 @@ export default function AdminTabs() {
       tabName: "Add New Tools",
       icon: "hgi hgi-stroke hgi-code",
       component: AddTools
+    },
+    {
+      key: "changePass",
+      tabName: "Change Password",
+      icon: "hgi hgi-stroke hgi-edit-02",
+      component: ChangePassword
     },
   ];
   const [selectedTab, setSelectedTab] = useState(0)
