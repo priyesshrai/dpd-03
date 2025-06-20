@@ -230,8 +230,6 @@ function SideBar({ userData, loading, userName }: HeroProps) {
 }
 
 function Hero({ userData, loading, userName }: HeroProps) {
-    const [fancyboxRef] = useFancybox();
-
     return (
         <section className='hero-section'>
             <div className="hero-section-wraper">
@@ -356,7 +354,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                     </Link>
                                 </div>
                                 <div className="block-layout-content">
-                                    <div ref={fancyboxRef} className='im'>
+                                    <div className='im'>
                                         {userData?.recent_project_list?.map((project: ApiProject) => (
                                             <React.Fragment key={project.recent_project_nid}>
                                                 <div className='h3-img'>
@@ -368,8 +366,8 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                                     {project?.recent_project_icon_img && (
                                                         <a
                                                             className='ing'
-                                                            data-fancybox="gallery"
-                                                            href={project?.recent_project_img ?? ""}
+                                                        // data-fancybox="gallery"
+                                                        // href={project?.recent_project_img ?? ""}
                                                         >
                                                             <img
                                                                 src={project?.recent_project_icon_img}
@@ -402,7 +400,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                         <h2>Achievements</h2>
                                     </div>
                                     <div className="block-layout-content">
-                                        <div ref={fancyboxRef} className='im'>
+                                        <div className='im'>
                                             <ul>
                                                 {
                                                     userData?.achievement_list?.map((achi: ApiAchievement) => (
@@ -412,7 +410,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                                                     <strong>{achi.title}</strong></Link>
                                                                 {
                                                                     achi.achievement_image ? (
-                                                                        <a href={achi.achievement_image ?? ""} data-fancybox="gallery">
+                                                                        <a href=''>
                                                                             <i className="hgi hgi-stroke hgi-image-01"></i>
                                                                         </a>
                                                                     ) : (

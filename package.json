@@ -17,6 +17,7 @@
     "@mui/material": "^7.1.1",
     "@mui/x-data-grid": "^8.5.0",
     "axios": "^1.9.0",
+    "fslightbox-react": "^1.8.0",
     "js-cookie": "^3.0.5",
     "motion": "^12.6.3",
     "next": "15.2.4",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/fslightbox-react": "^1.8.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
