@@ -459,12 +459,28 @@ function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps)
 
   const addNewEducation = () => {
     const lastExperience = education[education.length - 1];
+
+    if (!lastExperience) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        education: [
+          ...education,
+          {
+            institute: "",
+            degree: "",
+            passingYear: "",
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Education before adding a new one.");
+      toast.error("Please fill out all fields in the last Education before adding a new one.");
       return;
     }
 
@@ -634,14 +650,13 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
 
   const addExperience = () => {
     const lastExperience = workExperiences[workExperiences.length - 1];
-    
+
     if (!lastExperience) {
       setCandidateData((prevData) => ({
         ...prevData,
         workExp: [
           ...workExperiences,
           {
-            work_exp_nid: "",
             company: "",
             position: "",
             workingPeriod: "",
@@ -655,7 +670,7 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
       (field) => field.trim() !== ""
     );
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last experience before adding a new one.");
+      toast.error("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
     setCandidateData((prevData) => ({
@@ -1166,14 +1181,27 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
 
   const addNewProject = () => {
     const lastSkill = projects[projects.length - 1];
-    const allFieldsFilled =
-      lastSkill.name.trim() !== "" &&
-      lastSkill.link.trim() !== "" &&
-      lastSkill.image !== null &&
-      lastSkill.description.trim() !== "";
+
+    if (!lastSkill) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        projects: [
+          ...projects,
+          {
+            name: "",
+            link: "",
+            image: null,
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
+    const allFieldsFilled = lastSkill.name.trim() !== ""
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Project before adding a new one.");
+      toast.error("Please fill out all fields in the last Project before adding a new one.");
       return;
     }
 
@@ -1249,6 +1277,17 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
     );
   }
 
+  function handleRemove(id: number) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Project?");
+    if (!confirmDelete) return;
+
+    const updatedProject = projects.filter((_, idx) => idx !== id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      projects: updatedProject
+    }));
+  }
+
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -1264,6 +1303,9 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
             <span className='work-form-title'>Project {index + 1} </span>
+            <div className='remove' onClick={() => handleRemove(index)}>
+              <i className="hgi hgi-stroke hgi-delete-02"></i>
+            </div>
 
             <div className="details-edit-wraper">
 
@@ -1335,14 +1377,25 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
 
   const addNewAchievement = () => {
     const lastSkill = achievement[achievement.length - 1];
-    const allFieldsFilled =
-      lastSkill.name.trim() !== "" &&
-      lastSkill.link.trim() !== "" &&
-      lastSkill.image !== null &&
-      lastSkill.description.trim() !== "";
+    if (!lastSkill) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        achievements: [
+          ...achievement,
+          {
+            name: "",
+            link: "",
+            image: null,
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+    const allFieldsFilled = lastSkill.name.trim() !== ""
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last Achievement before adding a new one.");
+      toast.error("Please fill out all fields in the last Achievement before adding a new one.");
       return;
     }
 
@@ -1418,6 +1471,17 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
     );
   }
 
+  function handleRemove(id: number) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Achievement?");
+    if (!confirmDelete) return;
+
+    const updatedAchievement = achievement.filter((_, idx) => idx !== id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      achievements: updatedAchievement
+    }));
+  }
+
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -1433,6 +1497,9 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
             <span className='work-form-title'>Achievements {index + 1} </span>
+            <div className='remove' onClick={() => handleRemove(index)}>
+              <i className="hgi hgi-stroke hgi-delete-02"></i>
+            </div>
 
             <div className="details-edit-wraper">
 
@@ -1509,12 +1576,27 @@ function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepP
 
   const addNewSocialActivity = () => {
     const lastExperience = socialActivity[socialActivity.length - 1];
+
+    if (!lastExperience) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        socialActivity: [
+          ...socialActivity,
+          {
+            title: "",
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
+
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );
 
     if (!allFieldsFilled) {
-      alert("Please fill out all fields in the last experience before adding a new one.");
+      toast.error("Please fill out all fields in the last experience before adding a new one.");
       return;
     }
 
@@ -1635,6 +1717,21 @@ function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepP
     );
   }
 
+  function handleRemove(id: number) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this Social Activity?");
+    if (!confirmDelete) return;
+
+    const updatedActivity = socialActivity.filter((_, idx) => {
+      return idx !== id;
+    });
+
+    setCandidateData((prevData) => ({
+      ...prevData,
+      socialActivity: updatedActivity
+    }));
+  }
+
+
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -1650,6 +1747,9 @@ function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepP
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
             <span className='work-form-title'>Social Activity {index + 1} </span>
+            <div className='remove' onClick={() => handleRemove(index)}>
+              <i className="hgi hgi-stroke hgi-delete-02"></i>
+            </div>
 
             <div className="details-edit-wraper">
 
