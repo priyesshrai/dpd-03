@@ -124,11 +124,11 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
     );
   }
 
-  function handleRemove(id: string) {
+  function handleRemove(id: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Project?");
     if (!confirmDelete) return;
 
-    const updatedProject = projects.filter((project) => project.recent_project_nid !== id || "");
+    const updatedProject = projects.filter((_,idx) => idx !== id);
     setCandidateData((prevData) => ({
       ...prevData,
       projects: updatedProject
@@ -160,7 +160,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                   style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                   <span className='work-form-title'>Project {index + 1} </span>
 
-                  <div className='remove' onClick={() => handleRemove(project.recent_project_nid)}>
+                  <div className='remove' onClick={() => handleRemove(index)}>
                     <i className="hgi hgi-stroke hgi-delete-02"></i>
                   </div>
 
