@@ -32,9 +32,9 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
   };
 
   const addNewEducation = () => {
-    const lastExperience = education[education.length - 1];
+    const lastEducation = education[education.length - 1];
 
-    if (!lastExperience) {
+    if (!lastEducation) {
       setCandidateData((prevData) => ({
         ...prevData,
         education: [
@@ -51,7 +51,9 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
       return;
     }
 
-    const allFieldsFilled = Object.values(lastExperience).every(
+    const { education_nid, ...restFields } = lastEducation;
+
+    const allFieldsFilled = Object.values(restFields).every(
       (field) => field.trim() !== ""
     );
 
@@ -106,11 +108,11 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
     );
   }
 
-  function handleRemove(id: string) {
+  function handleRemove(index?: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Education?");
     if (!confirmDelete) return;
 
-    const updatedEdu = education.filter((edu) => edu.education_nid !== id || "");
+    const updatedEdu = education.filter((_, i) => i !== index);
     setCandidateData((prevData) => ({
       ...prevData,
       education: updatedEdu
@@ -140,7 +142,7 @@ export default function UpdateUserEducation({ candidateEducation, loading, setCa
                 <div className="details-edit-body" key={index}
                   style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
                   <span className='work-form-title'>Education {index + 1} </span>
-                  <div className='remove' onClick={() => handleRemove(edu.education_nid ?? "")}>
+                  <div className='remove' onClick={() => handleRemove(index)}>
                     <i className="hgi hgi-stroke hgi-delete-02"></i>
                   </div>
                   <div className="details-edit-wraper">
