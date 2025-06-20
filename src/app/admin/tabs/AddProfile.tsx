@@ -634,6 +634,23 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
 
   const addExperience = () => {
     const lastExperience = workExperiences[workExperiences.length - 1];
+    
+    if (!lastExperience) {
+      setCandidateData((prevData) => ({
+        ...prevData,
+        workExp: [
+          ...workExperiences,
+          {
+            work_exp_nid: "",
+            company: "",
+            position: "",
+            workingPeriod: "",
+            description: "",
+          },
+        ]
+      }));
+      return;
+    }
     const allFieldsFilled = Object.values(lastExperience).every(
       (field) => field.trim() !== ""
     );
@@ -704,6 +721,18 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
     );
   }
 
+  function handleRemove(id: number) {
+    const confirmDelete = window.confirm("Are you sure you want to remove this work experience?");
+    if (!confirmDelete) return;
+
+    const updatedWork = workExperiences.filter((_, index) => index !== id);
+    setCandidateData((prevData) => ({
+      ...prevData,
+      workExp: updatedWork
+    }));
+  }
+
+
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -719,6 +748,9 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
           <div className="details-edit-body" key={index}
             style={{ borderBottom: "1px solid #dadada", paddingBottom: "50px" }} >
             <span className='work-form-title'>Work Experience {index + 1} </span>
+            <div className='remove' onClick={() => handleRemove(index)}>
+              <i className="hgi hgi-stroke hgi-delete-02"></i>
+            </div>
 
             <div className="details-edit-wraper">
 
