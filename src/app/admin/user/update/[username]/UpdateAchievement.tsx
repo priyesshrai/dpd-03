@@ -3,8 +3,8 @@ import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import { UpdateAchievement, UpdateFormData } from '../../../../../../types';
-// import axios from 'axios';
 import Image from 'next/image';
+import axios from 'axios';
 
 
 
@@ -13,10 +13,11 @@ type Candidate = {
   candidateachievement: UpdateAchievement[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  // fetchData: () => void;
+  fetchData: () => void;
+  profileNid: string;
 }
 
-export default function UpdateUserAchievement({ candidateachievement, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserAchievement({ profileNid, fetchData, candidateachievement, loading, setCandidateData, setLoading }: Candidate) {
   const achievement = candidateachievement
 
   const addNewAchievement = () => {
@@ -76,52 +77,52 @@ export default function UpdateUserAchievement({ candidateachievement, loading, s
     }));
   };
 
-
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true)
     const formData = new FormData();
 
     achievement.forEach((achievement, index) => {
-      formData.append(`achievement[${index}][name]`, achievement.name);
-      formData.append(`achievement[${index}][link]`, achievement.link);
-      formData.append(`achievement[${index}][description]`, achievement.description);
+      formData.append(`achievements[${index}][name]`, achievement.name);
+      formData.append(`achievements[${index}][link]`, achievement.link);
+      formData.append(`achievements[${index}][description]`, achievement.description);
       if (achievement.image) {
         formData.append(`achievement[${index}][image]`, achievement.image);
       }
     });
 
     formData.append("user_type", "superadmin")
+    formData.append("user_nid", profileNid)
+
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
-    setLoading(false)
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-achievement", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.data.status) {
-    //         setLoading(false);
-    //         nextStep()
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Project Added successful!",
-    //     error: (err) => err || "Failed to Add Project"
-    //   }
-    // );
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-achievements-api", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          if (response.data.status) {
+            fetchData();
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Achievement Added successful!",
+        error: (err) => err || "Failed to Add Achievement"
+      }
+    );
   }
 
   function handleRemove(id: number) {
