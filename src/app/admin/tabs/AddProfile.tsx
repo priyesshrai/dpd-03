@@ -1178,7 +1178,6 @@ interface Projects {
 function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
   const projects = candidateData.projects
   const [loading, setLoading] = useState<boolean>(false)
-  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
 
   const addNewProject = () => {
     const lastSkill = projects[projects.length - 1];
@@ -1289,17 +1288,6 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
     }));
   }
 
-  function handleProfilePrevChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -1334,20 +1322,10 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               </div>
 
               <div className="edit-input-container">
-                {
-                  profilePicPreview && (
-                    <Image src={profilePicPreview}
-                      alt='Project Image'
-                      width={300}
-                      height={200}
-                      style={{ marginBottom: "10px" }} />
-                  )
-                }
                 <input
                   type="file"
                   onChange={(e) => {
-                    handleChange(index, "image", e.target.files ? e.target.files[0] : null);
-                    handleProfilePrevChange(e as React.ChangeEvent<HTMLInputElement>);
+                    handleChange(index, "image", e.target.files ? e.target.files[0] : null)
                   }}
                   className="inputs"
                   required
@@ -1398,7 +1376,6 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
 function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProps) {
   const achievement = candidateData.achievements;
   const [loading, setLoading] = useState<boolean>(false)
-  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
 
   const addNewAchievement = () => {
     const lastSkill = achievement[achievement.length - 1];
@@ -1507,17 +1484,6 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
     }));
   }
 
-  function handleProfilePrevChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   return (
     <div className="details-edit-component" style={{ padding: "30px" }}>
 
@@ -1552,20 +1518,10 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
               </div>
 
               <div className="edit-input-container">
-                {
-                  profilePicPreview && (
-                    <Image src={profilePicPreview}
-                      alt='Project Image'
-                      width={300}
-                      height={200}
-                      style={{ marginBottom: "10px" }} />
-                  )
-                }
                 <input
                   type="file"
                   onChange={(e) => {
                     handleChange(index, "image", e.target.files ? e.target.files[0] : null)
-                    handleProfilePrevChange(e as React.ChangeEvent<HTMLInputElement>);
                   }}
                   className="inputs"
                   required
