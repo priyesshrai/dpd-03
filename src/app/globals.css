@@ -2053,10 +2053,11 @@ footer {
     .admin-component-header {
       position: relative;
       width: 100%;
-      padding: 10px 20px;
+      padding: 14.5px 20px;
       background-color: var(--primary-bg);
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+      /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
+        border-bottom: 1px solid #e0e0e0;
 
       .admin-header-wraper {
         position: relative;
@@ -2090,11 +2091,8 @@ footer {
 
               &.active {
                 position: absolute;
-
-                &:first-child,
-                &:nth-child(2) {
-                  transform: rotate(45deg);
-                }
+                transform: rotate(45deg);
+                
                 &:last-child {
                   transform: rotate(-45deg);
                 }
@@ -2627,6 +2625,11 @@ footer {
   .tab-item span{
     display: none;
   }
+  .admin-component-container .admin-component-wraper .admin-component-header{
+    position: sticky;
+    top: 0;
+    z-index: 9;
+  }
 }
 
 @media (max-width: 1092px) {
@@ -2688,15 +2691,6 @@ footer {
   }
 }
 
-@media (max-width:767px) {
-  .component-dashboard-top .component-dashboard-top-wraper{
-    grid-template-columns : 1fr;
-  }
-  .component-block-1{
-    margin: 0 auto;
-  }
-}
-
 @media (max-width: 832px) {
   .hero-section-wraper {
     grid-template-columns: 1fr;
@@ -2731,6 +2725,25 @@ footer {
   }
 }
 
+@media (max-width:768px) {
+  .component-dashboard-top .component-dashboard-top-wraper{
+    grid-template-columns : 1fr;
+  }
+  .component-block-1{
+    margin: 0 auto;
+  }
+  .edit-component{
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .details-edit-component .details-edit-body .details-edit-wraper{
+    grid-template-columns: 1fr;
+  }
+  .component-section{
+    padding-left:20px ;
+  }
+}
+
 @media (max-width: 448px) {
   .work-block .work-block-wraper .block {
     height: max-content;
@@ -2739,6 +2752,11 @@ footer {
     grid-template-columns: 1fr;
   }
   main {
+    padding: 10px;
+  }
+  .details-edit-component .details-edit-footer button{
+    flex: 1;
+    font-size: 18px;
     padding: 10px;
   }
 }
