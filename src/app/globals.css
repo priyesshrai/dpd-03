@@ -306,13 +306,12 @@ main {
           justify-content: center;
           align-items: center;
           gap: 10px;
-
         }
         button {
           position: relative;
           flex: 1;
           border-radius: 5px;
-          padding:12px 20px;
+          padding: 12px 20px;
           font-size: 18px;
           font-weight: 500;
           margin-right: 8px;
@@ -326,7 +325,7 @@ main {
           color: var(--primary-bg);
           text-align: center;
 
-          i{
+          i {
             position: relative;
             font-size: 20px;
             transition: all 0.2s linear;
@@ -1277,13 +1276,31 @@ footer {
   position: sticky;
   top: 100px;
   width: max-content;
-  height: 100%;
+  height: max-content;
   flex-shrink: 0;
 
   .tab-section-wraper {
     position: relative;
     width: 100%;
     height: 100%;
+
+    .user-tab-collapes {
+      position: absolute;
+      top: 2px;
+      right: -40px;
+      width: 40px;
+      height: 45px;
+      background-color: var(--primary-bg);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 5px 5px 0;
+      z-index: 99;
+      cursor: pointer;
+      i {
+        font-size: 25px;
+      }
+    }
   }
 }
 
@@ -2057,7 +2074,7 @@ footer {
       background-color: var(--primary-bg);
       /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
         rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
-        border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid #e0e0e0;
 
       .admin-header-wraper {
         position: relative;
@@ -2092,13 +2109,13 @@ footer {
               &.active {
                 position: absolute;
                 transform: rotate(45deg);
-                
+
                 &:last-child {
                   transform: rotate(-45deg);
                 }
               }
             }
-            .overlay-1{
+            .overlay-1 {
               position: fixed;
               width: 0%;
               top: 0;
@@ -2616,16 +2633,16 @@ footer {
   .hum {
     display: flex !important;
   }
-  .admin-component-container .admin-component-wraper .admin-component-section{
+  .admin-component-container .admin-component-wraper .admin-component-section {
     padding: 20px;
   }
-  .tab-item{
+  .tab-item {
     padding: 15px;
   }
-  .tab-item span{
+  .tab-item span {
     display: none;
   }
-  .admin-component-container .admin-component-wraper .admin-component-header{
+  .admin-component-container .admin-component-wraper .admin-component-header {
     position: sticky;
     top: 0;
     z-index: 9;
@@ -2725,22 +2742,46 @@ footer {
   }
 }
 
-@media (max-width:768px) {
-  .component-dashboard-top .component-dashboard-top-wraper{
-    grid-template-columns : 1fr;
+@media (max-width: 768px) {
+  .component-dashboard-top .component-dashboard-top-wraper {
+    grid-template-columns: 1fr;
   }
-  .component-block-1{
+  .component-block-1 {
     margin: 0 auto;
   }
-  .edit-component{
+  .edit-component {
     transform: translateX(0);
     opacity: 1;
   }
-  .details-edit-component .details-edit-body .details-edit-wraper{
+  .details-edit-component .details-edit-body .details-edit-wraper {
     grid-template-columns: 1fr;
   }
-  .component-section{
-    padding-left:20px ;
+  .component-section {
+    padding-left: 0px;
+  }
+  .tab-section {
+    position: fixed;
+    z-index: 99;
+    top: 110px;
+    left: 0;
+    transform: translateX(-100%);
+
+    .tab-section-wraper .user-tab-collapes{
+      display: flex;
+    }
+
+    &.active{
+      transform: translate(0);
+    }
+  }
+  .tab-item span {
+    display: block;
+  }
+  .component-block-2{
+    padding: 0;
+  }
+  .user-profile-dashboard{
+    margin-top: 60px;
   }
 }
 
@@ -2754,7 +2795,7 @@ footer {
   main {
     padding: 10px;
   }
-  .details-edit-component .details-edit-footer button{
+  .details-edit-component .details-edit-footer button {
     flex: 1;
     font-size: 18px;
     padding: 10px;

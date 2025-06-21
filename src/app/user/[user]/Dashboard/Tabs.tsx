@@ -296,17 +296,24 @@ export default function Tabs({ user }: TabsProps) {
         if (index !== -1) setSelectedTab(index);
     };
 
+    const [isTabCollapsed, setIsTabCollapsed] = useState(false);
+
     return (
         <section className='user-profile-dashboard'>
             <div className="profile-dashboard-wraper">
-                <div className="tab-section">
+                <div className={"tab-section" + (isTabCollapsed ? ' active' : '')}>
                     <div className="tab-section-wraper">
+                        <div className='user-tab-collapes' onClick={() => setIsTabCollapsed(!isTabCollapsed)}>
+                            <i className="hgi hgi-stroke hgi-arrow-right-01" 
+                            style={{transform: isTabCollapsed ? 'rotate(180deg)' : 'rotate(0deg)'}}
+                            ></i>
+                        </div>
                         {tabConfig.map((tab, index) => {
                             return (
                                 <div
                                     key={tab.key}
                                     className={`tab-item ${selectedTab === index ? 'active' : ''}`}
-                                    onClick={() => handleTabChange(index)}
+                                    onClick={() => {handleTabChange(index); setIsTabCollapsed(false);}}
                                 >
                                     <i className={tab.icon}></i>
                                     <span>{tab.tabName}</span>
