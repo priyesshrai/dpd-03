@@ -178,8 +178,8 @@ export default function Achievement({ candidateachievement, setCandidateData, go
 
                                     <div className="edit-input-container">
                                         {
-                                            achievement.image ? (
-                                                <div>
+                                            achievement.image && (
+                                                <div style={{ marginBottom: "10px" }}>
                                                     <Image
                                                         src={
                                                             typeof achievement.image === "string"
@@ -193,18 +193,14 @@ export default function Achievement({ candidateachievement, setCandidateData, go
                                                         alt='project image'
                                                     />
                                                 </div>
-                                            ) : (
-                                                <>
-                                                    <input
-                                                        type="file"
-                                                        onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                                                        className="inputs"
-                                                        required
-                                                    />
-                                                    <label className='label'>Achievement Image</label>
-                                                </>
-                                            )
-                                        }
+                                            )}
+                                        <input
+                                            type="file"
+                                            onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                                            className="inputs"
+                                            required
+                                        />
+                                        <label className='label'>Achievement Image</label>
                                     </div>
 
                                     <div className="edit-input-container">

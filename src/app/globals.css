@@ -2800,6 +2800,9 @@ footer {
     font-size: 18px;
     padding: 10px;
   }
+  .tab-section{
+    top: 95px;
+  }
 }
 @media (max-width: 384px) {
   .hero-footer-2 h2 {

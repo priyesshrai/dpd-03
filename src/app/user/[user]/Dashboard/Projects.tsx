@@ -175,8 +175,8 @@ export default function Projects({ candidateProject, goBack, setCandidateData, p
 
                                     <div className="edit-input-container">
                                         {
-                                            project.image ? (
-                                                <div>
+                                            project.image && (
+                                                <div style={{ marginBottom: "10px" }}>
                                                     <Image
                                                         src={
                                                             typeof project.image === "string"
@@ -191,18 +191,15 @@ export default function Projects({ candidateProject, goBack, setCandidateData, p
                                                     />
                                                 </div>
 
-                                            ) : (
-                                                <>
-                                                    <input
-                                                        type="file"
-                                                        onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                                                        className="inputs"
-                                                        required
-                                                    />
-                                                    <label className='label'>Project Image</label>
-                                                </>
-                                            )
-                                        }
+                                            )}
+
+                                        <input
+                                            type="file"
+                                            onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                                            className="inputs"
+                                            required
+                                        />
+                                        <label className='label'>Project Image</label>
                                     </div>
 
                                     <div className="edit-input-container">
