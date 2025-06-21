@@ -128,7 +128,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
     const confirmDelete = window.confirm("Are you sure you want to remove this Project?");
     if (!confirmDelete) return;
 
-    const updatedProject = projects.filter((_,idx) => idx !== id);
+    const updatedProject = projects.filter((_, idx) => idx !== id);
     setCandidateData((prevData) => ({
       ...prevData,
       projects: updatedProject
@@ -180,8 +180,8 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
 
                     <div className="edit-input-container">
                       {
-                        project.image ? (
-                          <div>
+                        project.image && (
+                          <div style={{ marginBottom: "10px" }}>
                             <Image
                               src={
                                 typeof project.image === "string"
@@ -195,19 +195,19 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                               alt='project image'
                             />
                           </div>
-
-                        ) : (
-                          <>
-                            <input
-                              type="file"
-                              onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
-                              className="inputs"
-                              required
-                            />
-                            <label className='label'>Project Image</label>
-                          </>
                         )
                       }
+                      <>
+                        <input
+                          type="file"
+                          onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                          className="inputs"
+                          required
+                        />
+                        <label className='label'>Project Image</label>
+                      </>
+
+
                     </div>
 
                     <div className="edit-input-container">
