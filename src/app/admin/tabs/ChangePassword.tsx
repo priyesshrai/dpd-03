@@ -3,16 +3,20 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
+import axios from 'axios';
+import Cookies from "js-cookie";
 
 type Password = {
   oldPassword: string;
   newPassword: string;
+  cNewPassword: string;
 }
 export default function ChangePassword() {
   const [loading, setLoading] = useState<boolean>(false)
   const [password, setPassword] = useState<Password>({
     oldPassword: "",
-    newPassword: ""
+    newPassword: "",
+    cNewPassword: ""
   })
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -33,16 +37,51 @@ export default function ChangePassword() {
       toast.error("Old password and New Password could not be same.")
       return;
     }
+
+    if (password.newPassword !== password.cNewPassword) {
+      toast.error("New Password and Confirm New Password does not match.")
+      return;
+    }
+
     setLoading(true);
     const formData = new FormData();
-    formData.append("old_password", password.oldPassword);
-    formData.append("new_password", password.newPassword);
-    formData.append("user_type", "superadmin");
+    formData.append("oldpwd", password.oldPassword);
+    formData.append("newpwd", password.newPassword);
+    formData.append("usertype", "superadmin");
 
-    formData.forEach((value, key) => (
-      console.log(key + " => " + value)
-    ))
-    setLoading(false)
+    // formData.forEach((value, key) => (
+    //   console.log(key + " => " + value)
+    // ))
+
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/update-password-webadmin", formData)
+        .then((response) => {
+          if (response.data.status) {
+            Cookies.remove("data");
+            setPassword({
+              newPassword: "",
+              cNewPassword: "",
+              oldPassword: ""
+            })
+            setLoading(false);
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 500);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw new Error(errorMessage);
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Password Updated successful!",
+        error: () => "Failed to Update Password"
+      }
+    );
   }
 
   return (
@@ -87,6 +126,18 @@ export default function ChangePassword() {
                       required
                     />
                     <label className='label'>New Password</label>
+                  </div>
+                  <div className="edit-input-container">
+                    <input
+                      type="text"
+                      name='cNewPassword'
+                      placeholder=''
+                      onChange={handleChange}
+                      value={password.cNewPassword}
+                      className='inputs'
+                      required
+                    />
+                    <label className='label'>Confirm New Password</label>
                   </div>
                 </div>
               </div>
