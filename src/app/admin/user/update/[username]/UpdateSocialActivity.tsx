@@ -3,7 +3,7 @@ import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import { UpdateFormData, UpdateSocialActivity } from '../../../../../../types';
-// import axios from 'axios';
+import axios from 'axios';
 
 
 type Candidate = {
@@ -11,10 +11,11 @@ type Candidate = {
   candidateSocial: UpdateSocialActivity[];
   setCandidateData: React.Dispatch<React.SetStateAction<UpdateFormData>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  // fetchData: () => void;
+  fetchData: () => void;
+  profileNid: string;
 }
 
-export default function UpdateUserSocialActivity({ candidateSocial, loading, setCandidateData, setLoading }: Candidate) {
+export default function UpdateUserSocialActivity({ fetchData, profileNid, candidateSocial, loading, setCandidateData, setLoading }: Candidate) {
   const socialActivity = candidateSocial
 
   const addNewSocialActivity = () => {
@@ -74,97 +75,42 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
     event.preventDefault();
     setLoading(true)
     const formData = new FormData();
-    formData.append("social_activities", JSON.stringify(socialActivity));
+    formData.append("social", JSON.stringify(socialActivity));
     formData.append("user_type", "superadmin")
+    formData.append("user_nid", profileNid)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    setLoading(false)
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/candidate-social-activities", formData)
-    //     .then((response) => {
-    //       if (response.data.status) {
-    //         setCandidateData({
-    //           personalData: {
-    //             name: "",
-    //             email: "",
-    //             phone: "",
-    //             headline: "",
-    //             intro: "",
-    //             facebook: "",
-    //             insta: "",
-    //             linkedin: "",
-    //             twitter: "",
-    //             yt: ""
-    //           },
-    //           education: [
-    //             {
-    //               institute: "",
-    //               degree: "",
-    //               passingYear: "",
-    //               description: "",
-    //             }
-    //           ],
-    //           workExp: [
-    //             {
-    //               company: "",
-    //               position: "",
-    //               workingPeriod: "",
-    //               description: "",
-    //             }
-    //           ],
-    //           skills: [],
-    //           tools: [],
-    //           projects: [
-    //             {
-    //               name: "",
-    //               link: "",
-    //               image: null,
-    //               description: "",
-    //             }
-    //           ],
-    //           achievements: [
-    //             {
-    //               name: "",
-    //               link: "",
-    //               image: null,
-    //               description: "",
-    //             }
-    //           ],
-    //           socialActivity: [
-    //             {
-    //               title: "",
-    //               description: "",
-    //             }
-    //           ]
-    //         })
-    //         localStorage.removeItem("userId");
-    //         localStorage.removeItem("tempInfo")
-    //         setLoading(false);
-    //         nextStep();
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Social Activity Added successful!",
-    //     error: (err) => err || "Failed to Add Social Activity"
-    //   }
-    // );
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
+
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-social-api", formData)
+        .then((response) => {
+          if (response.data.status) {
+            fetchData();
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Social Activity Added successful!",
+        error: (err) => err || "Failed to Add Social Activity"
+      }
+    );
   }
 
   function handleRemove(id: number) {
     const confirmDelete = window.confirm("Are you sure you want to remove this Social Activity?");
     if (!confirmDelete) return;
 
-    const updatedActivity = socialActivity.filter((_,idx) => {
+    const updatedActivity = socialActivity.filter((_, idx) => {
       return idx !== id;
     });
 
@@ -187,10 +133,10 @@ export default function UpdateUserSocialActivity({ candidateSocial, loading, set
           <div className="details-edit-component" style={{ padding: "30px" }}>
 
             {
-              loading ?
-                (<div className='edit-loading'>
-                  <LargeSpinner />
-                </div>) : ("")
+              loading &&
+              (<div className='edit-loading'>
+                <LargeSpinner />
+              </div>)
             }
             {
               socialActivity.map((activity, index) => (
