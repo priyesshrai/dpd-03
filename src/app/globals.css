@@ -2283,6 +2283,7 @@ footer {
       opacity: 1;
       width: 25px;
       height: 25px;
+      transform: scale(1);
     }
 
     span {
@@ -2292,11 +2293,12 @@ footer {
 
     .del-btn {
       position: relative;
-      width: 0;
-      height: 0;
+      width:0;
+      height:0;
       background-color: #dddddd;
       border-radius: 50%;
       opacity: 0;
+      transform: scale(0);
 
       span {
         display: block;
@@ -2782,6 +2784,12 @@ footer {
   }
   .user-profile-dashboard{
     margin-top: 60px;
+  }
+  .initial-skill-update-wraper .initial-items .del-btn{
+    width: 25px;
+    height: 25px;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
