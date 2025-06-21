@@ -133,7 +133,7 @@ export default function LoginPage() {
                             expires: 1,
                             path: "/",
                         });
-
+                        localStorage.removeItem("candidateUserId");
                         setUserData({
                             username: "",
                             password: "",
@@ -158,10 +158,6 @@ export default function LoginPage() {
         );
 
     }
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <section className="login-container">
