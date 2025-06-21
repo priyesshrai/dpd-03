@@ -87,7 +87,7 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
       formData.append(`achievements[${index}][link]`, achievement.link);
       formData.append(`achievements[${index}][description]`, achievement.description);
       if (achievement.image) {
-        formData.append(`achievement[${index}][image]`, achievement.image);
+        formData.append(`achievements[${index}][image]`, achievement.image);
       }
     });
 
