@@ -3,7 +3,7 @@ import Spinner from '@/components/Spinner/Spinner';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Cookies from "js-cookie";
 
