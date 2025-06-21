@@ -1322,6 +1322,15 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
               </div>
 
               <div className="edit-input-container">
+                {
+                  project.image && (
+                    <Image src={URL.createObjectURL(project.image)}
+                      alt='Project Image'
+                      width={300}
+                      height={200}
+                      style={{ marginBottom: "10px" }} />
+                  )
+                }
                 <input
                   type="file"
                   onChange={(e) => {
@@ -1518,6 +1527,15 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
               </div>
 
               <div className="edit-input-container">
+                {
+                  achievement.image && (
+                    <Image src={URL.createObjectURL(achievement.image)}
+                      alt='Project Image'
+                      width={300}
+                      height={200}
+                      style={{ marginBottom: "10px" }} />
+                  )
+                }
                 <input
                   type="file"
                   onChange={(e) => {
