@@ -1,11 +1,14 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import { CropperRef, Cropper } from 'react-advanced-cropper'
+import 'react-advanced-cropper/dist/style.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import type { AddProfileProps, FormData } from '../../../../types';
 import Image from 'next/image';
+
 
 type TabConfig = {
   key: string;
@@ -191,7 +194,9 @@ function ProfileForm({ nextStep, candidateData, setCandidateData, isUserIdPresen
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null)
   const [profilePicURL, setProfilePicURL] = useState<File | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-
+  const cropperRef = useRef<CropperRef>(null);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -207,6 +212,8 @@ function ProfileForm({ nextStep, candidateData, setCandidateData, isUserIdPresen
     reader.onloadend = () => {
       const result = reader.result as string;
       setProfilePicPreview(result);
+      setCropSrc(result);
+      setShowCropper(true);
     };
     reader.readAsDataURL(file);
   }
@@ -222,6 +229,27 @@ function ProfileForm({ nextStep, candidateData, setCandidateData, isUserIdPresen
     }));
 
   }
+
+  const handleCropApply = async () => {
+    if (cropperRef.current) {
+      const canvas = cropperRef.current.getCanvas();
+
+      if (canvas) {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], 'cropped.jpg', { type: 'image/jpeg' });
+
+            setProfilePicURL(file);
+            const previewURL = URL.createObjectURL(blob);
+            setProfilePicPreview(previewURL);
+            setShowCropper(false);
+          } else {
+            toast.error("Failed to crop image.");
+          }
+        }, 'image/jpeg');
+      }
+    }
+  };
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -297,6 +325,24 @@ function ProfileForm({ nextStep, candidateData, setCandidateData, isUserIdPresen
           </div>
         </div>
       </div>
+
+      {showCropper && cropSrc && (
+        <div className='avatar-cropper'>
+          <div className="avatar-cropper-wraper">
+            <div className="avatar-card">
+              <Cropper
+                ref={cropperRef}
+                src={cropSrc}
+                className="cropper"
+                stencilProps={{ aspectRatio: 1 }}
+                style={{ width: '100%', height: '400px' }}
+              />
+              <button onClick={handleCropApply}>Apply Crop</button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       <div className="details-edit-body" style={{ marginTop: "50px" }}>
         <div className="details-edit-wraper">
