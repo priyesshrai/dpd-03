@@ -184,7 +184,7 @@ function SideBar({ userData, loading, userName }: HeroProps) {
                         <div className="side-bar-wraper">
                             <div className="profile-container">
                                 <Image src={userData?.profile_photo || "/images/profile/default.png"}
-                                    width={200} height={278} alt='Profile' />
+                                    width={1080} height={1080} alt='Profile' />
                             </div>
                             <div className="user-data">
                                 <h1>{userData?.name ?? ""}</h1>
