@@ -154,20 +154,20 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
                     />
                     <label className='label'>Skill Description</label>
                   </div>
+                </div>
+              </div>
 
-                  <div className="edit-input-container ">
-                    <span className='list-title'>Available Skill</span>
-                    <div className='props-list'>
-                      {
-                        skillList?.map((skill: SkillList) => (
-                          <div key={skill.nid}>
-                            <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
-                            {skill.name}
-                          </div>
-                        ))
-                      }
-                    </div>
-                  </div>
+              <div className='available'>
+                <span className='list-title'>Available Skill</span>
+                <div className='props-list'>
+                  {
+                    skillList?.map((skill: SkillList) => (
+                      <div key={skill.nid}>
+                        <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
+                        {skill.name}
+                      </div>
+                    ))
+                  }
                 </div>
               </div>
 

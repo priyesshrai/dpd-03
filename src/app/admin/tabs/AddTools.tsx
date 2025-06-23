@@ -135,21 +135,20 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
                     />
                     <label className='label'>Tool Image</label>
                   </div>
+                </div>
+              </div>
 
-                  <div className="edit-input-container">
-                    <span className='list-title'>Available Tools</span>
-                    <div className='props-list'>
-                      {
-                        toolList?.map((tool: ToolList) => (
-                          <div key={tool.nid}>
-                            <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
-                            {tool.name}
-                          </div>
-                        ))
-                      }
-                    </div>
-                  </div>
-
+              <div className='available'>
+                <span className='list-title'>Available Tools</span>
+                <div className='props-list'>
+                  {
+                    toolList?.map((tool: ToolList) => (
+                      <div key={tool.nid}>
+                        <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
+                        {tool.name}
+                      </div>
+                    ))
+                  }
                 </div>
               </div>
 

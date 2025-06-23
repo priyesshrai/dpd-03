@@ -2511,21 +2511,19 @@ footer {
 .props-list {
   position: relative;
   width: 100%;
-  max-height: 400px;
+  max-height: 300px;
   overflow: auto;
   margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
 
   div {
     flex-shrink: 0;
-    width: 180px;
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2533,9 +2531,9 @@ footer {
     gap: 10px;
 
     img {
-      width: 100%;
-      object-fit: cover;
-      border-radius: 3px;
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
     }
   }
 }
@@ -2673,6 +2671,14 @@ footer {
   border-radius: 10px;
 }
 
+.available{
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+  border: 1px solid #e9e9e9;
+  padding: 20px;
+  border-radius: 20px;
+}
 
 
 
