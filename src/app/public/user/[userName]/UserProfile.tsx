@@ -358,14 +358,15 @@ function Hero({ userData, loading }: HeroProps) {
                                     {
                                         userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject, i: number) => (
                                             <React.Fragment key={project.recent_project_nid}>
-                                                <h3 onClick={() => {
-                                                    setIndex(i);
-                                                    setOpen(true);
-                                                }}>
-                                                    {project.title}
-                                                    <a href={project.project_link ?? ""}>
-                                                        <i className="hgi hgi-stroke hgi-unlink-01"></i>
-                                                    </a>
+                                                <h3>
+                                                    <Link href={project.project_link ?? ""} target='_blank'>
+                                                        {project.title}
+                                                    </Link>
+                                                    <i className="hgi hgi-stroke hgi-ai-image"
+                                                        onClick={() => {
+                                                            setIndex(i);
+                                                            setOpen(true);
+                                                        }}></i>
                                                 </h3>
                                                 <p>{project.project_description}</p>
                                                 <br />

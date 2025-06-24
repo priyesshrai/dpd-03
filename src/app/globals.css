@@ -596,19 +596,20 @@ main {
       overflow: auto;
 
       h3 {
-        font-size: 20px;
-        font-weight: 600;
         color: var(--light-dark);
         position: relative;
         width: max-content;
         cursor: pointer;
 
         a {
-          margin-left: 8px;
-          color: var(--hover-color);
-          opacity: 0.8;
+          color: var(--light-dark);
+          font-size: 20px;
           font-weight: 600;
-          font-size: 15px;
+        }
+        i{
+          margin-left: 8px;
+          font-size: 20px;
+          color: var(--hover-color);
         }
       }
       p {
