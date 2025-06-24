@@ -9,6 +9,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation'
 import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, HeroProps } from '../../../../../types'
 import { AchieSkeleton, HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton'
+import { Marquee } from "@devnomic/marquee";
+import "@devnomic/marquee/dist/index.css";
+
 
 type UserProfileProps = {
     userName: string;
@@ -222,67 +225,68 @@ function Hero({ userData, loading }: HeroProps) {
 
                 <div className="work-block">
                     <div className="work-block-wraper">
+
                         {
                             loading ? (<HeroSkeleton />) : (
-
                                 <motion.div
                                     initial={{ opacity: 0, filter: "blur(10px)" }}
                                     transition={{ duration: 0.2, ease: "easeInOut", delay: 0.15 }}
                                     animate={{ opacity: 1, filter: "blur(0px)" }}
-                                    className="block    ">
+                                    className="block">
                                     <div className="block-wraper">
                                         <div className="title">
                                             <h2>Education/Work Ex.</h2>
                                         </div>
                                         <div className="content">
-                                            <div className="content-wraper">
-                                                <div className="details">
-                                                    <div className="details-wraper" style={{ padding: "0" }}>
-                                                        <div className="company-name">
-                                                            <p style={{ fontSize: "20px" }}>Education</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {
-                                                    userData?.education_list?.map((edu: ApiEducation) => (
-                                                        <div className="details" key={edu.education_nid}>
-                                                            <div className="details-wraper">
-                                                                <div className="company-name">
-                                                                    <p>{edu.passing_year} - {edu.degree_title}</p>
-                                                                    <span>{edu.from_institute}</span>
-                                                                </div>
+                                            <Marquee direction="up" pauseOnHover={true} className='[--duration:1s]'>
+                                                <div className="content-wraper">
+                                                    <div className="details">
+                                                        <div className="details-wraper" style={{ padding: "0" }}>
+                                                            <div className="company-name">
+                                                                <p style={{ fontSize: "20px" }}>Education</p>
                                                             </div>
                                                         </div>
-                                                    ))
-                                                }
-                                                <hr />
-                                                <div className="details">
-                                                    <div className="details-wraper" style={{ padding: "0" }}>
-                                                        <div className="company-name">
-                                                            <p style={{ fontSize: "20px" }}>Work Experience</p>
+                                                    </div>
+                                                    {
+                                                        userData?.education_list?.map((edu: ApiEducation) => (
+                                                            <div className="details" key={edu.education_nid}>
+                                                                <div className="details-wraper">
+                                                                    <div className="company-name">
+                                                                        <p>{edu.passing_year} - {edu.degree_title}</p>
+                                                                        <span>{edu.from_institute}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                    <hr />
+                                                    <div className="details">
+                                                        <div className="details-wraper" style={{ padding: "0" }}>
+                                                            <div className="company-name">
+                                                                <p style={{ fontSize: "20px" }}>Work Experience</p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                {
-                                                    userData?.work_exp_list?.map((work: ApiWorkExp) => (
-                                                        <div className="details" key={work.work_exp_nid}>
-                                                            <div className="details-wraper">
-                                                                <div className="company-name">
-                                                                    <p>{work.working_years} - {work.last_designation},  {work.company_name}</p>
-                                                                    <span>{work.brief_job_profile}</span>
+                                                    {
+                                                        userData?.work_exp_list?.map((work: ApiWorkExp) => (
+                                                            <div className="details" key={work.work_exp_nid}>
+                                                                <div className="details-wraper">
+                                                                    <div className="company-name">
+                                                                        <p>{work.working_years} - {work.last_designation},  {work.company_name}</p>
+                                                                        <span>{work.brief_job_profile}</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                            </Marquee>
                                         </div>
                                     </div>
                                 </motion.div>
                             )
                         }
-
                         {
                             loading ? (<SkillSkeleton />) : (
 
