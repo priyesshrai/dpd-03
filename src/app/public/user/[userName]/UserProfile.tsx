@@ -224,12 +224,21 @@ function SideBar({ userData, loading }: HeroProps) {
 function Hero({ userData, loading }: HeroProps) {
     const [open, setOpen] = useState(false);
     const [index, setIndex] = useState(0);
+    const [achiOpen, setAchiOpen] = useState(false);
+    const [achiIndex, setAchiIndex] = useState(0);
 
     const images = userData?.recent_project_list?.map((project: ApiProject) => ({
         src: project.recent_project_img,
         width: 1920,
         height: 1080,
     })) || [];
+
+    const Achimages = userData?.achievement_list?.map((achi: ApiAchievement) => ({
+        src: achi.achievement_image,
+        width: 1920,
+        height: 1080,
+    })) || [];
+
     return (
         <section className='hero-section'>
             <div className="hero-section-wraper">
@@ -400,15 +409,29 @@ function Hero({ userData, loading }: HeroProps) {
                                     <div className="block-layout-content">
                                         <ul>
                                             {
-                                                userData?.achievement_list?.map((achi: ApiAchievement) => (
+                                                userData?.achievement_list?.map((achi: ApiAchievement, i: number) => (
                                                     <li key={achi.achievement_nid}>
-                                                        <Link href={achi.achievement_url ?? ""} target='_blank'><strong>{achi.title}</strong></Link> -
-                                                        {achi.achievement_description}
+                                                        <p>
+                                                            <strong>{achi.title}</strong>
+                                                            <i className="hgi hgi-stroke hgi-ai-image"
+                                                                onClick={() => {
+                                                                    setAchiIndex(i);
+                                                                    setAchiOpen(true);
+                                                                }}></i>
+                                                        </p>
+                                                        - {achi.achievement_description}
                                                     </li>
                                                 ))
                                             }
                                         </ul>
                                     </div>
+                                    <Lightbox
+                                        open={achiOpen}
+                                        close={() => setAchiOpen(false)}
+                                        slides={Achimages}
+                                        index={achiIndex}
+                                        plugins={[Zoom, Fullscreen, Slideshow]}
+                                    />
                                 </div>
                             </div>
                         )
