@@ -310,9 +310,6 @@ export default function UpdateTabs({ userName }: UserProfileProps) {
                                     <h1>{tabConfig[selectedTab].tabName}</h1>
                                 </div>
                                 <div className='logo-container'>
-                                    <div className="admin-logo">
-                                        <i className="hgi hgi-stroke hgi-user-story"></i>
-                                    </div>
                                     <button onClick={handleLogOut}>
                                         <i className="hgi hgi-stroke hgi-keyframes-double-remove"></i>
                                     </button>
