@@ -95,11 +95,6 @@ export function UserHeader({ userName }: { userName: string }) {
             icon: "hgi hgi-stroke hgi-home-01"
         },
         {
-            menuName: "Profile",
-            path: `/user/${userName}/profile`,
-            icon: "hgi hgi-stroke hgi-user-sharing"
-        },
-        {
             menuName: "About",
             path: `/user/${userName}/about`,
             icon: "hgi hgi-stroke hgi-user-account"
@@ -107,6 +102,11 @@ export function UserHeader({ userName }: { userName: string }) {
         {
             menuName: "Work/Education",
             path: `/user/${userName}/work`,
+            icon: "hgi hgi-stroke hgi-briefcase-01"
+        },
+        {
+            menuName: "Skills/Tools",
+            path: `/user/${userName}/expert-area`,
             icon: "hgi hgi-stroke hgi-briefcase-01"
         },
         {
@@ -405,7 +405,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                 className="project-block-wraper">
                                 <div className="title">
                                     <h2>Recent Projects</h2>
-                                    <Link href='#'>
+                                    <Link href={`/user/${userName}/work`}>
                                         All Project
                                         <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                     </Link>
@@ -519,7 +519,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                                 <div className="third-block-layout-wraper">
                                     <div className="title">
                                         <h2>Tools I Use</h2>
-                                        <Link href='#'>
+                                        <Link href={`/user/${userName}/expert-area`}>
                                             See All
                                             <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                         </Link>

@@ -70,7 +70,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
     return (
         <>
             <Header userName={userName} />
-            <Hero userData={userData} loading={loading} />
+            <Hero userData={userData} loading={loading} userName={userName} />
             <Footer />
             <Toaster />
         </>
@@ -94,6 +94,11 @@ function Header({ userName }: { userName: string }) {
         {
             menuName: "Work/Education",
             path: `/public/user/${userName}/work`,
+            icon: "hgi hgi-stroke hgi-briefcase-01"
+        },
+        {
+            menuName: "Skills/Tools",
+            path: `/public/user/${userName}/expert-area`,
             icon: "hgi hgi-stroke hgi-briefcase-01"
         },
         {
@@ -148,17 +153,17 @@ function Header({ userName }: { userName: string }) {
                             }
                         </ul>
                     </div>
-                    <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
+                    {/* <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
                         <div className="btn-wraper">
-                            {/* <div className="them-toggler">
+                            <div className="them-toggler">
                                 <i className="hgi hgi-stroke hgi-sharp hgi-sun-02"></i>
-                            </div> */}
+                            </div>
                             <Link href='https://www.youtube.com/watch?v=Vmk_Uf1hLmM'>
                                 <i className="hgi hgi-stroke hgi-video-replay"></i>
                                 View Videos
                             </Link>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="hamberger-container" onClick={() => setOpenMenu(!openMenu)}>
                         <i className="hgi hgi-stroke hgi-menu-04"></i>
                     </div>
@@ -203,10 +208,6 @@ function SideBar({ userData, loading }: HeroProps) {
 
                                 <p dangerouslySetInnerHTML={{ __html: getTrimmedBio() }} />
 
-                                <div className="cta-button-container">
-                                    <button>Ping to Show Interest<i className="hgi hgi-stroke hgi-touch-09"></i> </button>
-                                </div>
-
                                 <div className="social-media-container">
                                     {
                                         userData?.instagram_link ? (<Link href={userData.instagram_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-instagram"></i></Link>) : ("")
@@ -224,6 +225,14 @@ function SideBar({ userData, loading }: HeroProps) {
                                         userData?.twitter_link ? (<Link href={userData?.twitter_link} target='_blank' className="social-icons"><i className="hgi hgi-stroke hgi-new-twitter"></i></Link>) : ("")
                                     }
                                 </div>
+
+                                <div className="cta-button-container">
+                                    <button>
+                                        Ping to Show Interest
+                                        <i className="hgi hgi-stroke hgi-touch-09"></i>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </motion.div>
@@ -233,7 +242,7 @@ function SideBar({ userData, loading }: HeroProps) {
     )
 }
 
-function Hero({ userData, loading }: HeroProps) {
+function Hero({ userData, loading, userName }: HeroProps) {
     const [open, setOpen] = useState(false);
     const [index, setIndex] = useState(0);
     const [achiOpen, setAchiOpen] = useState(false);
@@ -483,7 +492,7 @@ function Hero({ userData, loading }: HeroProps) {
                                 <div className="third-block-layout-wraper">
                                     <div className="title">
                                         <h2>Tools I Use</h2>
-                                        <Link href='#'>
+                                        <Link href={`/public/user/${userName}/expert-area`}>
                                             See All
                                             <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                         </Link>
