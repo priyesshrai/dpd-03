@@ -107,7 +107,7 @@ export function UserHeader({ userName }: { userName: string }) {
         {
             menuName: "Skills/Tools",
             path: `/user/${userName}/expert-area`,
-            icon: "hgi hgi-stroke hgi-briefcase-01"
+            icon: "hgi hgi-stroke hgi-ai-idea"
         },
         {
             menuName: "Contact",

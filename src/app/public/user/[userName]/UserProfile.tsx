@@ -77,7 +77,6 @@ export default function UserProfile({ userName }: UserProfileProps) {
     )
 }
 
-
 function Header({ userName }: { userName: string }) {
     const pathname = usePathname()
     const menu: MenuItem[] = [
@@ -99,7 +98,7 @@ function Header({ userName }: { userName: string }) {
         {
             menuName: "Skills/Tools",
             path: `/public/user/${userName}/expert-area`,
-            icon: "hgi hgi-stroke hgi-briefcase-01"
+            icon: "hgi hgi-stroke hgi-ai-idea"
         },
         {
             menuName: "Contact",
