@@ -23,6 +23,12 @@ type UserProfileProps = {
     userName: string;
 };
 
+interface MenuItem {
+    menuName: string
+    path: string
+    icon: string
+}
+
 export default function UserProfile({ userName }: UserProfileProps) {
     const router = useRouter();
     const [userData, setUserData] = useState({});
@@ -81,6 +87,34 @@ export default function UserProfile({ userName }: UserProfileProps) {
 }
 
 export function UserHeader({ userName }: { userName: string }) {
+    const pathname = usePathname()
+    const menu: MenuItem[] = [
+        {
+            menuName: "Home",
+            path: `/user/${userName}`,
+            icon: "hgi hgi-stroke hgi-home-01"
+        },
+        {
+            menuName: "Profile",
+            path: `/user/${userName}/profile`,
+            icon: "hgi hgi-stroke hgi-user-sharing"
+        },
+        {
+            menuName: "About",
+            path: `/user/${userName}/about`,
+            icon: "hgi hgi-stroke hgi-user-account"
+        },
+        {
+            menuName: "Work/Education",
+            path: `/user/${userName}/work`,
+            icon: "hgi hgi-stroke hgi-briefcase-01"
+        },
+        {
+            menuName: "Contact",
+            path: `/user/${userName}/contact`,
+            icon: "hgi hgi-stroke hgi-mail-01"
+        }
+    ]
     const [openMenu, setOpenMenu] = useState(false);
     function handleLogOut() {
         Cookies.remove("data");
@@ -88,6 +122,17 @@ export function UserHeader({ userName }: { userName: string }) {
         window.location.href = '/';
         return;
     }
+
+    const isActiveLink = (menuPath: string): boolean => {
+        if (menuPath === `/user/${userName}`) {
+            return pathname === menuPath
+        }
+        return pathname.startsWith(menuPath)
+    }
+    const closeMenu = (): void => {
+        setOpenMenu(false)
+    }
+
     return (
         <motion.header
             initial={{ opacity: 0 }}
@@ -108,31 +153,19 @@ export function UserHeader({ userName }: { userName: string }) {
                                     <Image src='/images/user/logo.png' width={220} height={50} alt='This is logo' />
                                 </Link>
                             </li>
-                            <li>
-                                <Link href={'/user/' + userName} className='active'>
-                                    <i className="hgi hgi-stroke hgi-user-sharing"></i>
-                                    <span>
-                                        Home
-                                    </span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={userName + '/profile'} className=''>
-                                    <i className="hgi hgi-stroke hgi-user-sharing"></i>
-                                    <span>
-                                        Profile
-                                    </span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href='/about'>
-                                    <i className="hgi hgi-stroke hgi-user-square"></i>
-                                    <span>
-                                        About
-                                    </span>
-                                </Link>
-                            </li>
-
+                            {
+                                menu.map((menu) => (
+                                    <li key={menu.menuName}>
+                                        <Link onClick={closeMenu} href={menu.path}
+                                            className={isActiveLink(menu.path) ? 'active' : ''}>
+                                            <i className={menu.icon} aria-hidden="true"></i>
+                                            <span>
+                                                {menu.menuName}
+                                            </span>
+                                        </Link>
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
                     <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
