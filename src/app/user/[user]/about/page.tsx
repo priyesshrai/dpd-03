@@ -2,6 +2,7 @@
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { useUserContext } from '@/context/UserContext';
 import { Marquee } from '@devnomic/marquee';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function UserAboutPage() {
@@ -91,6 +92,37 @@ function About() {
                     </Link>
                   </div>
                 )
+              }
+            </div>
+          </div>
+
+          <div className="body-achievement">
+            <span>Achievements</span>
+            <div className="achi">
+              {
+                userData?.achievement_list?.map((achievement) => (
+                  <div className="achi-card" key={achievement.achievement_nid}>
+                    <Image src={achievement.achievement_image!} width={1000} height={500} alt={achievement.title} />
+                    <h2>{achievement.title}</h2>
+                    <p>{achievement.achievement_description}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div className="body-activity">
+            <span>Social Activity</span>
+            <div className='social-activity'>
+              {
+                userData.social_activities_list?.map((activity) => (
+                  <div key={activity.social_activities_nid}>
+                    <h2>{activity.title}</h2>
+                    <p>
+                      {activity.description}
+                    </p>
+                  </div>
+                ))
               }
             </div>
           </div>

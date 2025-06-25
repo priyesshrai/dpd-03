@@ -6,7 +6,7 @@ import { motion } from "motion/react"
 import { usePathname } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast';
 import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../types'
-import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton} from '@/components/Skeleton/Skeleton'
+import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton } from '@/components/Skeleton/Skeleton'
 import Cookies from "js-cookie";
 import { Marquee } from "@devnomic/marquee";
 import "@devnomic/marquee/dist/index.css";
@@ -25,7 +25,7 @@ interface MenuItem {
 }
 
 export default function UserProfile() {
-    const {userData, user, loading} = useUserContext()
+    const { userData, user, loading } = useUserContext()
 
     return (
         <>
@@ -199,7 +199,7 @@ export function SideBar({ userData, loading, userName }: HeroProps) {
 
                                 <div className="cta-button-container">
                                     <button onClick={() => openShareModal(userData?.profile_slug)}>Share</button>
-                                    <Link href={`${userName}/profile`}>
+                                    <Link href={`/user/${userName}/profile`}>
                                         Update
                                     </Link>
                                 </div>
