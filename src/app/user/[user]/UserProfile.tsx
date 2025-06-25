@@ -78,9 +78,7 @@ export default function UserProfile({ userName }: UserProfileProps) {
 
     return (
         <>
-            <UserHeader userName={userName} />
             <Hero userData={userData} loading={loading} userName={userName} />
-            <Footer />
             <Toaster />
         </>
     )
@@ -565,7 +563,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
     )
 }
 
-function Footer() {
+export function Footer() {
     return (
         <footer>
             Copyright 2025 @ Wizards |

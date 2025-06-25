@@ -1,14 +1,12 @@
 import React from 'react'
 import Tabs from '../Dashboard/Tabs'
 import axios from 'axios';
-import { UserHeader } from '../UserProfile';
 
 export default async function page({ params }: { params: Promise<{ user: string }> }) {
   const { user } = await params;
 
   return (
     <>
-      <UserHeader userName={user} />
       <Tabs user={user} />
     </>
   )
