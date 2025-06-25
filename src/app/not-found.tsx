@@ -4,7 +4,8 @@ import Link from "next/link";
 export default function NotFound() {
     return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "90vh", flexDirection: "column", gap: "20px" }}>
-            <Image src="/images/svg/not-found.svg" fill alt="Page Not Found" />
+
+            <Image src="/images/not-found.png" alt="Page Not Found" width={800} height={500} />
 
             <Link href="/" style={{
               padding:"15px 30px",
