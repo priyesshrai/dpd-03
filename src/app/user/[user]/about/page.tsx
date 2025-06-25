@@ -1,10 +1,12 @@
-import About from "./about";
+'use client'
+import { useUserContext } from '@/context/UserContext';
 
-
-export default async function UserAboutPage({ params }: { params: Promise<{ user: string }> }) {
-  const { user } = await params;
+export default function UserAboutPage() {
+  const { userData, loading } = useUserContext();
 
   return (
-  <About user={user}/>    
+    <div className="other-page">
+      {userData.name}
+    </div>
   )
 }

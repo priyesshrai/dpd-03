@@ -72,11 +72,11 @@ export interface CandidateRow {
 export type HeroProps = {
     userData: any;
     loading: boolean
-    userName?:string
+    userName?: string
 };
 
 export type UpdateUserData = {
-    profile_nid:string;
+    profile_nid: string;
     name: string,
     email: string,
     phone: string,
@@ -91,7 +91,7 @@ export type UpdateUserData = {
 }
 
 export type UpdateEducation = {
-    education_nid:string,
+    education_nid: string,
     institute: string,
     degree: string,
     passingYear: string
@@ -99,7 +99,7 @@ export type UpdateEducation = {
 }
 
 export type UpdateWorkExperience = {
-    work_exp_nid:string,
+    work_exp_nid: string,
     company: string;
     position: string;
     workingPeriod: string;
@@ -107,14 +107,14 @@ export type UpdateWorkExperience = {
 }
 
 export type UpdateSkill = {
-    expert_area_nid:string;
-    skill_name:string,
-    skill_desc:string,
-    skill_icon:string | File
+    expert_area_nid: string;
+    skill_name: string,
+    skill_desc: string,
+    skill_icon: string | File
 }
 
 export type UpdateTools = {
-    tools_nid:string;
+    tools_nid: string;
     title: string;
     tools_image: string | File;
 }
@@ -136,7 +136,7 @@ export type UpdateAchievement = {
 }
 
 export type UpdateSocialActivity = {
-    social_activities_nid:string;
+    social_activities_nid: string;
     title: string,
     description: string
 }
@@ -153,64 +153,91 @@ export type UpdateFormData = {
 }
 
 export type ApiEducation = {
-  education_nid: string;
-  from_institute: string;
-  degree_title: string;
-  passing_year: string;
-  education_profile: string;
+    education_nid: string;
+    from_institute: string;
+    degree_title: string;
+    passing_year: string;
+    education_profile: string;
 };
 
 export type ApiWorkExp = {
-  work_exp_nid: string;
-  company_name: string;
-  last_designation: string;
-  working_years: string;
-  brief_job_profile: string;
+    work_exp_nid: string;
+    company_name: string;
+    last_designation: string;
+    working_years: string;
+    brief_job_profile: string;
 };
 
 export type ApiSkill = {
-  expert_area_nid: string;
-  expertise_name: string;
-  expertise_name_details: string;
-  expertise_icon: string;
+    expert_area_nid: string;
+    expertise_name: string;
+    expertise_name_details: string;
+    expertise_icon: string;
 };
 
 export type ApiTool = {
-  tools_nid: string;
-  title: string;
-  tools_image: string; 
+    tools_nid: string;
+    title: string;
+    tools_image: string;
 };
 
 export type ApiProject = {
-  recent_project_nid: string;
-  title: string;
-  project_link: string;
-  recent_project_img: string | null;
-  recent_project_icon_img?: string | null;
-  project_description: string;
+    recent_project_nid: string;
+    title: string;
+    project_link: string;
+    recent_project_img: string | null;
+    recent_project_icon_img?: string | null;
+    project_description: string;
 };
 
 export type ApiAchievement = {
-  achievement_nid: string;
-  title: string;
-  achievement_url: string;
-  achievement_image: string | null;
-  achievement_description: string;
+    achievement_nid: string;
+    title: string;
+    achievement_url: string;
+    achievement_image: string | null;
+    achievement_description: string;
 };
 
 export type ApiSocialActivity = {
-  social_activities_nid: string;
-  title: string;
-  description: string;
+    social_activities_nid: string;
+    title: string;
+    description: string;
 };
 
 export type CandidateNewData = {
-  personalData: UpdateUserData;
-  education: ApiEducation[];
-  workExp: ApiWorkExp[];
-  skills: ApiSkill[];
-  tools: ApiTool[];
-  projects: ApiProject[];
-  achievements: ApiAchievement[];
-  socialActivity: ApiSocialActivity[];
+    personalData: UpdateUserData;
+    education: ApiEducation[];
+    workExp: ApiWorkExp[];
+    skills: ApiSkill[];
+    tools: ApiTool[];
+    projects: ApiProject[];
+    achievements: ApiAchievement[];
+    socialActivity: ApiSocialActivity[];
+};
+
+
+export type NewUserData = {
+    profile_nid?: string;
+    name?: string;
+    profile_heading?: string;
+    facebook_link?: string;
+    instagram_link?: string;
+    linkedin_link?: string;
+    twitter_link?: string;
+    youtube_link?: string;
+    introduction?: string;
+    profile_youtube_link?: string;
+    phone_number?: string;
+    profile_email?: string;
+    profile_city?: string;
+    main_address?: string;
+    profile_slug?: string;
+    profile_photo?: string;
+    education_list?: ApiEducation[];
+    work_exp_list?: ApiWorkExp[];
+    expert_area_list?: ApiSkill[];
+    recent_project_list?: ApiProject[];
+    achievement_list?: ApiAchievement[];
+    tools_list?: ApiTool[];
+    social_activities_list?: ApiSocialActivity[];
 };
