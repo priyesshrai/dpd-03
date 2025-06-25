@@ -103,7 +103,7 @@ function About() {
   )
 }
 
-export function CommonFooter() {
+function CommonFooter() {
   const { userData } = useUserContext()
   return (
     <div className="footer">
