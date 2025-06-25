@@ -7,8 +7,8 @@ import { usePathname } from 'next/navigation'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation'
-import { ApiAchievement, ApiEducation, ApiProject, ApiSkill, ApiSocialActivity, ApiTool, ApiWorkExp, HeroProps } from '../../../../types'
-import { AchieSkeleton, HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton'
+import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../types'
+import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton} from '@/components/Skeleton/Skeleton'
 import Cookies from "js-cookie";
 import { Marquee } from "@devnomic/marquee";
 import "@devnomic/marquee/dist/index.css";
@@ -268,8 +268,6 @@ export function SideBar({ userData, loading, userName }: HeroProps) {
 function Hero({ userData, loading, userName }: HeroProps) {
     const [open, setOpen] = useState(false);
     const [index, setIndex] = useState(0);
-    const [achiOpen, setAchiOpen] = useState(false);
-    const [achiIndex, setAchiIndex] = useState(0);
 
     const images = userData?.recent_project_list?.map((project: ApiProject) => ({
         src: project.recent_project_img,
@@ -277,289 +275,161 @@ function Hero({ userData, loading, userName }: HeroProps) {
         height: 1080,
     })) || [];
 
-    const Achimages = userData?.achievement_list?.map((achi: ApiAchievement) => ({
-        src: achi.achievement_image,
-        width: 1920,
-        height: 1080,
-    })) || [];
-
     return (
-        <section className='hero-section'>
-            <div className="hero-section-wraper">
-                <SideBar userData={userData} loading={loading} userName={userName} />
+        <>
+            <div className="work-block">
+                <div className="work-block-wraper">
+                    {
+                        loading ? (<HeroSkeleton />) : (
 
-                <div className="work-block">
-                    <div className="work-block-wraper">
-                        {
-                            loading ? (<HeroSkeleton />) : (
-
-                                <motion.div
-                                    initial={{ opacity: 0, filter: "blur(10px)" }}
-                                    transition={{ duration: 0.2, ease: "easeInOut", delay: 0.15 }}
-                                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                                    className="block    ">
-                                    <div className="block-wraper">
-                                        <div className="title">
-                                            <h2>Education/Work Ex.</h2>
-                                        </div>
-                                        <div className="content">
-                                            <Marquee direction="up" pauseOnHover={true} className='[--duration:1s]'>
-                                                <div className="content-wraper">
-                                                    <div className="details">
-                                                        <div className="details-wraper" style={{ padding: "0" }}>
-                                                            <div className="company-name">
-                                                                <p style={{ fontSize: "20px" }}>Education</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {
-                                                        userData?.education_list?.map((edu: ApiEducation) => (
-                                                            <div className="details" key={edu.education_nid}>
-                                                                <div className="details-wraper">
-                                                                    <div className="company-name">
-                                                                        <p>{edu.passing_year} - {edu.degree_title}</p>
-                                                                        <span>{edu.from_institute}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        ))
-                                                    }
-                                                    <hr />
-                                                    <div className="details">
-                                                        <div className="details-wraper" style={{ padding: "0" }}>
-                                                            <div className="company-name">
-                                                                <p style={{ fontSize: "20px" }}>Work Experience</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {
-                                                        userData?.work_exp_list?.map((work: ApiWorkExp) => (
-                                                            <div className="details" key={work.work_exp_nid}>
-                                                                <div className="details-wraper">
-                                                                    <div className="company-name">
-                                                                        <p>{work.working_years} - {work.last_designation},  {work.company_name}</p>
-                                                                        <span>{work.brief_job_profile}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        ))
-                                                    }
-                                                </div>
-                                            </Marquee>
-                                        </div>
+                            <motion.div
+                                initial={{ opacity: 0, filter: "blur(10px)" }}
+                                transition={{ duration: 0.2, ease: "easeInOut", delay: 0.15 }}
+                                animate={{ opacity: 1, filter: "blur(0px)" }}
+                                className="block    ">
+                                <div className="block-wraper">
+                                    <div className="title">
+                                        <h2>Education/Work Ex.</h2>
                                     </div>
-                                </motion.div>
-                            )
-                        }
-
-                        {
-                            loading ? (<SkillSkeleton />) : (
-
-                                <motion.div
-                                    initial={{ opacity: 0, filter: "blur(10px)" }}
-                                    transition={{ duration: 0.2, ease: "easeInOut", delay: 0.2 }}
-                                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                                    className="block second">
-                                    <div className="block-wraper">
-                                        <div className="title">
-                                            <h2>My Expert Area</h2>
-                                        </div>
-                                        <div className="block-area">
-                                            <div className="block-area-wraper">
+                                    <div className="content">
+                                        <Marquee direction="up" pauseOnHover={true} className='[--duration:1s]'>
+                                            <div className="content-wraper">
+                                                <div className="details">
+                                                    <div className="details-wraper" style={{ padding: "0" }}>
+                                                        <div className="company-name">
+                                                            <p style={{ fontSize: "20px" }}>Education</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 {
-                                                    userData?.expert_area_list?.map((skill: ApiSkill) => (
-                                                        <div className="item" key={skill.expert_area_nid}>
-                                                            <div className="item-icon">
-                                                                <Image src={skill.expertise_icon}
-                                                                    width={200} height={200}
-                                                                    alt={skill.expertise_name_details} />
+                                                    userData?.education_list?.map((edu: ApiEducation) => (
+                                                        <div className="details" key={edu.education_nid}>
+                                                            <div className="details-wraper">
+                                                                <div className="company-name">
+                                                                    <p>{edu.passing_year} - {edu.degree_title}</p>
+                                                                    <span>{edu.from_institute}</span>
+                                                                </div>
                                                             </div>
-                                                            <span>{skill.expertise_name}</span>
+                                                        </div>
+                                                    ))
+                                                }
+                                                <hr />
+                                                <div className="details">
+                                                    <div className="details-wraper" style={{ padding: "0" }}>
+                                                        <div className="company-name">
+                                                            <p style={{ fontSize: "20px" }}>Work Experience</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {
+                                                    userData?.work_exp_list?.map((work: ApiWorkExp) => (
+                                                        <div className="details" key={work.work_exp_nid}>
+                                                            <div className="details-wraper">
+                                                                <div className="company-name">
+                                                                    <p>{work.working_years} - {work.last_designation},  {work.company_name}</p>
+                                                                    <span>{work.brief_job_profile}</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     ))
                                                 }
                                             </div>
-                                        </div>
+                                        </Marquee>
                                     </div>
-                                </motion.div>
-                            )
-                        }
-                    </div>
-                </div>
+                                </div>
+                            </motion.div>
+                        )
+                    }
 
-                <div className="project-block">
                     {
-                        loading ? (
-                            <div className="project-block-wraper">
-                                <ProjectSkeleton />
-                            </div>
-                        ) : (
+                        loading ? (<SkillSkeleton />) : (
 
                             <motion.div
                                 initial={{ opacity: 0, filter: "blur(10px)" }}
-                                transition={{ duration: 0.2, ease: "easeInOut", delay: 0.22 }}
+                                transition={{ duration: 0.2, ease: "easeInOut", delay: 0.2 }}
                                 animate={{ opacity: 1, filter: "blur(0px)" }}
-                                className="project-block-wraper">
-                                <div className="title">
-                                    <h2>Recent Projects</h2>
-                                    <Link href={`/user/${userName}/work`}>
-                                        All Project
-                                        <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
-                                    </Link>
+                                className="block second">
+                                <div className="block-wraper">
+                                    <div className="title">
+                                        <h2>My Expert Area</h2>
+                                    </div>
+                                    <div className="block-area">
+                                        <div className="block-area-wraper">
+                                            {
+                                                userData?.expert_area_list?.map((skill: ApiSkill) => (
+                                                    <div className="item" key={skill.expert_area_nid}>
+                                                        <div className="item-icon">
+                                                            <Image src={skill.expertise_icon}
+                                                                width={200} height={200}
+                                                                alt={skill.expertise_name_details} />
+                                                        </div>
+                                                        <span>{skill.expertise_name}</span>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="block-layout-content">
-                                    {
-                                        userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject, i: number) => (
-                                            <React.Fragment key={project.recent_project_nid}>
-                                                <h3>
-                                                    <Link href={project.project_link ?? ""} target='_blank'>
-                                                        {project.title}
-                                                    </Link>
-                                                    <i className="hgi hgi-stroke hgi-ai-image"
-                                                        onClick={() => {
-                                                            setIndex(i);
-                                                            setOpen(true);
-                                                        }}></i>
-                                                </h3>
-                                                <p>{project.project_description}</p>
-                                                <br />
-                                            </React.Fragment>
-                                        ))
-                                    }
-                                    <Lightbox
-                                        open={open}
-                                        close={() => setOpen(false)}
-                                        slides={images}
-                                        index={index}
-                                        plugins={[Zoom, Fullscreen, Slideshow]}
-                                    />
-                                </div>
-
                             </motion.div>
                         )
                     }
                 </div>
             </div>
 
-            <div className="second-layout">
-                <div className="second-layout-wraper">
-                    {
-                        loading ? (<AchieSkeleton />) : (
+            <div className="project-block">
+                {
+                    loading ? (
+                        <div className="project-block-wraper">
+                            <ProjectSkeleton />
+                        </div>
+                    ) : (
 
-                            <div className="first-layout-block layout-block">
-                                <div className="block-layout-wraper">
-                                    <div className="title">
-                                        <h2>Achievements</h2>
-                                    </div>
-                                    <div className="block-layout-content">
-                                        <ul>
-                                            {
-                                                userData?.achievement_list?.map((achi: ApiAchievement, i: number) => (
-                                                    <li key={achi.achievement_nid}>
-                                                        <p>
-                                                            <strong>{achi.title}</strong>
-                                                            <i className="hgi hgi-stroke hgi-ai-image"
-                                                                onClick={() => {
-                                                                    setAchiIndex(i);
-                                                                    setAchiOpen(true);
-                                                                }}></i>
-                                                        </p>
-                                                        - {achi.achievement_description}
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </div>
-                                    <Lightbox
-                                        open={achiOpen}
-                                        close={() => setAchiOpen(false)}
-                                        slides={Achimages}
-                                        index={achiIndex}
-                                        plugins={[Zoom, Fullscreen, Slideshow]}
-                                    />
-                                </div>
+                        <motion.div
+                            initial={{ opacity: 0, filter: "blur(10px)" }}
+                            transition={{ duration: 0.2, ease: "easeInOut", delay: 0.22 }}
+                            animate={{ opacity: 1, filter: "blur(0px)" }}
+                            className="project-block-wraper">
+                            <div className="title">
+                                <h2>Recent Projects</h2>
+                                <Link href={`/user/${userName}/work`}>
+                                    All Project
+                                    <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
+                                </Link>
                             </div>
-                        )
-                    }
-
-                    {
-                        loading ? (<AchieSkeleton />) : (
-                            <div className="second-layout-block layout-block">
-                                <div className="block-layout-wraper">
-                                    <div className="title">
-                                        <h2>Social Activities</h2>
-                                    </div>
-                                    <div className="block-layout-content">
-                                        <ul>
-                                            {
-                                                userData?.social_activities_list?.map((activity: ApiSocialActivity) => (
-                                                    <li key={activity.social_activities_nid}>
-                                                        <strong>{activity.title}</strong> - {activity.description}
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
+                            <div className="block-layout-content">
+                                {
+                                    userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject, i: number) => (
+                                        <React.Fragment key={project.recent_project_nid}>
+                                            <h3>
+                                                <Link href={project.project_link ?? ""} target='_blank'>
+                                                    {project.title}
+                                                </Link>
+                                                <i className="hgi hgi-stroke hgi-ai-image"
+                                                    onClick={() => {
+                                                        setIndex(i);
+                                                        setOpen(true);
+                                                    }}></i>
+                                            </h3>
+                                            <p>{project.project_description}</p>
+                                            <br />
+                                        </React.Fragment>
+                                    ))
+                                }
+                                <Lightbox
+                                    open={open}
+                                    close={() => setOpen(false)}
+                                    slides={images}
+                                    index={index}
+                                    plugins={[Zoom, Fullscreen, Slideshow]}
+                                />
                             </div>
-                        )
-                    }
-                </div>
+
+                        </motion.div>
+                    )
+                }
             </div>
-
-            <div className="third-layout">
-                <div className="third-layout-wraper">
-                    <div className="third-layout-block first-third-layout">
-
-                        {
-                            loading ? (<ToolsSkeleton />) : (
-                                <div className="third-block-layout-wraper">
-                                    <div className="title">
-                                        <h2>Tools I Use</h2>
-                                        <Link href={`/user/${userName}/expert-area`}>
-                                            See All
-                                            <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
-                                        </Link>
-                                    </div>
-                                    <div className="third-content">
-                                        {
-                                            userData?.tools_list?.map((tools: ApiTool) => (
-                                                <div className="card" key={tools.tools_nid}>
-                                                    <div className="card-icon">
-                                                        <Image
-                                                            src={tools.tools_image ?? "/images/icons/dummy.svg"}
-                                                            alt={tools?.title}
-                                                            width={60} height={60} />
-                                                    </div>
-                                                    <span>{tools.title}</span>
-                                                </div>
-                                            ))
-                                        }
-
-                                    </div>
-                                </div>
-                            )
-                        }
-
-                    </div>
-                    <div className="third-layout-block second-third-layout">
-                        {
-                            loading ? (<YoutubeSkeleton />) : (
-                                <div className="third-block-layout-wraper">
-                                    <div className="video-profile">
-                                        <iframe width="100%" height="100%" style={{ borderRadius: "10px", border: "none" }} src="https://www.youtube.com/embed/Vmk_Uf1hLmM?si=gOVU8Cy1lnHRkV7F" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"></iframe>
-                                    </div>
-
-                                    <span className='vdo-title'>View Profile Intro</span>
-                                </div>
-                            )
-                        }
-                    </div>
-                </div>
-            </div>
-
-        </section>
+        </>
     )
 }
 

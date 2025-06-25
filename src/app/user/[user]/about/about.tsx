@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-export default function About({user}:{user : string}) {
+export default function About({ user }: { user: string }) {
     const router = useRouter();
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -53,10 +53,8 @@ export default function About({user}:{user : string}) {
         return;
     }
     return (
-        <section className='hero-section'>
-            <div className="hero-section-wraper">
-                <SideBar userData={userData} loading={loading} userName={user} />
-            </div>
-        </section>
+        <div className="other-page">
+
+        </div>
     )
 }
