@@ -188,7 +188,7 @@ export function UserHeader({ userName }: { userName: string }) {
     )
 }
 
-function SideBar({ userData, loading, userName }: HeroProps) {
+export function SideBar({ userData, loading, userName }: HeroProps) {
     const currentPath = usePathname()
     const [showShareMenu, setShowShareMenu] = useState<boolean>(false)
     const [shareLink, setShareLink] = useState<string>("")

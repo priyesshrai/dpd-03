@@ -1,8 +1,10 @@
-import React from 'react'
+import About from "./about";
+
 
 export default async function UserAboutPage({ params }: { params: Promise<{ user: string }> }) {
-    const { user } = await params;
+  const { user } = await params;
+
   return (
-    <div>UserAboutPage</div>
+  <About user={user}/>    
   )
 }
