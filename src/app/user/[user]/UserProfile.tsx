@@ -17,11 +17,8 @@ import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import { useUserContext } from '@/context/UserContext'
 
-
-type UserProfileProps = {
-    userName: string;
-};
 
 interface MenuItem {
     menuName: string
@@ -29,56 +26,12 @@ interface MenuItem {
     icon: string
 }
 
-export default function UserProfile({ userName }: UserProfileProps) {
-    const router = useRouter();
-    const [userData, setUserData] = useState({});
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(true)
-        async function getUser() {
-            if (!userName) {
-                Cookies.remove("data");
-                toast.error('Please provide a valid username!');
-                router.push('/login');
-                setLoading(false)
-                return;
-            }
-
-            try {
-                const response = await axios.get(`https://inforbit.in/demo/dpd/profile/${userName}`);
-                if (response.data.status === false) {
-                    Cookies.remove("data")
-                    toast.error(response.data.message ?? 'Profile Not Found of This User....!');
-                    router.push('/login');
-                    setLoading(false)
-                    return;
-                }
-                setUserData(response?.data?.data)
-                setLoading(false)
-            } catch (error) {
-                Cookies.remove("data");
-                console.log(error);
-                toast.error('Profile Not Found of This User....!');
-                router.push('/login');
-                setLoading(false)
-                return
-            }
-        }
-
-        getUser();
-    }, [userName, router]);
-
-    if (!userName) {
-        Cookies.remove("data")
-        alert("Sorry...! User Not found with UserName. Please provide a valid UserName.");
-        router.push('/login');
-        return;
-    }
+export default function UserProfile() {
+    const {userData, user, loading} = useUserContext()
 
     return (
         <>
-            <Hero userData={userData} loading={loading} userName={userName} />
+            <Hero userData={userData} loading={loading} userName={user} />
             <Toaster />
         </>
     )

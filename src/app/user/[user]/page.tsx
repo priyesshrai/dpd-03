@@ -2,11 +2,9 @@ import axios from "axios";
 import UserProfile from "./UserProfile";
 
 
-export default async function page({ params }: { params: Promise<{ user: string }> }) {
-    const { user } = await params;
-
+export default function page() {
     return (
-        <UserProfile userName={user} />
+        <UserProfile />
     )
 }
 
