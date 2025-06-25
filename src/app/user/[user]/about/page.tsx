@@ -1,7 +1,7 @@
 'use client'
+import CommonFooter from '@/components/CommonFooter';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { useUserContext } from '@/context/UserContext';
-import { Marquee } from '@devnomic/marquee';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -131,17 +131,6 @@ function About() {
         <CommonFooter />
       </div>
 
-    </div>
-  )
-}
-
-function CommonFooter() {
-  const { userData } = useUserContext()
-  return (
-    <div className="footer">
-      <Marquee pauseOnHover={true} fade={true}>
-        {userData.profile_heading}
-      </Marquee>
     </div>
   )
 }

@@ -2811,12 +2811,24 @@ footer {
             color: var(--light-dark);
             font-weight: 600;
             margin-top: 20px;
+
+            a {
+              position: relative;
+              margin-left: 10px;
+
+              i {
+                color: var(--hover-color);
+                font-weight: 600;
+                font-size: 18px;
+              }
+            }
           }
           p {
             margin-top: 10px;
             line-height: 1.1;
             color: var(--light);
             font-size: 18px;
+            max-width: 600px;
           }
         }
       }
@@ -2849,6 +2861,67 @@ footer {
           line-height: 1.1;
           color: var(--light);
           font-size: 18px;
+        }
+      }
+    }
+
+    .body-education {
+      position: relative;
+      width: 100%;
+      background-color: var(--light-bg);
+      padding: 20px;
+      border-radius: 10px;
+
+      span {
+        display: block;
+        font-size: 38px;
+        font-weight: 500;
+        color: var(--light-dark);
+        line-height: 1.1;
+      }
+
+      .work-component-item {
+        margin-top: 25px;
+        position: relative;
+        width: 100%;
+        border-bottom: 1px solid #e2e2e2;
+        padding-bottom: 20px;
+
+        &:last-child {
+          border: none;
+        }
+
+        .item-top {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          h3 {
+            font-weight: 500;
+            font-size: 28px;
+            color: var(--light-dark);
+          }
+          p {
+            color: var(--light);
+            font-style: italic;
+          }
+          span {
+            font-size: 20px;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--dark);
+          }
+        }
+        .work-summery {
+          max-width: 600px;
+          margin-top: 10px;
+          color: var(--light);
+          font-size: 17px;
+        }
+        span {
+          font-size: 16px;
+          font-style: italic;
         }
       }
     }
