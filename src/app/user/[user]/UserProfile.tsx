@@ -4,9 +4,7 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from "motion/react"
 import { usePathname } from 'next/navigation'
-import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
-import { useRouter } from 'next/navigation'
 import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../types'
 import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton} from '@/components/Skeleton/Skeleton'
 import Cookies from "js-cookie";
