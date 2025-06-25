@@ -5,8 +5,13 @@ import { Marquee } from '@devnomic/marquee';
 import Link from 'next/link';
 
 export default function UserAboutPage() {
-  const { userData, loading } = useUserContext();
+  return (
+    <About />
+  )
+}
 
+function About() {
+  const { userData, loading } = useUserContext();
   return (
     <div className="other-page">
       {
