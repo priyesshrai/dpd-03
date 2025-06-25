@@ -2645,15 +2645,149 @@ footer {
   border-radius: 20px;
 }
 
-.other-page{
+.other-page {
   position: relative;
   grid-column: span 2;
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  height: 100%;
+  height: max-content;
   background-color: var(--primary-bg);
   box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+}
+
+.other-page-wraper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 15px 20px;
+
+  .heading {
+    position: relative;
+    width: 100%;
+
+    h2 {
+      margin-top: 0;
+      font-size: 3.5rem;
+      color: var(--light-dark);
+      font-weight: 600;
+
+      span {
+        color: var(--hover-color);
+      }
+    }
+  }
+  .body {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+
+    .body-intro {
+      position: relative;
+      width: 100%;
+
+      span {
+        font-size: 15px;
+        color: var(--light);
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--light);
+      }
+    }
+
+    .body-social {
+      position: relative;
+      width: 100%;
+
+      span {
+        display: block;
+        font-size: 38px;
+        margin-top: 20px;
+        font-weight: 700;
+        color: var(--light-dark);
+      }
+
+      .social-media {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .icon-container {
+          width: 80px;
+          height: 80px;
+          border-radius: 10px;
+          background-color: var(--light-bg);
+
+          a {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            i {
+              font-size: 50px;
+              color: var(--light-dark);
+              transition: none;
+            }
+          }
+          &.insta:hover i {
+            background: linear-gradient(
+              45deg,
+              #feda75,
+              #fa7e1e,
+              #d62976,
+              #962fbf,
+              #4f5bd5
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          &.linkedin:hover i {
+            background-color: #1469c7;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          &.fb:hover i {
+            background-color: #3b5998;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          &.twitter:hover i {
+            background-color: #21a5f8;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          &.yt:hover i {
+            background-color: #FF0000;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    margin-top: 40px;
+    position: relative;
+    width: 100%;
+    padding: 15px 0;
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    font-size: 30px;
+    color: var(--light);
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 1024px) {
