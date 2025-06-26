@@ -1,12 +1,10 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from "motion/react"
 import { usePathname } from 'next/navigation'
-import axios from 'axios'
-import toast, { Toaster } from 'react-hot-toast';
-import { useRouter } from 'next/navigation'
+import  { Toaster } from 'react-hot-toast';
 import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../../types'
 import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton } from '@/components/Skeleton/Skeleton'
 import { Marquee } from "@devnomic/marquee";
@@ -16,10 +14,8 @@ import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import { useUserContext } from '@/context/UserContext'
 
-type UserProfileProps = {
-    userName: string;
-};
 
 interface MenuItem {
     menuName: string
@@ -27,49 +23,12 @@ interface MenuItem {
     icon: string
 }
 
-export default function UserProfile({ userName }: UserProfileProps) {
-    const router = useRouter();
-    const [userData, setUserData] = useState({});
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(true)
-        async function getUser() {
-            if (!userName) {
-                toast.error('Please provide a valid username!');
-                router.push('/login');
-                setLoading(false)
-                return;
-            }
-
-            try {
-                const response = await axios.get(`https://inforbit.in/demo/dpd/profile/${userName}`);
-                if (!response.data.status) {
-                    toast.error(response.data.message ?? 'Profile Not Found of This User....!');
-                    router.push('/login');
-                    setLoading(false)
-                }
-                setUserData(response?.data?.data)
-                setLoading(false)
-            } catch (error) {
-                console.log(error);
-                toast.error('Profile Not Found of This User....!');
-                router.push('/login');
-                setLoading(false)
-            }
-        }
-
-        getUser();
-    }, [userName, router]);
-
-    if (!userName) {
-        alert("Sorry...! User Not found with UserName. Please provide a valid UserName.");
-        router.push('/login');
-    }
+export default function UserProfile() {
+    const { userData, user, loading } = useUserContext()
 
     return (
         <>
-            <Hero userData={userData} loading={loading} userName={userName} />
+            <Hero userData={userData} loading={loading} userName={user} />
             <Toaster />
         </>
     )
