@@ -2675,6 +2675,12 @@ footer {
         color: var(--hover-color);
       }
     }
+    p {
+      margin-top: 10px;
+      font-size: 17px;
+      color: var(--light);
+      line-height: 1.2;
+    }
   }
   .body {
     position: relative;
@@ -2970,10 +2976,64 @@ footer {
             font-weight: 600;
           }
 
-          &:hover{
-            background-color:#f3f3f3;
+          &:hover {
+            background-color: #f3f3f3;
           }
         }
+      }
+    }
+
+    .contact-body {
+      position: relative;
+      width: 100%;
+
+      .details-edit-wraper {
+        position: relative;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        row-gap: 30px;
+        align-items: start;
+
+        .edit-input-container {
+          width: 100%;
+          position: relative;
+          flex-shrink: 0;
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid #e7e7e7;
+
+          input,
+          textarea {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: 24px;
+            color: var(--light-dark);
+            position: relative;
+
+            &:disabled {
+              cursor: not-allowed;
+            }
+          }
+
+          &:focus-within {
+            border-color: var(--dark);
+          }
+        }
+      }
+      button{
+        position: relative;
+        margin-top: 20px;
+        width: 100%;
+        background-color: var(--hover-color);
+        padding: 15px 20px;
+        color: var(--primary-bg);
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 5px;
       }
     }
   }
