@@ -98,6 +98,10 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
     );
   }
 
+  async function handleDelete(skillNid: string) {
+    console.log(typeof(skillNid));
+  }
+
   return (
     <div className='component-common'>
       <AnimatePresence mode='wait'>
@@ -163,6 +167,7 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
                   {
                     skillList?.map((skill: SkillList) => (
                       <div key={skill.nid}>
+                        <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => handleDelete(skill.nid)}></i>
                         <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
                         {skill.name}
                       </div>
