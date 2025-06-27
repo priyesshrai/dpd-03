@@ -292,8 +292,12 @@ export function SideBar({ userData, loading }: HeroProps) {
                                         <i className="hgi hgi-stroke hgi-touch-09"></i>
                                     </button>
                                     <button className='download-btn hhd' onClick={downloadPDF}>
-                                        Download
-                                        < i className="hgi hgi-stroke hgi-download-circle-01" />
+                                        {isDownloading ? <Spinner /> : (
+                                            <>
+                                                Download
+                                                < i className="hgi hgi-stroke hgi-download-circle-01" />
+                                            </>
+                                        )}
                                     </button>
                                 </div>
 
