@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ravi Khetan - CEO & Founder - Wizards Next LLP Varanasi. ",
-  description: "Ravi Khetan - CEO & Founder - Wizards Next LLP Varanasi.",
+  title: "DreamPath Development Profile Builder",
+  description: "DreamPath Development Profile Builder",
 };
 
 export default function RootLayout({

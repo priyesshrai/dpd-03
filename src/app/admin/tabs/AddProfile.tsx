@@ -678,12 +678,14 @@ function EducationForm({ nextStep, candidateData, setCandidateData }: StepProps)
               </div>
 
             </div>
-
           </div>
         ))
       }
+      <div className='addNewBtn' onClick={addNewEducation}>
+        <i className="hgi hgi-stroke hgi-add-01"></i>
+      </div>
       <div className="details-edit-footer">
-        <button onClick={addNewEducation}>Add New</button>
+        <button onClick={nextStep}>Skip</button>
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>

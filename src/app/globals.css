@@ -3051,6 +3051,25 @@ footer {
   }
 }
 
+.addNewBtn{
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--hover-color);
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+
+  i{
+    font-size: 30px;
+    color: var(--primary-bg);
+  }
+}
+
 @media (max-width: 1024px) {
   .admin-tabs-container {
     transform: translateX(-100%);
