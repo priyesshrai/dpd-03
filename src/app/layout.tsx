@@ -20,8 +20,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <main>
-          {children}
+        <main id="main">
+          <section className="outer">
+            {children}
+          </section>
         </main>
       </body>
     </html>

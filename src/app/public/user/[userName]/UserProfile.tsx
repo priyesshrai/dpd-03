@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { motion } from "motion/react"
 import { usePathname } from 'next/navigation'
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../../types'
 import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton } from '@/components/Skeleton/Skeleton'
 import { Marquee } from "@devnomic/marquee";
@@ -15,6 +15,9 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import { useUserContext } from '@/context/UserContext'
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import Spinner from '@/components/Spinner/Spinner'
 
 
 interface MenuItem {
@@ -64,6 +67,7 @@ export function Header({ userName }: { userName: string }) {
         }
     ]
     const [openMenu, setOpenMenu] = useState(false);
+    const [isDownloading, setIsDownloading] = useState<boolean>(false)
 
     const isActiveLink = (menuPath: string): boolean => {
         if (menuPath === `/public/user/${userName}`) {
@@ -74,6 +78,55 @@ export function Header({ userName }: { userName: string }) {
     const closeMenu = (): void => {
         setOpenMenu(false)
     }
+    const downloadPDF = async () => {
+        try {
+            setOpenMenu(false);
+            const element = document.querySelector('.outer') as HTMLElement | null;
+
+            if (!element) {
+                alert('Content not found');
+                return;
+            }
+
+            const downloadBtn = document.querySelector('.download-btn');
+            if (downloadBtn) {
+                setIsDownloading(true);
+
+                (downloadBtn as HTMLButtonElement).hidden = true;
+                (downloadBtn as HTMLButtonElement).disabled = true;
+            }
+
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: [canvas.width, canvas.height],
+            });
+
+            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+            pdf.save(`${userName}-portfolio.pdf`);
+            toast.success("Profile PDF downloaded...!");
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            toast.error('Error generating PDF. Please try again.');
+        } finally {
+            const downloadBtn = document.querySelector('.download-btn');
+            if (downloadBtn) {
+                setIsDownloading(false);
+                (downloadBtn as HTMLButtonElement).disabled = false;
+            }
+        }
+    };
+
     return (
         <motion.header
             initial={{ opacity: 0 }}
@@ -109,29 +162,31 @@ export function Header({ userName }: { userName: string }) {
                             }
                         </ul>
                     </div>
-                    {/* <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
+                    <div className={`btn-container ${openMenu ? 'menu-active' : ""}`}>
                         <div className="btn-wraper">
-                            <div className="them-toggler">
-                                <i className="hgi hgi-stroke hgi-sharp hgi-sun-02"></i>
-                            </div>
-                            <Link href='https://www.youtube.com/watch?v=Vmk_Uf1hLmM'>
-                                <i className="hgi hgi-stroke hgi-video-replay"></i>
-                                View Videos
-                            </Link>
+                            <button onClick={downloadPDF} className='download-btn hd'>
+                                {isDownloading ? <Spinner /> : (
+                                    <>
+                                        Download
+                                        < i className="hgi hgi-stroke hgi-download-circle-01" />
+                                    </>
+                                )}
+                            </button>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="hamberger-container" onClick={() => setOpenMenu(!openMenu)}>
                         <i className="hgi hgi-stroke hgi-menu-04"></i>
                     </div>
                     <div className={`overlay ${openMenu ? 'menu-active' : ""} `} onClick={() => setOpenMenu(false)}></div>
                 </div>
             </nav>
-        </motion.header>
+        </motion.header >
     )
 }
 
 export function SideBar({ userData, loading }: HeroProps) {
     const currentPath = usePathname()
+    const [isDownloading, setIsDownloading] = useState<boolean>(false)
 
     const bio = userData?.introduction ?? ""
 
@@ -143,6 +198,55 @@ export function SideBar({ userData, loading }: HeroProps) {
         }
         return bio
     }
+
+    const downloadPDF = async () => {
+        try {
+            const element = document.querySelector('.outer') as HTMLElement | null;
+
+            if (!element) {
+                alert('Content not found');
+                return;
+            }
+
+            const downloadBtn = document.querySelector('.download-btn');
+            if (downloadBtn) {
+                setIsDownloading(true);
+
+                (downloadBtn as HTMLButtonElement).hidden = true;
+                (downloadBtn as HTMLButtonElement).disabled = true;
+            }
+
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: [canvas.width, canvas.height],
+            });
+
+            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+            pdf.save(`${userData?.name}-portfolio.pdf`);
+            toast.success("Profile PDF downloaded...!");
+
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            toast.error('Error generating PDF. Please try again.');
+        } finally {
+            const downloadBtn = document.querySelector('.download-btn');
+            if (downloadBtn) {
+                setIsDownloading(false);
+                (downloadBtn as HTMLButtonElement).disabled = false;
+            }
+        }
+    };
+
     return (
         <>
             {
@@ -186,6 +290,10 @@ export function SideBar({ userData, loading }: HeroProps) {
                                     <button>
                                         Ping to Show Interest
                                         <i className="hgi hgi-stroke hgi-touch-09"></i>
+                                    </button>
+                                    <button className='download-btn hhd' onClick={downloadPDF}>
+                                        Download
+                                        < i className="hgi hgi-stroke hgi-download-circle-01" />
                                     </button>
                                 </div>
 
