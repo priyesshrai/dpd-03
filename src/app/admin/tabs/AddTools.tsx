@@ -93,6 +93,11 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
     );
   }
 
+  async function handleDelete(skillNid: string) {
+    console.log(typeof (skillNid));
+  }
+
+
   return (
     <div className='component-common'>
       <AnimatePresence mode='wait'>
@@ -144,6 +149,7 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
                   {
                     toolList?.map((tool: ToolList) => (
                       <div key={tool.nid}>
+                        <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => handleDelete(tool.nid)}></i>
                         <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
                         {tool.name}
                       </div>
