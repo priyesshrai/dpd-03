@@ -157,7 +157,7 @@ export default function PublicUserWrapper({ user, children }: { user: string, ch
                                             <div className="third-block-layout-wraper">
                                                 <div className="title">
                                                     <h2>Tools I Use</h2>
-                                                    <Link href={`/user/${user}/expert-area`}>
+                                                    <Link href={`/public/user/${user}/expert-area`}>
                                                         See All
                                                         <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                                     </Link>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { motion } from "motion/react"
 import { usePathname } from 'next/navigation'
-import  { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { ApiEducation, ApiProject, ApiSkill, ApiWorkExp, HeroProps } from '../../../../../types'
 import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton } from '@/components/Skeleton/Skeleton'
 import { Marquee } from "@devnomic/marquee";
@@ -325,7 +325,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                             className="project-block-wraper">
                             <div className="title">
                                 <h2>Recent Projects</h2>
-                                <Link href={`/user/${userName}/work`}>
+                                <Link href={`/public/user/${userName}/work`}>
                                     All Project
                                     <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                 </Link>
