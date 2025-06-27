@@ -875,8 +875,11 @@ function WorkForm({ nextStep, candidateData, setCandidateData }: StepProps) {
           </div>
         ))
       }
+      <div className='addNewBtn' onClick={addExperience}>
+        <i className="hgi hgi-stroke hgi-add-01"></i>
+      </div>
       <div className="details-edit-footer">
-        <button onClick={addExperience}>Add New</button>
+        <button onClick={nextStep}>Skip</button>
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
@@ -978,73 +981,72 @@ function SkillsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="details-edit-body">
-          <div className="details-edit-wraper">
-            <div
-              className="custom-select-container"
-              ref={dropdownRef}
-              style={{
-                position: "relative",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "10px",
-                cursor: "pointer",
-                userSelect: "none"
-              }}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <div>
-                {selectedSkills.length > 0
-                  ? `${selectedSkills.length} skill(s) selected`
-                  : "Select skills"}
-              </div>
-
-              {dropdownOpen && (
-                <div
-                  className="custom-dropdown"
-                  style={{
-                    position: "fixed",
-                    background: "#fff",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                    zIndex: 10,
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    marginTop: "20px",
-                    padding: "10px"
-                  }}
-                >
-                  {skills?.map((skill) => (
-                    <label
-                      key={skill.nid}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        marginBottom: "5px"
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedSkills.includes(skill.nid)}
-                        onChange={() => handleCheckboxChange(skill.nid)}
-                      />
-                      {skill.name}
-                    </label>
-                  ))}
-                </div>
-              )}
+      <div className="details-edit-body">
+        <div className="details-edit-wraper">
+          <div
+            className="custom-select-container"
+            ref={dropdownRef}
+            style={{
+              position: "relative",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "10px",
+              cursor: "pointer",
+              userSelect: "none"
+            }}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <div>
+              {selectedSkills.length > 0
+                ? `${selectedSkills.length} skill(s) selected`
+                : "Select skills"}
             </div>
 
+            {dropdownOpen && (
+              <div
+                className="custom-dropdown"
+                style={{
+                  position: "fixed",
+                  background: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  zIndex: 10,
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                  marginTop: "20px",
+                  padding: "10px"
+                }}
+              >
+                {skills?.map((skill) => (
+                  <label
+                    key={skill.nid}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      marginBottom: "5px"
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedSkills.includes(skill.nid)}
+                      onChange={() => handleCheckboxChange(skill.nid)}
+                    />
+                    {skill.name}
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
 
-        <div className="details-edit-footer">
-          <button type="submit">Save</button>
         </div>
-      </form>
+      </div>
+
+      <div className="details-edit-footer">
+        <button onClick={nextStep}>Skip</button>
+        <button type="submit" onClick={handleSubmit}>Save</button>
+      </div>
     </div>
   );
 }
@@ -1145,73 +1147,72 @@ function ToolsForm({ nextStep, candidateData, setCandidateData }: StepProps) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="details-edit-body">
-          <div className="details-edit-wraper">
-            <div
-              className="custom-select-container"
-              ref={dropdownRef}
-              style={{
-                position: "relative",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "10px",
-                cursor: "pointer",
-                userSelect: "none"
-              }}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <div>
-                {selectedTools.length > 0
-                  ? `${selectedTools.length} tool(s) selected`
-                  : "Select Tools"}
-              </div>
-
-              {dropdownOpen && (
-                <div
-                  className="custom-dropdown"
-                  style={{
-                    position: "fixed",
-                    background: "#fff",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                    zIndex: 10,
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    marginTop: "20px",
-                    padding: "10px"
-                  }}
-                >
-                  {tools?.map((tool) => (
-                    <label
-                      key={tool.nid}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        marginBottom: "5px"
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedTools.includes(tool.nid)}
-                        onChange={() => handleCheckboxChange(tool.nid)}
-                      />
-                      {tool.name}
-                    </label>
-                  ))}
-                </div>
-              )}
+      <div className="details-edit-body">
+        <div className="details-edit-wraper">
+          <div
+            className="custom-select-container"
+            ref={dropdownRef}
+            style={{
+              position: "relative",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "10px",
+              cursor: "pointer",
+              userSelect: "none"
+            }}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <div>
+              {selectedTools.length > 0
+                ? `${selectedTools.length} tool(s) selected`
+                : "Select Tools"}
             </div>
 
+            {dropdownOpen && (
+              <div
+                className="custom-dropdown"
+                style={{
+                  position: "fixed",
+                  background: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  zIndex: 10,
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                  marginTop: "20px",
+                  padding: "10px"
+                }}
+              >
+                {tools?.map((tool) => (
+                  <label
+                    key={tool.nid}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      marginBottom: "5px"
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedTools.includes(tool.nid)}
+                      onChange={() => handleCheckboxChange(tool.nid)}
+                    />
+                    {tool.name}
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
 
-        <div className="details-edit-footer">
-          <button type="submit">Save</button>
         </div>
-      </form>
+      </div>
+
+      <div className="details-edit-footer">
+        <button onClick={nextStep}>Skip</button>
+        <button type="submit" onClick={handleSubmit}>Save</button>
+      </div>
     </div>
   );
 }
@@ -1422,8 +1423,11 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
           </div>
         ))
       }
+      <div className='addNewBtn' onClick={addNewProject}>
+        <i className="hgi hgi-stroke hgi-add-01"></i>
+      </div>
       <div className="details-edit-footer">
-        <button onClick={addNewProject}>Add New</button>
+        <button onClick={nextStep}>Skip</button>
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
@@ -1627,8 +1631,11 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
           </div>
         ))
       }
+      <div className='addNewBtn' onClick={addNewAchievement}>
+        <i className="hgi hgi-stroke hgi-add-01"></i>
+      </div>
       <div className="details-edit-footer">
-        <button onClick={addNewAchievement}>Add New</button>
+        <button onClick={nextStep}>Skip</button>
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
@@ -1855,8 +1862,11 @@ function SocialActivityForm({ nextStep, candidateData, setCandidateData }: StepP
           </div>
         ))
       }
+      <div className='addNewBtn' onClick={addNewSocialActivity}>
+        <i className="hgi hgi-stroke hgi-add-01"></i>
+      </div>
       <div className="details-edit-footer">
-        <button onClick={addNewSocialActivity}>Add New</button>
+        <button onClick={nextStep}>Add New</button>
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>

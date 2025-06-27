@@ -65,7 +65,7 @@ export default function AdminTabs() {
   ];
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
-  const [addProfileFormStep, setAddProfileFormStep] = useState(1);
+  const [addProfileFormStep, setAddProfileFormStep] = useState(0);
   const [candidateData, setCandidateData] = useState<FormData>({
     personalData: {
       name: "",
