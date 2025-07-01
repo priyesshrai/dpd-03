@@ -287,9 +287,10 @@ main {
 
       img {
         border-radius: 10px;
+        aspect-ratio: 1/1;
         width: 100%;
-        height: auto;
-        object-fit: contain;
+        object-fit: cover;
+        object-position: top;
       }
     }
 
@@ -316,7 +317,6 @@ main {
         width: 100%;
         margin-top: 20px;
         display: flex;
-        flex-direction: column;
         gap: 10px;
 
         a {
@@ -335,7 +335,7 @@ main {
         }
         button {
           position: relative;
-          /* flex: ; */
+          flex: 1;
           border-radius: 5px;
           padding: 12px 20px;
           font-size: 18px;
@@ -552,10 +552,12 @@ main {
             background-color: var(--light-bg);
             padding: 10px;
             border-radius: 8px;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
-              width: 60px;
-              /* height: 30px; */
+              width: 100%;
+              border-radius: 5px;
               aspect-ratio: 1/1;
             }
           }
@@ -3151,6 +3153,9 @@ footer {
 }
 
 @media (max-width: 1092px) {
+  .side-bar .side-bar-wraper .user-data .cta-button-container{
+    flex-direction: column;
+  }
   .hd {
     display: none !important;
   }
@@ -3216,6 +3221,9 @@ footer {
 }
 
 @media (max-width: 832px) {
+    .side-bar .side-bar-wraper .profile-container{
+      height: auto;
+    }
   .hero-section-wraper {
     grid-template-columns: 1fr;
   }
