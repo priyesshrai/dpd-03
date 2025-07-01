@@ -18,6 +18,7 @@ import { useUserContext } from '@/context/UserContext'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Spinner from '@/components/Spinner/Spinner'
+import axios from 'axios'
 
 
 interface MenuItem {
@@ -26,13 +27,80 @@ interface MenuItem {
     icon: string
 }
 
+interface FormData {
+    name: string;
+    email: string;
+    phoneNo: string;
+    message: string;
+}
+
 export default function UserProfile() {
-    const { userData, user, loading } = useUserContext()
+    const [isSending, setIsSending] = useState<boolean>(false);
+    const { userData, user, loading } = useUserContext();
+    const [formData, setFormData] = useState<FormData>({
+        name: "",
+        email: "",
+        phoneNo: "",
+        message: ""
+    })
+    const [closePingForm, setClosePingForm] = useState<boolean>(true);
+
+    const isFormValid = (data: FormData): boolean => {
+        return Object.values(data).every(value => value?.trim().length > 0);
+    };
+
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!isFormValid) {
+            toast.error("All fields are required...!");
+            return;
+        }
+        setIsSending(true);
+        const data = new FormData();
+        data.append("cnid", userData.profile_nid!);
+        data.append("int_name", formData.name);
+        data.append("int_phone", formData.phoneNo);
+        data.append("int_email", formData.email);
+        data.append("int_details", formData.message);
+
+        // data.forEach((value, key) => {
+        //     console.log(`${key}: ${value}`);
+        // });
+
+        toast.promise(
+            axios.post("https://inforbit.in/demo/dpd/candidate-interest-api", data)
+                .then((response) => {
+                    if (response.data.status) {
+                        setIsSending(false);
+                        setClosePingForm(true);
+                        return response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    setIsSending(false);
+                    console.log(error);
+                    const errorMessage = error.response?.data?.message || error.message;
+                    throw errorMessage;
+                }),
+            {
+                loading: "Please Wait....",
+                success: (message) => message || "Message Sent for Approvel",
+                error: (err) => err || "Failed to send message"
+            }
+        );
+
+    }
 
     return (
         <>
-            <Hero userData={userData} loading={loading} userName={user} />
+            <Hero userData={userData} loading={loading} userName={user}  />
             <Toaster />
+            {!closePingForm && <PingCandidate
+                formData={formData}
+                updateFormData={setFormData}
+                submit={handleSubmit}
+                loading={isSending}
+            />}
         </>
     )
 }
@@ -150,13 +218,13 @@ export function Header({ userName }: { userName: string }) {
                             {
                                 menu.map((menu) => (
                                     <li key={menu.menuName}>
-                                        <Link onClick={closeMenu} href={menu.path}
-                                            className={isActiveLink(menu.path) ? 'active' : ''}>
+                                        <button onClick={closeMenu} disabled
+                                            className={isActiveLink(menu.path) ? 'active' : 'disable'}>
                                             <i className={menu.icon} aria-hidden="true"></i>
                                             <span>
                                                 {menu.menuName}
                                             </span>
-                                        </Link>
+                                        </button>
                                     </li>
                                 ))
                             }
@@ -487,5 +555,98 @@ export function Footer() {
                 Wizards
             </a>
         </footer>
+    )
+}
+
+type Props = {
+    formData: FormData;
+    updateFormData: React.Dispatch<React.SetStateAction<FormData>>;
+    submit: (e: React.FormEvent<HTMLFormElement>) => void;
+    loading: boolean
+}
+
+export function PingCandidate({ formData, updateFormData, submit, loading }: Props) {
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const { name, value } = e.target;
+        updateFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+    return (
+        <section className='ping-candidate-parent'>
+            <div className="ping-candidate-wrapper">
+                <div className="ping-candidate-form-container">
+                    <div className="ping-form-header">
+                        <span>Request Approvel</span>
+                        <div className='close-pinf-form'>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div className="ping-form-body">
+                        <form onSubmit={submit}>
+                            <div className="details-edit-wraper">
+                                <div className="edit-input-container">
+                                    <input
+                                        type="text"
+                                        placeholder=''
+                                        className='inputs'
+                                        name='name'
+                                        required
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                    />
+                                    <label className='label'>Full Name</label>
+                                </div>
+
+                                <div className="edit-input-container">
+                                    <input
+                                        type="tel"
+                                        placeholder=""
+                                        required
+                                        className='inputs'
+                                        name='phoneNo'
+                                        value={formData.phoneNo}
+                                        onChange={handleChange}
+                                    />
+                                    <label className='label'>Phone No.</label>
+                                </div>
+
+                                <div className="edit-input-container">
+                                    <input
+                                        type="email"
+                                        placeholder=""
+                                        required
+                                        className='inputs'
+                                        name='email'
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                    />
+                                    <label className='label'>Enter Email</label>
+                                </div>
+
+                                <div className="edit-input-container">
+                                    <textarea
+                                        name='message'
+                                        placeholder=''
+                                        className='inputs'
+                                        rows={3}
+                                        required
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                    />
+                                    <label className='label'>Message</label>
+                                </div>
+                            </div>
+                            <div className="details-edit-footer">
+                                <button>{loading ? <Spinner/> : "Send"}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     )
 }

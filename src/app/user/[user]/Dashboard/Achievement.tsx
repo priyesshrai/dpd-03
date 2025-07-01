@@ -230,8 +230,6 @@ export default function Achievement({ candidateachievement, setCandidateData, go
                                         <label className='label'>Achievement Summary</label>
                                     </div>
                                 </div>
-
-
                             </div>
                         ))
                     }
