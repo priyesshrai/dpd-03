@@ -36,14 +36,14 @@ interface FormData {
 
 export default function UserProfile() {
     const [isSending, setIsSending] = useState<boolean>(false);
-    const { userData, user, loading } = useUserContext();
+    const { userData, user, loading, setClosePingForm, closePingForm } = useUserContext();
     const [formData, setFormData] = useState<FormData>({
         name: "",
         email: "",
         phoneNo: "",
         message: ""
     })
-    const [closePingForm, setClosePingForm] = useState<boolean>(true);
+    
 
     const isFormValid = (data: FormData): boolean => {
         return Object.values(data).every(value => value?.trim().length > 0);
@@ -136,6 +136,7 @@ export function Header({ userName }: { userName: string }) {
     ]
     const [openMenu, setOpenMenu] = useState(false);
     const [isDownloading, setIsDownloading] = useState<boolean>(false)
+    const { userData, user, loading, setClosePingForm, closePingForm } = useUserContext();
 
     const isActiveLink = (menuPath: string): boolean => {
         if (menuPath === `/public/user/${userName}`) {

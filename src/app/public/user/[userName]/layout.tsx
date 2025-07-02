@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import axios from "axios";
 import { Footer, Header } from "./UserProfile";
 import PublicUserWrapper from "./PublicUserWrapper";
+import { UserProvider } from "@/context/UserContext";
 
 type Props = {
     children: ReactNode;
@@ -11,13 +12,13 @@ type Props = {
 export default async function UserLayout({ children, params }: Props) {
     const { userName } = await params;
     return (
-        <>
+        <UserProvider user={userName}>
             <Header userName={userName} />
             <PublicUserWrapper user={userName}>
                 {children}
             </PublicUserWrapper>
             <Footer />
-        </>
+        </UserProvider>
     );
 }
 
