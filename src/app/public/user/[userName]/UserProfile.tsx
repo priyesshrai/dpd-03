@@ -135,6 +135,7 @@ export function Header({ userName }: { userName: string }) {
     ]
     const [openMenu, setOpenMenu] = useState(false);
     const [isDownloading, setIsDownloading] = useState<boolean>(false)
+    const { showLockedMessage, setShowLockedMessage } = useUserContext();
 
     const isActiveLink = (menuPath: string): boolean => {
         if (menuPath === `/public/user/${userName}`) {
@@ -217,7 +218,10 @@ export function Header({ userName }: { userName: string }) {
                             {
                                 menu.map((menu) => (
                                     <li key={menu.menuName}>
-                                        <button onClick={closeMenu}
+                                        <button onClick={() => {
+                                            closeMenu();
+                                            setShowLockedMessage(!showLockedMessage);
+                                        }}
                                             className={isActiveLink(menu.path) ? 'active' : ''}>
                                             <i className={menu.icon} aria-hidden="true"></i>
                                             <span>
@@ -247,6 +251,9 @@ export function Header({ userName }: { userName: string }) {
                     <div className={`overlay ${openMenu ? 'menu-active' : ""} `} onClick={() => setOpenMenu(false)}></div>
                 </div>
             </nav>
+            {
+                showLockedMessage && <ShowLockedMessage />
+            }
         </motion.header >
     )
 }
@@ -377,10 +384,10 @@ export function SideBar({ userData, loading }: HeroProps) {
     )
 }
 
-function Hero({ userData, loading, userName }: HeroProps) {
+function Hero({ userData, loading }: HeroProps) {
     const [open, setOpen] = useState(false);
     const [index, setIndex] = useState(0);
-
+    const { showLockedMessage, setShowLockedMessage } = useUserContext();
     const images = userData?.recent_project_list?.map((project: ApiProject) => ({
         src: project.recent_project_img,
         width: 1920,
@@ -504,7 +511,7 @@ function Hero({ userData, loading, userName }: HeroProps) {
                             className="project-block-wraper">
                             <div className="title">
                                 <h2>Recent Projects</h2>
-                                <span>
+                                <span onClick={() => setShowLockedMessage(!showLockedMessage)}>
                                     All Project
                                     <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
                                 </span>
@@ -541,6 +548,9 @@ function Hero({ userData, loading, userName }: HeroProps) {
                     )
                 }
             </div>
+            {
+                showLockedMessage && <ShowLockedMessage />
+            }
         </>
     )
 }
@@ -643,6 +653,31 @@ export function PingCandidate({ formData, updateFormData, submit, loading }: Pro
                                 <button>{loading ? <Spinner /> : "Send"}</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+function ShowLockedMessage() {
+    const { setClosePingForm, setShowLockedMessage } = useUserContext();
+    return (
+        <section className='ping-candidate-parent'>
+            <div className="ping-candidate-wrapper">
+                <div className="locked-message-box">
+                    <div className="locked-message-heading">
+                        <div onClick={() => setShowLockedMessage(false)}>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div className="locked-message-body">
+                        <Image src="/images/icons/alert.webp" width={200} height={150} alt='alert' />
+                        <p>
+                            Currently this profile is locked you have to <strong>Ping User</strong> and get approval from them to view all the profile pages and details.
+                        </p>
+                        <button onClick={() => { setShowLockedMessage(false); setClosePingForm(false); }}>Ping Now</button>
                     </div>
                 </div>
             </div>

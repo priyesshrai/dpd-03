@@ -12,6 +12,8 @@ type UserContextType = {
   setLocked: (locked: boolean) => void;
   closePingForm: boolean;
   setClosePingForm: (closePingForm: boolean) => void;
+  showLockedMessage : boolean;
+  setShowLockedMessage:(showLockedMessage:boolean)=> void;
 };
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -25,8 +27,9 @@ export const useUserContext = () => {
 export const UserProvider = ({ user, children }: { user: string; children: ReactNode }) => {
   const [userData, setUserData] = useState<NewUserData>({});
   const [loading, setLoading] = useState(true);
-  const [closePingForm, setClosePingForm] = useState(true);
-  const [locked, setLocked] = useState(true);
+  const [closePingForm, setClosePingForm] = useState<boolean>(true);
+  const [locked, setLocked] = useState<boolean>(true);
+  const [showLockedMessage, setShowLockedMessage] = useState<boolean>(true);
 
   const contextValue: UserContextType = {
     userData,
@@ -38,6 +41,8 @@ export const UserProvider = ({ user, children }: { user: string; children: React
     setLocked,
     closePingForm,
     setClosePingForm,
+    showLockedMessage,
+    setShowLockedMessage,
   }
 
   return (
