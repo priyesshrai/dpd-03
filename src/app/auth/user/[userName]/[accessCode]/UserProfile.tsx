@@ -18,7 +18,7 @@ import { useUserContext } from '@/context/UserContext'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Spinner from '@/components/Spinner/Spinner'
-import axios from 'axios'
+// import axios from 'axios'
 
 
 interface MenuItem {

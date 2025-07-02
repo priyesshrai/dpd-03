@@ -11,10 +11,9 @@ import 'yet-another-react-lightbox/styles.css';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
-import Link from 'next/link';
 import Image from 'next/image';
 import { ApiAchievement, ApiSocialActivity, ApiTool } from '../../../../../types';
-import { UserProvider, useUserContext } from '@/context/UserContext';
+import { useUserContext } from '@/context/UserContext';
 
 export default function PublicUserWrapper({ user, children }: { user: string; children: React.ReactNode }) {
     return (
@@ -53,7 +52,7 @@ function PublicUserLayout({ user, children }: { user: string; children: React.Re
                 setLoading(false);
             } catch (error) {
                 Cookies.remove('data');
-                toast.error('Profile Not Found of This User....!');
+                toast.error((error as Error)?.message || 'Profile Not Found of This User....!');
                 router.push('/login');
                 setLoading(false);
             }

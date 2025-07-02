@@ -53,7 +53,7 @@ function PublicUserLayout({ user, children }: { user: string; children: React.Re
                 setLoading(false);
             } catch (error) {
                 Cookies.remove('data');
-                toast.error('Profile Not Found of This User....!');
+                toast.error((error as Error)?.message || 'Profile Not Found of This User....!');
                 router.push('/login');
                 setLoading(false);
             }
