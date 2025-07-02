@@ -3286,7 +3286,7 @@ footer {
           }
         }
       }
-      .locked-message-body{
+      .locked-message-body {
         position: relative;
         width: 100%;
         margin-top: 20px;
@@ -3294,17 +3294,17 @@ footer {
         align-items: center;
         flex-direction: column;
 
-        p{
+        p {
           margin-top: 10px;
           color: var(--light);
         }
-        button{
+        button {
           width: 100%;
           padding: 10px 15px;
           background-color: var(--new-colour);
           color: var(--primary-bg);
           margin-top: 10px;
-          border-radius:5px;
+          border-radius: 5px;
           cursor: pointer;
         }
       }
@@ -3314,6 +3314,37 @@ footer {
 
 .disable {
   cursor: not-allowed;
+}
+
+.invalid-accesscode {
+  position: relative;
+  margin: 30px auto 0 auto;
+  width: 500px;
+  height: max-content;
+  background-color: var(--primary-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--light);
+  }
+
+  a {
+    position: relative;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--hover-color);
+    color: var(--primary-bg);
+    text-align: center;
+    border-radius: 10px;
+  }
 }
 
 @media (max-width: 1024px) {

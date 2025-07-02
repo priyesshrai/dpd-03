@@ -30,7 +30,7 @@ export const UserProvider = ({ user, accessCode, children }: { user: string; acc
   const [loading, setLoading] = useState(true);
   const [closePingForm, setClosePingForm] = useState<boolean>(true);
   const [locked, setLocked] = useState<boolean>(true);
-  const [showLockedMessage, setShowLockedMessage] = useState<boolean>(true);
+  const [showLockedMessage, setShowLockedMessage] = useState<boolean>(false);
 
   const contextValue: UserContextType = {
     userData,

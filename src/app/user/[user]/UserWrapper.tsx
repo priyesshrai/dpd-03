@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { SideBar } from './UserProfile';
 import { AchieSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton';
-import { ApiAchievement, ApiSocialActivity, ApiTool, NewUserData } from '../../../../types';
+import { ApiAchievement, ApiSocialActivity, ApiTool } from '../../../../types';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -14,15 +14,15 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Link from 'next/link';
 import Image from 'next/image';
+import { useUserContext } from '@/context/UserContext';
 
 
 export default function UserWrapper({ user, children }: { user: string, children: ReactNode }) {
     const router = useRouter();
     const pathname = usePathname()
-    const [userData, setUserData] = useState<NewUserData>({});
-    const [loading, setLoading] = useState(true);
     const [achiOpen, setAchiOpen] = useState(false);
     const [achiIndex, setAchiIndex] = useState(0);
+    const { userData, setUserData, loading, setLoading } = useUserContext();
 
     useEffect(() => {
         setLoading(true)
