@@ -14,7 +14,6 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserContext } from '@/context/UserContext';
 
 
 export default function UserWrapper({ user, children }: { user: string, children: ReactNode }) {
@@ -74,7 +73,7 @@ export default function UserWrapper({ user, children }: { user: string, children
     })) || [];
 
     return (
-        <UserContext.Provider value={{ userData, loading, user }} >
+        <>
             {
                 pathname !== `/user/${user}/profile` ? (
                     <section className='hero-section'>
@@ -205,6 +204,6 @@ export default function UserWrapper({ user, children }: { user: string, children
                     </section>
                 ) : children
             }
-        </UserContext.Provider>
+        </>
     )
 }
