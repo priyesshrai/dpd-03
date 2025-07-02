@@ -606,11 +606,12 @@ main {
         color: var(--dark);
         opacity: 0.8;
       }
-      a {
+      a,span {
         color: #4770ff;
         display: flex;
         align-items: center;
         gap: 5px;
+        cursor: pointer;
 
         i {
           font-size: 20px;
@@ -918,11 +919,12 @@ main {
             color: var(--dark);
             opacity: 0.8;
           }
-          a {
+          a,span {
             color: #4770ff;
             display: flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
 
             i {
               font-size: 20px;

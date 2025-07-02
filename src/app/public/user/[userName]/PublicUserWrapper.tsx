@@ -152,10 +152,10 @@ function PublicUserLayout({ user, children }: { user: string; children: React.Re
                                     <div className="third-block-layout-wraper">
                                         <div className="title">
                                             <h2>Tools I Use</h2>
-                                            <Link href={`/public/user/${user}/expert-area`}>
+                                            <span>
                                                 See All
                                                 <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
-                                            </Link>
+                                            </span>
                                         </div>
                                         <div className="third-content">
                                             {userData?.tools_list?.map((tools: ApiTool) => (

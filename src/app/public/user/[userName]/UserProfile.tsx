@@ -43,7 +43,6 @@ export default function UserProfile() {
         phoneNo: "",
         message: ""
     })
-    
 
     const isFormValid = (data: FormData): boolean => {
         return Object.values(data).every(value => value?.trim().length > 0);
@@ -93,7 +92,7 @@ export default function UserProfile() {
 
     return (
         <>
-            <Hero userData={userData} loading={loading} userName={user}  />
+            <Hero userData={userData} loading={loading} userName={user} />
             <Toaster />
             {!closePingForm && <PingCandidate
                 formData={formData}
@@ -136,7 +135,6 @@ export function Header({ userName }: { userName: string }) {
     ]
     const [openMenu, setOpenMenu] = useState(false);
     const [isDownloading, setIsDownloading] = useState<boolean>(false)
-    const { userData, user, loading, setClosePingForm, closePingForm } = useUserContext();
 
     const isActiveLink = (menuPath: string): boolean => {
         if (menuPath === `/public/user/${userName}`) {
@@ -219,8 +217,8 @@ export function Header({ userName }: { userName: string }) {
                             {
                                 menu.map((menu) => (
                                     <li key={menu.menuName}>
-                                        <button onClick={closeMenu} disabled
-                                            className={isActiveLink(menu.path) ? 'active' : 'disable'}>
+                                        <button onClick={closeMenu}
+                                            className={isActiveLink(menu.path) ? 'active' : ''}>
                                             <i className={menu.icon} aria-hidden="true"></i>
                                             <span>
                                                 {menu.menuName}
@@ -256,7 +254,7 @@ export function Header({ userName }: { userName: string }) {
 export function SideBar({ userData, loading }: HeroProps) {
     const currentPath = usePathname()
     const [isDownloading, setIsDownloading] = useState<boolean>(false)
-
+    const { setClosePingForm } = useUserContext();
     const bio = userData?.introduction ?? ""
 
     const getTrimmedBio = () => {
@@ -356,7 +354,7 @@ export function SideBar({ userData, loading }: HeroProps) {
                                 </div>
 
                                 <div className="cta-button-container">
-                                    <button>
+                                    <button onClick={() => setClosePingForm(false)}>
                                         Ping to Show Interest
                                         <i className="hgi hgi-stroke hgi-touch-09"></i>
                                     </button>
@@ -506,10 +504,10 @@ function Hero({ userData, loading, userName }: HeroProps) {
                             className="project-block-wraper">
                             <div className="title">
                                 <h2>Recent Projects</h2>
-                                <Link href={`/public/user/${userName}/work`}>
+                                <span>
                                     All Project
                                     <i className="hgi hgi-stroke hgi-arrow-right-02"></i>
-                                </Link>
+                                </span>
                             </div>
                             <div className="block-layout-content">
                                 {
@@ -567,7 +565,7 @@ type Props = {
 }
 
 export function PingCandidate({ formData, updateFormData, submit, loading }: Props) {
-
+    const { setClosePingForm } = useUserContext();
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { name, value } = e.target;
         updateFormData(prev => ({
@@ -581,7 +579,7 @@ export function PingCandidate({ formData, updateFormData, submit, loading }: Pro
                 <div className="ping-candidate-form-container">
                     <div className="ping-form-header">
                         <span>Request Approvel</span>
-                        <div className='close-pinf-form'>
+                        <div className='close-pinf-form' onClick={() => setClosePingForm(true)}>
                             <span></span>
                             <span></span>
                         </div>
@@ -642,7 +640,7 @@ export function PingCandidate({ formData, updateFormData, submit, loading }: Pro
                                 </div>
                             </div>
                             <div className="details-edit-footer">
-                                <button>{loading ? <Spinner/> : "Send"}</button>
+                                <button>{loading ? <Spinner /> : "Send"}</button>
                             </div>
                         </form>
                     </div>

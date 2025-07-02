@@ -26,7 +26,7 @@ export const UserProvider = ({ user, children }: { user: string; children: React
   const [userData, setUserData] = useState<NewUserData>({});
   const [loading, setLoading] = useState(true);
   const [closePingForm, setClosePingForm] = useState(true);
-  const [locked, setLocked] = useState(false);
+  const [locked, setLocked] = useState(true);
 
   const contextValue: UserContextType = {
     userData,
