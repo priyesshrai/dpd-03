@@ -402,12 +402,12 @@ type Share = {
 }
 
 function Share({ setShowShareMenu, shareLink }: Share) {
-    const defaultLink: string = "https://dreampathdevelopment/public/user/"
+    const defaultLink: string = "https://dpd.profilebuilder.in/public/user/"
 
     const containerRef = useRef<HTMLDivElement | null>(null)
 
     async function handleCopy() {
-        await navigator.clipboard.writeText(`https://dreampathdevelopment/public/user/${shareLink}`);
+        await navigator.clipboard.writeText(`https://dpd.profilebuilder.in/public/user/${shareLink}`);
         toast.success("Link copied!");
     }
 
