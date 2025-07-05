@@ -19,6 +19,63 @@ type Candidate = {
 export default function UpdateUserProjects({ candidateProject, loading, setCandidateData, setLoading, fetchData, profileNid }: Candidate) {
   const projects = candidateProject;
 
+  const getFileIcon = (fileName: string) => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return '📄';
+      case 'doc':
+      case 'docx':
+        return '📝';
+      case 'xls':
+      case 'xlsx':
+        return '📊';
+      case 'ppt':
+      case 'pptx':
+        return '📊';
+      case 'txt':
+        return '📄';
+      default:
+        return '📎';
+    }
+  };
+
+  const isImageFile = (file: File | string) => {
+    if (typeof file === 'string') {
+      return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(file);
+    }
+    return file.type.startsWith('image/');
+  };
+
+  const validateFile = (file: File) => {
+    const allowedTypes = [
+      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp', 'image/svg+xml',
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'text/plain',
+      'text/csv',
+    ];
+
+    const maxSize = 10 * 1024 * 1024;
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('File type not supported. Please upload images, PDFs, Word docs, Excel files, or other supported formats.');
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      toast.error('File size must be less than 10MB.');
+      return false;
+    }
+
+    return true;
+  };
+
   const addNewProject = () => {
     const lastSkill = projects[projects.length - 1];
 
@@ -74,6 +131,12 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
       ...prevData,
       projects: updatedProjects,
     }));
+  };
+
+  const handleFileChange = (index: number, file: File | null) => {
+    if (file && validateFile(file)) {
+      handleChange(index, "image", file);
+    }
   };
 
   async function handleSubmit(event: React.FormEvent) {
@@ -182,18 +245,48 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                       {
                         project.image && (
                           <div style={{ marginBottom: "10px" }}>
-                            <Image
-                              src={
-                                typeof project.image === "string"
-                                  ? project.image
-                                  : project.image instanceof File
-                                    ? URL.createObjectURL(project.image)
-                                    : "/"
-                              }
-                              width={300}
-                              height={200}
-                              alt='project image'
-                            />
+                            <div style={{ marginBottom: "10px" }}>
+                              {isImageFile(project.image) ? (
+                                <Image
+                                  src={
+                                    typeof project.image === "string"
+                                      ? project.image
+                                      : project.image instanceof File
+                                        ? URL.createObjectURL(project.image)
+                                        : "/"
+                                  }
+                                  width={300}
+                                  height={200}
+                                  alt='project file'
+                                  style={{ borderRadius: "8px", objectFit: "cover" }}
+                                />
+                              ) : (
+                                <div style={{
+                                  padding: "20px",
+                                  border: "2px dashed #ddd",
+                                  borderRadius: "8px",
+                                  textAlign: "center",
+                                  backgroundColor: "#f9f9f9"
+                                }}>
+                                  <div style={{ fontSize: "48px", marginBottom: "10px" }}>
+                                    {typeof project.image === "string"
+                                      ? getFileIcon(project.image)
+                                      : project.image instanceof File
+                                        ? getFileIcon(project.image.name)
+                                        : "📎"
+                                    }
+                                  </div>
+                                  <div style={{ fontSize: "14px", color: "#666" }}>
+                                    {typeof project.image === "string"
+                                      ? (project.image as string).split('/').pop()
+                                      : project.image instanceof File
+                                        ? project.image.name
+                                        : "Unknown file"
+                                    }
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         )
                       }
@@ -204,7 +297,10 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                           className="inputs"
                           required
                         />
-                        <label className='label'>Project Image</label>
+                        <label className='label'>Project File (Optional)</label>
+                        <small style={{ color: "#666", fontSize: "12px", marginTop: "5px", display: "block" }}>
+                          Supported: Images, PDFs, Word docs, Excel files, PowerPoint, Text files (Max: 10MB)
+                        </small>
                       </>
 
 
@@ -219,7 +315,7 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                         required
                         className='inputs'
                       />
-                      <label className='label'>Project Link</label>
+                      <label className='label'>Project Link (Optional)</label>
                     </div>
 
                     <div className="edit-input-container">

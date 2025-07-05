@@ -131,7 +131,6 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
     }));
   };
 
-  // Enhanced file change handler
   const handleFileChange = (index: number, file: File | null) => {
     if (file && validateFile(file)) {
       handleChange(index, "image", file);
@@ -155,35 +154,35 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
     formData.append("user_type", "superadmin")
     formData.append("user_nid", profileNid)
 
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
 
-    // toast.promise(
-    //   axios.post("https://inforbit.in/demo/dpd/upd-candidate-achievements-api", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.data.status) {
-    //         fetchData();
-    //         setLoading(false);
-    //         return response.data.message;
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setLoading(false);
-    //       console.log(error);
-    //       const errorMessage = error.response?.data?.message || error.message;
-    //       throw errorMessage;
-    //     }),
-    //   {
-    //     loading: "Please Wait....",
-    //     success: (message) => message || "Achievement Added successful!",
-    //     error: (err) => err || "Failed to Add Achievement"
-    //   }
-    // );
+    toast.promise(
+      axios.post("https://inforbit.in/demo/dpd/upd-candidate-achievements-api", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          if (response.data.status) {
+            fetchData();
+            setLoading(false);
+            return response.data.message;
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          const errorMessage = error.response?.data?.message || error.message;
+          throw errorMessage;
+        }),
+      {
+        loading: "Please Wait....",
+        success: (message) => message || "Achievement Added successful!",
+        error: (err) => err || "Failed to Add Achievement"
+      }
+    );
   }
 
   function handleRemove(id: number) {
@@ -289,7 +288,7 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
                         accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv"
                         style={{ padding: "10px" }}
                       />
-                      <label className='label'>Achievement File</label>
+                      <label className='label'>Achievement File (Optional)</label>
                       <small style={{ color: "#666", fontSize: "12px", marginTop: "5px", display: "block" }}>
                         Supported: Images, PDFs, Word docs, Excel files, PowerPoint, Text files (Max: 10MB)
                       </small>
