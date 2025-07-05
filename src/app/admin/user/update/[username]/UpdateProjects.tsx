@@ -244,7 +244,6 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                     <div className="edit-input-container">
                       {
                         project.image && (
-                          <div style={{ marginBottom: "10px" }}>
                             <div style={{ marginBottom: "10px" }}>
                               {isImageFile(project.image) ? (
                                 <Image
@@ -287,13 +286,12 @@ export default function UpdateUserProjects({ candidateProject, loading, setCandi
                                 </div>
                               )}
                             </div>
-                          </div>
                         )
                       }
                       <>
                         <input
                           type="file"
-                          onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                          onChange={(e) => handleFileChange(index, e.target.files ? e.target.files[0] : null)}
                           className="inputs"
                           required
                         />

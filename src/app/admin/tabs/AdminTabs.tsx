@@ -46,13 +46,13 @@ export default function AdminTabs() {
     },
     {
       key: "addSkills",
-      tabName: "Add New Skills",
+      tabName: "Skills Master",
       icon: "hgi hgi-stroke hgi-idea-01",
       component: AddSkills
     },
     {
       key: "addTool",
-      tabName: "Add New Tools",
+      tabName: "Tools Master",
       icon: "hgi hgi-stroke hgi-code",
       component: AddTools
     },
@@ -65,7 +65,7 @@ export default function AdminTabs() {
   ];
   const [selectedTab, setSelectedTab] = useState(0)
   const ActiveTab = tabConfig[selectedTab].component;
-  const [addProfileFormStep, setAddProfileFormStep] = useState(0);
+  const [addProfileFormStep, setAddProfileFormStep] = useState(5);
   const [candidateData, setCandidateData] = useState<FormData>({
     personalData: {
       name: "",
