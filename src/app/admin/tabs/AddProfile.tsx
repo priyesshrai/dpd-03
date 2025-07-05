@@ -1484,7 +1484,8 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
                   type="file"
                   onChange={(e) => handleFileChange(index, e.target.files ? e.target.files[0] : null)}
                   className="inputs"
-                  required
+                  accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv"
+                  style={{ padding: "10px" }}
                 />
                 <label className='label'>Project File (Optional)</label>
                 <small style={{ color: "#666", fontSize: "12px", marginTop: "5px", display: "block" }}>
@@ -1498,7 +1499,6 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
                   placeholder=""
                   value={project.link}
                   onChange={(e) => handleChange(index, "link", e.target.value)}
-                  required
                   className='inputs'
                 />
                 <label className='label'>Project Link (Optional)</label>
@@ -1514,7 +1514,6 @@ function ProjectForm({ nextStep, candidateData, setCandidateData }: StepProps) {
                   }
                   className='inputs'
                   rows={5}
-                  required
                 />
                 <label className='label'>Project Summary (Optional)</label>
               </div>
@@ -1806,7 +1805,6 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
                   placeholder=""
                   value={achievement.link}
                   onChange={(e) => handleChange(index, "link", e.target.value)}
-                  required
                   className='inputs'
                 />
                 <label className='label'>Achievement Link (Optional)</label>
@@ -1822,7 +1820,6 @@ function AchievementForm({ nextStep, candidateData, setCandidateData }: StepProp
                   }
                   className='inputs'
                   rows={5}
-                  required
                 />
                 <label className='label'>Achievement Summary (Optional)</label>
               </div>
