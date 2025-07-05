@@ -6,8 +6,6 @@ import { UpdateAchievement, UpdateFormData } from '../../../../../../types';
 import Image from 'next/image';
 import axios from 'axios';
 
-
-
 type Candidate = {
   loading: boolean;
   candidateachievement: UpdateAchievement[];
@@ -20,9 +18,65 @@ type Candidate = {
 export default function UpdateUserAchievement({ profileNid, fetchData, candidateachievement, loading, setCandidateData, setLoading }: Candidate) {
   const achievement = candidateachievement
 
+  const getFileIcon = (fileName: string) => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return '📄';
+      case 'doc':
+      case 'docx':
+        return '📝';
+      case 'xls':
+      case 'xlsx':
+        return '📊';
+      case 'ppt':
+      case 'pptx':
+        return '📊';
+      case 'txt':
+        return '📄';
+      default:
+        return '📎';
+    }
+  };
+
+  const isImageFile = (file: File | string) => {
+    if (typeof file === 'string') {
+      return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(file);
+    }
+    return file.type.startsWith('image/');
+  };
+
+  const validateFile = (file: File) => {
+    const allowedTypes = [
+      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp', 'image/svg+xml',
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'text/plain',
+      'text/csv',
+    ];
+
+    const maxSize = 10 * 1024 * 1024;
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('File type not supported. Please upload images, PDFs, Word docs, Excel files, or other supported formats.');
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      toast.error('File size must be less than 10MB.');
+      return false;
+    }
+
+    return true;
+  };
+
   const addNewAchievement = () => {
     const lastSkill = achievement[achievement.length - 1];
-
     if (!lastSkill) {
       setCandidateData((prevData) => ({
         ...prevData,
@@ -77,6 +131,13 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
     }));
   };
 
+  // Enhanced file change handler
+  const handleFileChange = (index: number, file: File | null) => {
+    if (file && validateFile(file)) {
+      handleChange(index, "image", file);
+    }
+  };
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true)
@@ -98,31 +159,31 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
       console.log(`${key}: ${value}`);
     });
 
-    toast.promise(
-      axios.post("https://inforbit.in/demo/dpd/upd-candidate-achievements-api", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then((response) => {
-          if (response.data.status) {
-            fetchData();
-            setLoading(false);
-            return response.data.message;
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-          const errorMessage = error.response?.data?.message || error.message;
-          throw errorMessage;
-        }),
-      {
-        loading: "Please Wait....",
-        success: (message) => message || "Achievement Added successful!",
-        error: (err) => err || "Failed to Add Achievement"
-      }
-    );
+    // toast.promise(
+    //   axios.post("https://inforbit.in/demo/dpd/upd-candidate-achievements-api", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (response.data.status) {
+    //         fetchData();
+    //         setLoading(false);
+    //         return response.data.message;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       setLoading(false);
+    //       console.log(error);
+    //       const errorMessage = error.response?.data?.message || error.message;
+    //       throw errorMessage;
+    //     }),
+    //   {
+    //     loading: "Please Wait....",
+    //     success: (message) => message || "Achievement Added successful!",
+    //     error: (err) => err || "Failed to Add Achievement"
+    //   }
+    // );
   }
 
   function handleRemove(id: number) {
@@ -138,7 +199,6 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
 
   return (
     <div className='component-common' style={{ padding: 0 }}>
-
       <AnimatePresence mode='wait'>
         <motion.div
           initial={{ opacity: 0, x: 50 }}
@@ -147,7 +207,6 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
           transition={{ duration: 0.2 }}
         >
           <div className="details-edit-component" style={{ padding: "30px" }}>
-
             {
               loading ?
                 (<div className='edit-loading'>
@@ -179,9 +238,9 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
                     </div>
 
                     <div className="edit-input-container">
-                      {
-                        achievement.image && (
-                          <div style={{ marginBottom: "10px" }}>
+                      {achievement.image && (
+                        <div style={{ marginBottom: "10px" }}>
+                          {isImageFile(achievement.image) ? (
                             <Image
                               src={
                                 typeof achievement.image === "string"
@@ -192,17 +251,48 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
                               }
                               width={300}
                               height={200}
-                              alt='project image'
+                              alt='achievement file'
+                              style={{ borderRadius: "8px", objectFit: "cover" }}
                             />
-                          </div>
-                        )}
+                          ) : (
+                            <div style={{
+                              padding: "20px",
+                              border: "2px dashed #ddd",
+                              borderRadius: "8px",
+                              textAlign: "center",
+                              backgroundColor: "#f9f9f9"
+                            }}>
+                              <div style={{ fontSize: "48px", marginBottom: "10px" }}>
+                                {typeof achievement.image === "string"
+                                  ? getFileIcon(achievement.image)
+                                  : achievement.image instanceof File
+                                    ? getFileIcon(achievement.image.name)
+                                    : "📎"
+                                }
+                              </div>
+                              <div style={{ fontSize: "14px", color: "#666" }}>
+                                {typeof achievement.image === "string"
+                                  ? (achievement.image as string).split('/').pop()
+                                  : achievement.image instanceof File
+                                    ? achievement.image.name
+                                    : "Unknown file"
+                                }
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       <input
                         type="file"
-                        onChange={(e) => handleChange(index, "image", e.target.files ? e.target.files[0] : null)}
+                        onChange={(e) => handleFileChange(index, e.target.files ? e.target.files[0] : null)}
                         className="inputs"
-                        required
+                        accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv"
+                        style={{ padding: "10px" }}
                       />
-                      <label className='label'>Achievement Image</label>
+                      <label className='label'>Achievement File</label>
+                      <small style={{ color: "#666", fontSize: "12px", marginTop: "5px", display: "block" }}>
+                        Supported: Images, PDFs, Word docs, Excel files, PowerPoint, Text files (Max: 10MB)
+                      </small>
                     </div>
 
                     <div className="edit-input-container">
@@ -211,10 +301,9 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
                         placeholder=""
                         value={achievement.link}
                         onChange={(e) => handleChange(index, "link", e.target.value)}
-                        required
                         className='inputs'
                       />
-                      <label className='label'>Achievement Link</label>
+                      <label className='label'>Achievement Link (Optional)</label>
                     </div>
 
                     <div className="edit-input-container">
@@ -232,8 +321,6 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
                       <label className='label'>Achievement Summary</label>
                     </div>
                   </div>
-
-
                 </div>
               ))
             }
@@ -242,7 +329,6 @@ export default function UpdateUserAchievement({ profileNid, fetchData, candidate
               <button onClick={handleSubmit}>Save</button>
             </div>
           </div>
-
         </motion.div>
       </AnimatePresence>
       <Toaster />
