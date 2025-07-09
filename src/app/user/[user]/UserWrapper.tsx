@@ -189,7 +189,7 @@ export default function UserWrapper({ user, children }: { user: string, children
                                                 loading ? (<YoutubeSkeleton />) : (
                                                     <div className="third-block-layout-wraper">
                                                         <div className="video-profile">
-                                                            <iframe width="100%" height="100%" style={{ borderRadius: "10px", border: "none" }} src="https://www.youtube.com/embed/Vmk_Uf1hLmM?si=gOVU8Cy1lnHRkV7F" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"></iframe>
+                                                            <iframe width="100%" height="100%" style={{ borderRadius: "10px", border: "none" }} src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"></iframe>
                                                         </div>
 
                                                         <span className='vdo-title'>View Profile Intro</span>
