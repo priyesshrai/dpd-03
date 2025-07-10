@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -27,6 +27,9 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [openOptionMenu, setOpenOptionMenu] = useState<string | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -98,8 +101,28 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
     );
   }
 
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setOpenOptionMenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   async function handleDelete(skillNid: string) {
-    console.log(typeof(skillNid));
+    console.log(skillNid);
+  }
+  async function handleEdit(skillNid: string) {
+    console.log(skillNid);
   }
 
   return (
@@ -118,7 +141,6 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
             </div>
           )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
-            <form onSubmit={handleSubmit}>
               <div className="details-edit-body" >
                 <div className="details-edit-wraper">
                   <div className="edit-input-container">
@@ -166,8 +188,28 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
                 <div className='props-list'>
                   {
                     skillList?.map((skill: SkillList) => (
-                      <div key={skill.nid}>
-                        <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => handleDelete(skill.nid)}></i>
+                      <div key={skill.nid} ref={openOptionMenu === skill.nid ? menuRef : null}>
+                        <div className='option-container' onClick={(e) => {
+                          e.stopPropagation();
+                          setPosition({ x: e.pageX, y: e.pageY });
+                          setOpenOptionMenu(openOptionMenu === skill.nid ? null : skill.nid);
+                        }}>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        {openOptionMenu === skill.nid && (
+                          <div className='options' style={{ top: position.y - 120, left: position.x }}>
+                            <button onClick={(e) => { e.stopPropagation(); handleEdit(skill.nid) }}>
+                              <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
+                              Edit
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); handleDelete(skill.nid) }}>
+                              <i className="hgi hgi-stroke hgi-delete-02"></i>
+                              Delete
+                            </button>
+                          </div>
+                        )}
                         <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
                         {skill.name}
                       </div>
@@ -177,9 +219,8 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
               </div>
 
               <div className="details-edit-footer">
-                <button type="submit">Save</button>
+                <button type="submit" onClick={handleSubmit}>Save</button>
               </div>
-            </form>
           </div>
           <Toaster />
         </motion.div>
