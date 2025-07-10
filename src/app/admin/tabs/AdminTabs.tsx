@@ -132,21 +132,21 @@ export default function AdminTabs() {
         setLoading(true);
         const response = await axios.get("https://inforbit.in/demo/dpd/candidate-profile-list");
         if (response.status === 200 && Array.isArray(response.data)) {
-          const rows = response.data.map((item, index) => ({
-            id: index + 1,
-            name: item?.name || '',
-            email: item?.profile_email || '',
-            profileId: item?.profile_nid || "",
-            slug: item?.profile_slug || "",
-            education: item?.education_list || "",
-            work: item?.work_exp_list || "",
-            skill: item?.expert_area_list || "",
-            project: item?.recent_project_list || "",
-            tools: item?.tools_list || "",
-            achievement: item?.achievement_list || "",
-            socialActivity: item?.social_activities_list || "",
-          }));
-          setCandidateList(rows);
+          // const rows = response.data.map((item, index) => ({
+          //   id: index + 1,
+          //   name: item?.name || '',
+          //   email: item?.profile_email || '',
+          //   profileId: item?.profile_nid || "",
+          //   slug: item?.profile_slug || "",
+          //   education: item?.education_list || "",
+          //   work: item?.work_exp_list || "",
+          //   skill: item?.expert_area_list || "",
+          //   project: item?.recent_project_list || "",
+          //   tools: item?.tools_list || "",
+          //   achievement: item?.achievement_list || "",
+          //   socialActivity: item?.social_activities_list || "",
+          // }));
+          setCandidateList(response.data);
         }
       } catch (error) {
         console.error('Failed to fetch candidate data:', error);
@@ -157,6 +157,8 @@ export default function AdminTabs() {
 
     fetchcandidateList();
   }, [selectedTab === 0]);
+  console.log(candidateList);
+  
 
   async function fetchTools() {
     try {

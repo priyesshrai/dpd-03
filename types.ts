@@ -241,3 +241,30 @@ export type NewUserData = {
     tools_list?: ApiTool[];
     social_activities_list?: ApiSocialActivity[];
 };
+
+export interface UserProfileData {
+    achievement_list: boolean;
+    education_list: boolean;
+    expert_area_list: boolean;
+    facebook_link: string;
+    instagram_link: string;
+    introduction: string;
+    linkedin_link: string;
+    main_address: string;
+    name: string;
+    phone_number: string;
+    profile_city: string;
+    profile_email: string;
+    profile_heading: string;
+    profile_nid: string;
+    profile_photo: string;
+    profile_slug: string;
+    profile_url: string;
+    profile_youtube_link: string;
+    recent_project_list: boolean;
+    social_activities_list: boolean;
+    tools_list: boolean;
+    twitter_link: string;
+    work_exp_list: boolean;
+    youtube_link: string;
+}

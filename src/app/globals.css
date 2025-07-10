@@ -2562,14 +2562,14 @@ footer {
       }
     }
 
-    .options{
+    .options {
       position: fixed;
       background-color: var(--light-bg);
       padding: 10px;
       z-index: 99;
       border-radius: 5px;
 
-      button{
+      button {
         position: relative;
         width: 100%;
         border: none;
@@ -2582,17 +2582,17 @@ footer {
         color: var(--primary-bg);
         cursor: pointer;
 
-        i{
+        i {
           font-size: 20px;
           font-weight: lighter;
         }
 
-        &:first-child{
+        &:first-child {
           background-color: var(--hover-color);
         }
-        &:last-child{
+        &:last-child {
           background-color: var(--dark);
-          i{
+          i {
             color: red;
           }
         }
@@ -2627,6 +2627,7 @@ footer {
   position: relative;
   width: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 5px;
 
@@ -2672,7 +2673,7 @@ footer {
   align-items: center;
   gap: 4px;
   flex-wrap: wrap;
-  margin: 8px 0;
+  margin-top: 20px;
 
   div {
     display: block;
@@ -3355,6 +3356,65 @@ footer {
 
 .disable {
   cursor: not-allowed;
+}
+
+.candidate-list-card-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .candidate-list-card-wraper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+
+    .candidate-list-card {
+      position: relative;
+      width: 100%;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #f3f3f3;
+      box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+
+      .card-top {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          border-radius: 50%;
+        }
+      }
+      .card-body {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+
+        h2 {
+          font-size: 18px;
+          font-weight: 500;
+          color: var(--light-dark);
+          margin-bottom: 15px;
+        }
+        p {
+          font-size: 14px;
+          color: var(--light);
+          margin-top: 3px;
+        }
+      }
+      .card-footer {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  }
 }
 
 .invalid-accesscode {

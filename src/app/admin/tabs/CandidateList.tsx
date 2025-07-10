@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
+// import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+// import Box from '@mui/material/Box';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
-import { CandidateRow } from '../../../../types';
+import { CandidateRow, UserProfileData } from '../../../../types';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 type CandidateListProps = {
-  candidateList: GridRowsProp;
+  candidateList: UserProfileData[];
   loading: boolean;
   UpdateUserData: (row: CandidateRow) => void;
 };
@@ -29,54 +30,54 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
     setShowShareMenu(true)
   }
 
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
-    { field: 'name', headerName: 'Name', width: 200, sortable: true },
-    { field: 'email', headerName: 'Email', width: 280 },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 210,
-      sortable: false,
-      renderCell: (params) => (
-        <div className='candidate-status'>
-          <div style={{ backgroundColor: `${params?.row?.education ? "#36c220" : "#EA2F14"}` }}>Education</div>
-          <div style={{ backgroundColor: `${params?.row?.work ? "#36c220" : "#EA2F14"}` }}>Work</div>
-          <div style={{ backgroundColor: `${params?.row?.skill ? "#36c220" : "#EA2F14"}` }}>Skills</div>
-          <div style={{ backgroundColor: `${params?.row?.tools ? "#36c220" : "#EA2F14"}` }}>Tools</div>
-          <div style={{ backgroundColor: `${params?.row?.project ? "#36c220" : "#EA2F14"}` }}>Projects</div>
-          <div style={{ backgroundColor: `${params?.row?.achievement ? "#36c220" : "#EA2F14"}` }}>Achievements</div>
-          <div style={{ backgroundColor: `${params?.row?.socialActivity ? "#36c220" : "#EA2F14"}` }}>Socaial Activity</div>
-        </div>
-      )
-    },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 200,
-      sortable: false,
-      renderCell: (params) => (
-        <div className='candidate-list-action'>
-          <Link
-            href={`/admin/user/update/${params?.row?.slug}`}
-            target='_blank'
-          >
-            <i className="hgi hgi-stroke hgi-edit-02"></i>
-          </Link>
+  // const columns: GridColDef[] = [
+  //   { field: 'id', headerName: 'Sr. No', width: 70, sortable: true },
+  //   { field: 'name', headerName: 'Name', width: 200, sortable: true },
+  //   { field: 'email', headerName: 'Email', width: 280 },
+  //   {
+  //     field: 'status',
+  //     headerName: 'Status',
+  //     width: 210,
+  //     sortable: false,
+  //     renderCell: (params) => (
+  //       <div className='candidate-status'>
+  //         <div style={{ backgroundColor: `${params?.row?.education ? "#36c220" : "#EA2F14"}` }}>Education</div>
+  //         <div style={{ backgroundColor: `${params?.row?.work ? "#36c220" : "#EA2F14"}` }}>Work</div>
+  //         <div style={{ backgroundColor: `${params?.row?.skill ? "#36c220" : "#EA2F14"}` }}>Skills</div>
+  //         <div style={{ backgroundColor: `${params?.row?.tools ? "#36c220" : "#EA2F14"}` }}>Tools</div>
+  //         <div style={{ backgroundColor: `${params?.row?.project ? "#36c220" : "#EA2F14"}` }}>Projects</div>
+  //         <div style={{ backgroundColor: `${params?.row?.achievement ? "#36c220" : "#EA2F14"}` }}>Achievements</div>
+  //         <div style={{ backgroundColor: `${params?.row?.socialActivity ? "#36c220" : "#EA2F14"}` }}>Socaial Activity</div>
+  //       </div>
+  //     )
+  //   },
+  //   {
+  //     field: 'actions',
+  //     headerName: 'Actions',
+  //     width: 200,
+  //     sortable: false,
+  //     renderCell: (params) => (
+  //       <div className='candidate-list-action'>
+  //         <Link
+  //           href={`/admin/user/update/${params?.row?.slug}`}
+  //           target='_blank'
+  //         >
+  //           <i className="hgi hgi-stroke hgi-edit-02"></i>
+  //         </Link>
 
-          <Link
-            href={`/public/user/${params?.row?.slug}`}
-            target='_blank'
-          >
-            <i className="hgi hgi-stroke hgi-view"></i>
-          </Link >
-          <div className='share-btn' onClick={() => openShareModal(params?.row?.slug)}>
-            <i className="hgi hgi-stroke hgi-share-08"></i>
-          </div>
-        </div>
-      ),
-    },
-  ];
+  //         <Link
+  //           href={`/public/user/${params?.row?.slug}`}
+  //           target='_blank'
+  //         >
+  //           <i className="hgi hgi-stroke hgi-view"></i>
+  //         </Link >
+  //         <div className='share-btn' onClick={() => openShareModal(params?.row?.slug)}>
+  //           <i className="hgi hgi-stroke hgi-share-08"></i>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  // ];
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const modalElement = containerRef.current?.querySelector('.share-card');
@@ -113,7 +114,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
                 <LargeSpinner />
               </div>) : ""
           }
-          <Box sx={{ width: '100%', height: 700 }}>
+          {/* <Box sx={{ width: '100%', height: 700 }}>
             <DataGrid
               showToolbar
               loading={loading}
@@ -131,7 +132,56 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
               }}
               pageSizeOptions={[5, 10, 25]}
             />
-          </Box>
+          </Box> */}
+
+          <div className="candidate-list-card-container" style={{ padding: "30px" }}>
+            <div className="candidate-list-card-wraper">
+              {
+                candidateList?.map((value) => (
+                  <div className='candidate-list-card' key={value.profile_nid}>
+                    <div className="card-top">
+                      <Image src={value.profile_photo === '' ? '/images/profile/default.png' : value.profile_photo} width={100} height={200} alt='User Image' />
+                    </div>
+                    <div className="card-body">
+                      <h2>{value.name}</h2>
+                      <p>{value.phone_number}</p>
+                      <p>{value.profile_email}</p>
+                      <div className='candidate-status'>
+                        <div style={{ backgroundColor: `${value.education_list ? "#36c220" : "#EA2F14"}` }}>Education</div>
+                        <div style={{ backgroundColor: `${value.work_exp_list ? "#36c220" : "#EA2F14"}` }}>Work</div>
+                        <div style={{ backgroundColor: `${value.expert_area_list ? "#36c220" : "#EA2F14"}` }}>Skills</div>
+                        <div style={{ backgroundColor: `${value.tools_list ? "#36c220" : "#EA2F14"}` }}>Tools</div>
+                        <div style={{ backgroundColor: `${value.recent_project_list ? "#36c220" : "#EA2F14"}` }}>Projects</div>
+                        <div style={{ backgroundColor: `${value.achievement_list ? "#36c220" : "#EA2F14"}` }}>Achievements</div>
+                        <div style={{ backgroundColor: `${value.social_activities_list ? "#36c220" : "#EA2F14"}` }}>Socaial Activity</div>
+                      </div>
+                    </div>
+                    <div className='card-footer'>
+                      <div className='candidate-list-action'>
+                        <Link
+                          href={`/admin/user/update/${value.profile_slug}`}
+                          target='_blank'
+                        >
+                          <i className="hgi hgi-stroke hgi-edit-02"></i>
+                        </Link>
+
+                        <Link
+                          href={`/public/user/${value.profile_slug}`}
+                          target='_blank'
+                        >
+                          <i className="hgi hgi-stroke hgi-view"></i>
+                        </Link >
+                        <div className='share-btn' onClick={() => openShareModal(value.profile_slug)}>
+                          <i className="hgi hgi-stroke hgi-share-08"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
         </motion.div>
       </AnimatePresence>
       {
