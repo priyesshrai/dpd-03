@@ -516,8 +516,8 @@ function Hero({ userData, loading }: HeroProps) {
                                                 <Link target='_blank'
                                                     href={project.recent_project_img!}
                                                     download={project.recent_project_img!}
-                                                    rel="noopener noreferrer">
-
+                                                    rel="noopener noreferrer"
+                                                >
                                                     <i className="hgi hgi-stroke hgi-ai-image"></i>
                                                 </Link>
                                             </h3>
