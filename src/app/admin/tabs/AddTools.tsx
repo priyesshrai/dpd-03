@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -26,6 +26,9 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [openOptionMenu, setOpenOptionMenu] = useState<string | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -93,10 +96,28 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
     );
   }
 
-  async function handleDelete(skillNid: string) {
-    console.log(typeof (skillNid));
-  }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setOpenOptionMenu(null);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  async function handleDelete(skillNid: string) {
+    console.log(skillNid);
+  }
+  async function handleEdit(skillNid: string) {
+    console.log(skillNid);
+  }
 
   return (
     <div className='component-common'>
@@ -113,55 +134,73 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
             </div>
           )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
-            <form onSubmit={handleSubmit}>
-              <div className="details-edit-body" >
-                <div className="details-edit-wraper">
-                  <div className="edit-input-container">
-                    <input
-                      type="text"
-                      name='tools_name'
-                      placeholder=''
-                      onChange={handleChange}
-                      value={skills.tools_name}
-                      className='inputs'
-                      required
-                    />
-                    <label className='label'>Tool Name</label>
-                  </div>
+            <div className="details-edit-body" >
+              <div className="details-edit-wraper">
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='tools_name'
+                    placeholder=''
+                    onChange={handleChange}
+                    value={skills.tools_name}
+                    className='inputs'
+                    required
+                  />
+                  <label className='label'>Tool Name</label>
+                </div>
 
-                  <div className="edit-input-container">
-                    <input
-                      type="file"
-                      name='image'
-                      onChange={handleFileChange}
-                      className='inputs'
-                      ref={fileInputRef}
-                      required
-                    />
-                    <label className='label'>Tool Image</label>
-                  </div>
+                <div className="edit-input-container">
+                  <input
+                    type="file"
+                    name='image'
+                    onChange={handleFileChange}
+                    className='inputs'
+                    ref={fileInputRef}
+                    required
+                  />
+                  <label className='label'>Tool Image</label>
                 </div>
               </div>
+            </div>
 
-              <div className='available'>
-                <span className='list-title'>Available Tools</span>
-                <div className='props-list'>
-                  {
-                    toolList?.map((tool: ToolList) => (
-                      <div key={tool.nid}>
-                        <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => handleDelete(tool.nid)}></i>
-                        <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
-                        {tool.name}
+            <div className='available'>
+              <span className='list-title'>Available Tools</span>
+              <div className='props-list'>
+                {
+                  toolList?.map((tool: ToolList) => (
+                    <div key={tool.nid} ref={openOptionMenu === tool.nid ? menuRef : null}>
+                      <div className='option-container' onClick={(e) => {
+                        e.stopPropagation();
+                        setPosition({ x: e.pageX, y: e.pageY });
+                        setOpenOptionMenu(openOptionMenu === tool.nid ? null : tool.nid);
+                      }}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
                       </div>
-                    ))
-                  }
-                </div>
+                      {openOptionMenu === tool.nid && (
+                        <div className='options' style={{ top: position.y - 120, left: position.x }}>
+                          <button onClick={(e) => { e.stopPropagation(); handleEdit(tool.nid) }}>
+                            <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
+                            Edit
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); handleDelete(tool.nid) }}>
+                            <i className="hgi hgi-stroke hgi-delete-02"></i>
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                      <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
+                      {tool.name}
+                    </div>
+                  ))
+                }
               </div>
+            </div>
 
-              <div className="details-edit-footer">
-                <button type="submit">Save</button>
-              </div>
-            </form>
+            <div className="details-edit-footer">
+              <button type="submit" onClick={handleSubmit}>Save</button>
+            </div>
           </div>
           <Toaster />
         </motion.div>

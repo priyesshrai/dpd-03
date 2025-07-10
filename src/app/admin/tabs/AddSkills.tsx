@@ -101,7 +101,6 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
     );
   }
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -141,86 +140,86 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
             </div>
           )}
           <div className="details-edit-component" style={{ padding: "30px" }}>
-              <div className="details-edit-body" >
-                <div className="details-edit-wraper">
-                  <div className="edit-input-container">
-                    <input
-                      type="text"
-                      name='skillName'
-                      placeholder=''
-                      onChange={handleChange}
-                      value={skills.skillName}
-                      className='inputs'
-                      required
-                    />
-                    <label className='label'>Skill Name</label>
-                  </div>
+            <div className="details-edit-body" >
+              <div className="details-edit-wraper">
+                <div className="edit-input-container">
+                  <input
+                    type="text"
+                    name='skillName'
+                    placeholder=''
+                    onChange={handleChange}
+                    value={skills.skillName}
+                    className='inputs'
+                    required
+                  />
+                  <label className='label'>Skill Name</label>
+                </div>
 
-                  <div className="edit-input-container">
-                    <input
-                      type="file"
-                      name='image'
-                      onChange={handleFileChange}
-                      ref={fileInputRef}
-                      className='inputs'
-                      required
-                    />
-                    <label className='label'>Skill Image</label>
-                  </div>
+                <div className="edit-input-container">
+                  <input
+                    type="file"
+                    name='image'
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                    className='inputs'
+                    required
+                  />
+                  <label className='label'>Skill Image</label>
+                </div>
 
-                  <div className="edit-input-container">
-                    <textarea
-                      name='description'
-                      placeholder=''
-                      value={skills.description}
-                      onChange={handleChange}
-                      className='inputs'
-                      rows={5}
-                      required
-                    />
-                    <label className='label'>Skill Description</label>
-                  </div>
+                <div className="edit-input-container">
+                  <textarea
+                    name='description'
+                    placeholder=''
+                    value={skills.description}
+                    onChange={handleChange}
+                    className='inputs'
+                    rows={5}
+                    required
+                  />
+                  <label className='label'>Skill Description</label>
                 </div>
               </div>
+            </div>
 
-              <div className='available'>
-                <span className='list-title'>Available Skill</span>
-                <div className='props-list'>
-                  {
-                    skillList?.map((skill: SkillList) => (
-                      <div key={skill.nid} ref={openOptionMenu === skill.nid ? menuRef : null}>
-                        <div className='option-container' onClick={(e) => {
-                          e.stopPropagation();
-                          setPosition({ x: e.pageX, y: e.pageY });
-                          setOpenOptionMenu(openOptionMenu === skill.nid ? null : skill.nid);
-                        }}>
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                        {openOptionMenu === skill.nid && (
-                          <div className='options' style={{ top: position.y - 120, left: position.x }}>
-                            <button onClick={(e) => { e.stopPropagation(); handleEdit(skill.nid) }}>
-                              <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
-                              Edit
-                            </button>
-                            <button onClick={(e) => { e.stopPropagation(); handleDelete(skill.nid) }}>
-                              <i className="hgi hgi-stroke hgi-delete-02"></i>
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                        <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
-                        {skill.name}
+            <div className='available'>
+              <span className='list-title'>Available Skill</span>
+              <div className='props-list'>
+                {
+                  skillList?.map((skill: SkillList) => (
+                    <div key={skill.nid} ref={openOptionMenu === skill.nid ? menuRef : null}>
+                      <div className='option-container' onClick={(e) => {
+                        e.stopPropagation();
+                        setPosition({ x: e.pageX, y: e.pageY });
+                        setOpenOptionMenu(openOptionMenu === skill.nid ? null : skill.nid);
+                      }}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
                       </div>
-                    ))
-                  }
-                </div>
+                      {openOptionMenu === skill.nid && (
+                        <div className='options' style={{ top: position.y - 120, left: position.x }}>
+                          <button onClick={(e) => { e.stopPropagation(); handleEdit(skill.nid) }}>
+                            <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
+                            Edit
+                          </button>
+                          <button onClick={(e) => { e.stopPropagation(); handleDelete(skill.nid) }}>
+                            <i className="hgi hgi-stroke hgi-delete-02"></i>
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                      <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
+                      {skill.name}
+                    </div>
+                  ))
+                }
               </div>
+            </div>
 
-              <div className="details-edit-footer">
-                <button type="submit" onClick={handleSubmit}>Save</button>
-              </div>
+            <div className="details-edit-footer">
+              <button type="submit" onClick={handleSubmit}>Save</button>
+            </div>
           </div>
           <Toaster />
         </motion.div>
