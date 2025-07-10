@@ -172,12 +172,12 @@ export default function UserWrapper({ user, children }: { user: string, children
                                             {
                                                 loading ? (<YoutubeSkeleton />) : (
                                                     <div className="third-block-layout-wraper">
-                                                        
+                                                        <div className="video-profile"></div>
                                                         <span className='vdo-title'>View Profile Intro</span>
                                                     </div>
                                                 )
                                             }
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                             </>
