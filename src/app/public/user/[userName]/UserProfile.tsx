@@ -506,7 +506,7 @@ function Hero({ userData, loading }: HeroProps) {
                             </div>
                             <div className="block-layout-content">
                                 {
-                                    userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject, i: number) => (
+                                    userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject) => (
                                         <React.Fragment key={project.recent_project_nid}>
                                             <h3>
                                                 <Link href={project.project_link ?? ""} target='_blank'>

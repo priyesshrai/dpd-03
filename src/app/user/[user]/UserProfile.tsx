@@ -10,11 +10,6 @@ import { HeroSkeleton, ProjectSkeleton, SideBarSkeleton, SkillSkeleton } from '@
 import Cookies from "js-cookie";
 import { Marquee } from "@devnomic/marquee";
 import "@devnomic/marquee/dist/index.css";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import { useUserContext } from '@/context/UserContext'
 
 
@@ -217,15 +212,6 @@ export function SideBar({ userData, loading, userName }: HeroProps) {
 }
 
 function Hero({ userData, loading, userName }: HeroProps) {
-    const [open, setOpen] = useState(false);
-    const [index, setIndex] = useState(0);
-
-    const images = userData?.recent_project_list?.map((project: ApiProject) => ({
-        src: project.recent_project_img,
-        width: 1920,
-        height: 1080,
-    })) || [];
-
     return (
         <>
             <div className="work-block">
@@ -350,30 +336,25 @@ function Hero({ userData, loading, userName }: HeroProps) {
                             </div>
                             <div className="block-layout-content">
                                 {
-                                    userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject, i: number) => (
+                                    userData?.recent_project_list?.slice(0, 3)?.map((project: ApiProject) => (
                                         <React.Fragment key={project.recent_project_nid}>
                                             <h3>
                                                 <Link href={project.project_link ?? ""} target='_blank'>
                                                     {project.title}
                                                 </Link>
-                                                <i className="hgi hgi-stroke hgi-ai-image"
-                                                    onClick={() => {
-                                                        setIndex(i);
-                                                        setOpen(true);
-                                                    }}></i>
+                                                <Link target='_blank'
+                                                    href={project.recent_project_img!}
+                                                    download={project.recent_project_img!}
+                                                    rel="noopener noreferrer">
+
+                                                    <i className="hgi hgi-stroke hgi-ai-image"></i>
+                                                </Link>
                                             </h3>
                                             <p>{project.project_description}</p>
                                             <br />
                                         </React.Fragment>
                                     ))
                                 }
-                                <Lightbox
-                                    open={open}
-                                    close={() => setOpen(false)}
-                                    slides={images}
-                                    index={index}
-                                    plugins={[Zoom, Fullscreen, Slideshow]}
-                                />
                             </div>
 
                         </motion.div>

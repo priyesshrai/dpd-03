@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { usePathname, useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
 import toast from 'react-hot-toast';
@@ -7,11 +7,6 @@ import axios from 'axios';
 import { SideBar } from './UserProfile';
 import { AchieSkeleton, ToolsSkeleton, YoutubeSkeleton } from '@/components/Skeleton/Skeleton';
 import { ApiAchievement, ApiSocialActivity, ApiTool } from '../../../../types';
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useUserContext } from '@/context/UserContext';
@@ -20,8 +15,6 @@ import { useUserContext } from '@/context/UserContext';
 export default function UserWrapper({ user, children }: { user: string, children: ReactNode }) {
     const router = useRouter();
     const pathname = usePathname()
-    const [achiOpen, setAchiOpen] = useState(false);
-    const [achiIndex, setAchiIndex] = useState(0);
     const { userData, setUserData, loading, setLoading } = useUserContext();
 
     useEffect(() => {
@@ -66,12 +59,6 @@ export default function UserWrapper({ user, children }: { user: string, children
         return;
     }
 
-    const Achimages = userData?.achievement_list?.map((achi: ApiAchievement) => ({
-        src: achi.achievement_image ?? "",
-        width: 1920,
-        height: 1080,
-    })) || [];
-
     return (
         <>
             {
@@ -96,15 +83,19 @@ export default function UserWrapper({ user, children }: { user: string, children
                                                         <div className="block-layout-content">
                                                             <ul>
                                                                 {
-                                                                    userData?.achievement_list?.map((achi: ApiAchievement, i: number) => (
+                                                                    userData?.achievement_list?.map((achi: ApiAchievement) => (
                                                                         <li key={achi.achievement_nid}>
                                                                             <p>
                                                                                 <strong>{achi.title}</strong>
-                                                                                <i className="hgi hgi-stroke hgi-ai-image"
-                                                                                    onClick={() => {
-                                                                                        setAchiIndex(i);
-                                                                                        setAchiOpen(true);
-                                                                                    }}></i>
+                                                                                <Link
+                                                                                    target='_blank'
+                                                                                    href={achi.achievement_image!}
+                                                                                    download={achi.achievement_image!}
+                                                                                    rel="noopener noreferrer"
+                                                                                >
+
+                                                                                    <i className="hgi hgi-stroke hgi-ai-image"></i>
+                                                                                </Link>
                                                                             </p>
                                                                             - {achi.achievement_description}
                                                                         </li>
@@ -112,13 +103,6 @@ export default function UserWrapper({ user, children }: { user: string, children
                                                                 }
                                                             </ul>
                                                         </div>
-                                                        <Lightbox
-                                                            open={achiOpen}
-                                                            close={() => setAchiOpen(false)}
-                                                            slides={Achimages}
-                                                            index={achiIndex}
-                                                            plugins={[Zoom, Fullscreen, Slideshow]}
-                                                        />
                                                     </div>
                                                 </div>
                                             )

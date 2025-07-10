@@ -76,7 +76,7 @@ function PublicUserLayout({ user, children }: { user: string; children: React.Re
                                         </div>
                                         <div className="block-layout-content">
                                             <ul>
-                                                {userData?.achievement_list?.map((achi: ApiAchievement, i: number) => (
+                                                {userData?.achievement_list?.map((achi: ApiAchievement) => (
                                                     <li key={achi.achievement_nid}>
                                                         <p>
                                                             <strong>{achi.title}</strong>
