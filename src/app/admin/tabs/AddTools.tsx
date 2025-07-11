@@ -7,6 +7,7 @@ import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { ToolList } from './AdminTabs';
 import Image from 'next/image';
+import Spinner from '@/components/Spinner/Spinner';
 
 interface Tools {
   tools_name: string;
@@ -29,6 +30,12 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
   const [openOptionMenu, setOpenOptionMenu] = useState<string | null>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [editTools, setEditTools] = useState<ToolList>({
+    nid: '',
+    name: '',
+    image_file: null,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -115,8 +122,15 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
   async function handleDelete(skillNid: string) {
     console.log(skillNid);
   }
-  async function handleEdit(skillNid: string) {
-    console.log(skillNid);
+
+  async function handleEdit(tools: ToolList) {
+    if (!tools) {
+      toast.error("No any valid skill is selected, please select valid skill.");
+      return;
+    }
+    setIsEditModalOpen(true);
+    setEditTools(tools);
+    setOpenOptionMenu(null);
   }
 
   return (
@@ -180,7 +194,7 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
                       </div>
                       {openOptionMenu === tool.nid && (
                         <div className='options' style={{ top: position.y - 120, left: position.x }}>
-                          <button onClick={(e) => { e.stopPropagation(); handleEdit(tool.nid) }}>
+                          <button onClick={(e) => { e.stopPropagation(); handleEdit(tool) }}>
                             <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
                             Edit
                           </button>
@@ -190,7 +204,7 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
                           </button>
                         </div>
                       )}
-                      <Image src={tool.image_file ?? ""} alt={tool.name} width={600} height={600} />
+                      <Image src={typeof tool.image_file === 'string' ? tool.image_file : ''} alt={tool.name} width={600} height={600} />
                       {tool.name}
                     </div>
                   ))
@@ -205,6 +219,122 @@ export default function AddTools({ toolList, fetchTools }: ToolListProps) {
           <Toaster />
         </motion.div>
       </AnimatePresence>
+      {isEditModalOpen && <HandleEdit setIsEditModalOpen={setIsEditModalOpen} setEditTool={setEditTools} editTool={editTools} />}
     </div>
+  )
+}
+
+
+type EditType = {
+  setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditTool: React.Dispatch<React.SetStateAction<ToolList>>;
+  editTool: ToolList;
+}
+
+function HandleEdit({ setIsEditModalOpen, editTool, setEditTool }: EditType) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validImageTypes.includes(file.type)) {
+      toast.error('Only images (JPEG, PNG, GIF, WebP) are allowed.');
+      return;
+    }
+    setEditTool((prev) => ({
+      ...prev,
+      image_file: file
+    }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      setImagePreview(result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleEditChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target
+    setEditTool((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData();
+
+    formData.append('skill_nid', editTool.nid)
+    formData.append('skill_name', editTool.name)
+    formData.append('skill_image', editTool.image_file!)
+
+    formData.forEach((value, key) => {
+      console.log(key, "=", value);
+    })
+    setLoading(false);
+  }
+
+  return (
+    <section className='edit-section-container'>
+      <div className='edit-section-wraper'>
+        <div className="edit-section-card">
+          <div className="edit-section-top">
+            <p>Update Tools</p>
+            <div className='edit-card-close-btn' onClick={() => setIsEditModalOpen(false)}>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="edit-section-body">
+              <div className="edit-input-container">
+                {
+                  editTool?.image_file && (
+                    <div style={{ marginBottom: "10px" }}>
+                      <Image src={
+                        imagePreview || (typeof editTool.image_file === "string" && editTool.image_file) || '/image/icons/default.png'}
+                        width={150}
+                        height={150}
+                        alt='Skill image'
+                      />
+                    </div>
+                  )
+                }
+                <input
+                  type="file"
+                  name='image'
+                  className='inputs'
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <label className='label'>Tool Image</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='name'
+                  placeholder=''
+                  className='inputs'
+                  value={editTool.name}
+                  onChange={handleEditChange}
+                />
+                <label className='label'>Tool Name</label>
+              </div>
+            </div>
+
+            <div className="edit-section-footer">
+              <button type='submit'>{loading ? <Spinner /> : 'Update'}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   )
 }

@@ -19,7 +19,7 @@ type TabConfig = {
   component: React.ElementType;
 }
 export type ToolList = {
-  image_file: string;
+  image_file: string | null | File;
   name: string;
   nid: string;
 }
