@@ -24,7 +24,7 @@ export type ToolList = {
   nid: string;
 }
 export type SkillList = {
-  image_file: string;
+  image_file: string | null | File;
   name: string;
   nid: string;
   description: string;

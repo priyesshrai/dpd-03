@@ -7,6 +7,7 @@ import axios from 'axios';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { SkillList } from './AdminTabs';
 import Image from 'next/image';
+import Spinner from '@/components/Spinner/Spinner';
 
 interface Skills {
   skillName: string;
@@ -30,6 +31,13 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
   const [openOptionMenu, setOpenOptionMenu] = useState<string | null>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [editSkill, setEditSkill] = useState<SkillList>({
+    nid: '',
+    name: '',
+    image_file: null,
+    description: ''
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -120,8 +128,15 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
   async function handleDelete(skillNid: string) {
     console.log(skillNid);
   }
-  async function handleEdit(skillNid: string) {
-    console.log(skillNid);
+
+  async function handleEdit(skill: SkillList) {
+    if (!skill) {
+      toast.error("No any valid skill is selected, please select valid skill.");
+      return;
+    }
+    setIsEditModalOpen(true);
+    setEditSkill(skill);
+    setOpenOptionMenu(null);
   }
 
   return (
@@ -199,7 +214,7 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
                       </div>
                       {openOptionMenu === skill.nid && (
                         <div className='options' style={{ top: position.y - 120, left: position.x }}>
-                          <button onClick={(e) => { e.stopPropagation(); handleEdit(skill.nid) }}>
+                          <button onClick={(e) => { e.stopPropagation(); handleEdit(skill) }}>
                             <i className="hgi hgi-stroke hgi-pencil-edit-01"></i>
                             Edit
                           </button>
@@ -209,7 +224,12 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
                           </button>
                         </div>
                       )}
-                      <Image src={skill.image_file ?? ""} alt={skill.name} width={600} height={600} />
+                      <Image
+                        src={typeof skill.image_file === 'string' ? skill.image_file : ''}
+                        alt={skill.name}
+                        width={600}
+                        height={600}
+                      />
                       {skill.name}
                     </div>
                   ))
@@ -224,6 +244,133 @@ export default function AddSkills({ skillList, fetchSkills }: SkillsListProps) {
           <Toaster />
         </motion.div>
       </AnimatePresence>
+      {isEditModalOpen && <HandleEdit setIsEditModalOpen={setIsEditModalOpen} setEditSkill={setEditSkill} editSkill={editSkill} />}
     </div>
+  )
+}
+
+type EditType = {
+  setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditSkill: React.Dispatch<React.SetStateAction<SkillList>>;
+  editSkill: SkillList;
+}
+
+function HandleEdit({ setIsEditModalOpen, editSkill, setEditSkill }: EditType) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validImageTypes.includes(file.type)) {
+      toast.error('Only images (JPEG, PNG, GIF, WebP) are allowed.');
+      return;
+    }
+    setEditSkill((prev) => ({
+      ...prev,
+      image_file: file
+    }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      setImagePreview(result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleEditChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target
+    setEditSkill((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData();
+
+    formData.append('skill_nid', editSkill.nid)
+    formData.append('skill_name', editSkill.name)
+    formData.append('skill_description', editSkill.description)
+    formData.append('skill_image', editSkill.image_file!)
+
+    formData.forEach((value, key) => {
+      console.log(key, "=", value);
+    })
+    setLoading(false);
+  }
+  return (
+    <section className='edit-section-container'>
+      <div className='edit-section-wraper'>
+        <div className="edit-section-card">
+          <div className="edit-section-top">
+            <p>Update Skill</p>
+            <div className='edit-card-close-btn' onClick={() => setIsEditModalOpen(false)}>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="edit-section-body">
+              <div className="edit-input-container">
+                {
+                  editSkill?.image_file && (
+                    <div style={{ marginBottom: "10px" }}>
+                      <Image src={
+                        imagePreview || (typeof editSkill.image_file === "string" && editSkill.image_file) || '/image/icons/default.png'}
+                        width={150}
+                        height={150}
+                        alt='Skill image'
+                      />
+                    </div>
+                  )
+                }
+                <input
+                  type="file"
+                  name='image'
+                  className='inputs'
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <label className='label'>Skill Image</label>
+              </div>
+
+              <div className="edit-input-container">
+                <input
+                  type="text"
+                  name='name'
+                  placeholder=''
+                  className='inputs'
+                  value={editSkill.name}
+                  onChange={handleEditChange}
+                />
+                <label className='label'>Skill Name</label>
+              </div>
+
+              <div className="edit-input-container">
+                <textarea
+                  name='description'
+                  placeholder=''
+                  className='inputs'
+                  rows={5}
+                  value={editSkill.description}
+                  onChange={handleEditChange}
+                />
+                <label className='label'>Skill Description</label>
+              </div>
+            </div>
+
+            <div className="edit-section-footer">
+              <button type='submit'>{loading ? <Spinner /> : 'Update'}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   )
 }

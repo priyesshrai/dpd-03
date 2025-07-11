@@ -30,7 +30,7 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
 
     const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!validImageTypes.includes(file.type)) {
-      alert('Only images (JPEG, PNG, GIF, WebP) are allowed.');
+      toast.error('Only images (JPEG, PNG, GIF, WebP) are allowed.');
       return;
     }
     setCandidateData((prev) => ({
@@ -73,9 +73,9 @@ export default function UpdateProfile({ candidateProfile, loading, setCandidateD
     formData.append("user_type", "superadmin")
     formData.append("cnid", profileNid)
 
-    formData.forEach((value, key) => (
-      console.log(key + " > " + value)
-    ))
+    // formData.forEach((value, key) => (
+    //   console.log(key + " > " + value)
+    // ))
 
     toast.promise(
       axios.post("https://inforbit.in/demo/dpd/upd-candidate-profile-api", formData)

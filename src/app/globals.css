@@ -3358,6 +3358,125 @@ footer {
   cursor: not-allowed;
 }
 
+.edit-section-container {
+  position: fixed;
+  inset: 0;
+  background-color: #00000048;
+  backdrop-filter: blur(2px);
+  z-index: 9;
+  padding: 20px;
+
+  .edit-section-wraper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .edit-section-card {
+      position: relative;
+      max-width: 700px;
+      width: 100%;
+      max-height: 520px;
+      padding: 20px;
+      background-color: var(--primary-bg);
+      border-radius: 5px;
+      overflow-y: auto;
+
+      .edit-section-top {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p {
+          font-size: 18px;
+          color: var(--dark);
+          font-weight: 600;
+        }
+        .edit-card-close-btn {
+          position: relative;
+          width: 45px;
+          height: 45px;
+          background-color: var(--light-bg);
+          border-radius: 50%;
+          cursor: pointer;
+
+          span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 25px;
+            height: 2px;
+            background-color: var(--dark);
+            &:last-child {
+              transform: translate(-50%, -50%) rotate(-45deg);
+            }
+          }
+        }
+      }
+
+      .edit-section-body {
+        position: relative;
+        width: 100%;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .edit-input-container {
+          width: 100%;
+          position: relative;
+          flex-shrink: 0;
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid #e7e7e7;
+
+          input,
+          textarea {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: 24px;
+            color: var(--light-dark);
+            position: relative;
+
+            &:disabled {
+              cursor: not-allowed;
+            }
+          }
+
+          &:focus-within {
+            border-color: var(--dark);
+          }
+        }
+      }
+
+      .edit-section-footer{
+        position: relative;
+        width: 100%;
+        margin-top: 10px;
+
+        button{
+          display: block;
+          margin-left: auto;
+          background-color: var(--hover-color);
+          color: var(--primary-bg);
+          border-radius: 5px;
+          padding: 8px 20px;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
 .candidate-list-card-container {
   position: relative;
   width: 100%;
