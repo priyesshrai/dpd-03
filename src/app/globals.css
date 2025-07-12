@@ -3596,7 +3596,13 @@ footer {
       outline: none;
     }
     i{
+      display: block;
       font-size: 24px;
+      cursor: pointer;
+
+      &:last-child{
+        font-size: 18px;
+      }
     }
   }
 }

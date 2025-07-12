@@ -184,6 +184,7 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
                         value={searchedTool}
                         onChange={handleSearch}
                       />
+                      {searchedTool.length > 0 && <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => setSearchedTool('')}></i>}
                     </div>
                   </div>
                   <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
