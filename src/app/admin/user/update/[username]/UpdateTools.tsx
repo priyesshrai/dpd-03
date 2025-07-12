@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
@@ -26,12 +26,14 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
   const [allToolList, setAllToolList] = useState<Tools[]>([]);
   const [userTools, setUserTools] = useState<UpdateTools[]>([]);
   const [selectedToolIds, setSelectedToolIds] = useState<string[]>([]);
+  const [searchedTool, setSearchedTool] = useState<string>('');
+  const [filteredTool, setFilteredTool] = useState<Tools[]>([]);
 
   useEffect(() => {
     const fetchSkills = async () => {
       try {
         const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
-        if (response.data) setAllToolList(response.data);
+        if (response.data) { setAllToolList(response.data); setFilteredTool(response.data) };
       } catch (error) {
         console.error(error);
       }
@@ -113,6 +115,24 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
       }
     )
   };
+
+  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchedTool(e.target.value);
+  }, []);
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      const filtered = allToolList.filter(tool =>
+        tool.name.toLowerCase().includes(searchedTool.toLowerCase()) &&
+        !selectedToolIds.includes(tool.nid)
+      );
+      setFilteredTool(filtered);
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [searchedTool, allToolList, selectedToolIds]);
+
+
   return (
     <div className="component-common" style={{ padding: 0 }}>
       <AnimatePresence mode="wait">
@@ -153,13 +173,21 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
 
             {
               availableSkills ? (
-                <div
-                  className="details-edit-body"
-                  style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
-                >
-                  <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Tools</span>
+                <div className="details-edit-body" style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}>
+                  <div className='search-container'>
+                    <div className='search-wraper'>
+                      <i className="hgi hgi-stroke hgi-search-01"></i>
+                      <input
+                        type="text"
+                        placeholder='Avaliable skill set'
+                        name='search'
+                        value={searchedTool}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
                   <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
-                    {availableSkills.map(tool => (
+                    {filteredTool.map(tool => (
                       <div className="update-skill-items" key={tool.nid}>
                         <label>
                           <input
