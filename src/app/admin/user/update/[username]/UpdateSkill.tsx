@@ -197,7 +197,7 @@ export default function UpdateUserSkill({
                       <i className="hgi hgi-stroke hgi-search-01"></i>
                       <input
                         type="text"
-                        placeholder='Avaliable skill set'
+                        placeholder='Available skill set'
                         name='search'
                         value={searchedSkill}
                         onChange={handleSearch}

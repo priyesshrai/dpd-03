@@ -179,7 +179,7 @@ export default function UpdateUserTools({ candidateTools, loading, setCandidateD
                       <i className="hgi hgi-stroke hgi-search-01"></i>
                       <input
                         type="text"
-                        placeholder='Avaliable skill set'
+                        placeholder='Available Tools'
                         name='search'
                         value={searchedTool}
                         onChange={handleSearch}
