@@ -86,8 +86,8 @@ export default function UserWrapper({ user, children }: { user: string, children
                                                                     userData?.achievement_list?.map((achi: ApiAchievement) => (
                                                                         <li key={achi.achievement_nid}>
                                                                             <p>
-                                                                                <strong>{achi.title}</strong>
-                                                                                <Link
+                                                                                <strong style={{ marginRight: "5px" }}>{achi.title}</strong>
+                                                                                {achi.achievement_image && <Link
                                                                                     target='_blank'
                                                                                     href={achi.achievement_image!}
                                                                                     download={achi.achievement_image!}
@@ -95,9 +95,21 @@ export default function UserWrapper({ user, children }: { user: string, children
                                                                                 >
 
                                                                                     <i className="hgi hgi-stroke hgi-ai-image"></i>
-                                                                                </Link>
+                                                                                </Link>}
+                                                                                {achi.achievement_url && <Link
+                                                                                    target='_blank'
+                                                                                    href={achi.achievement_url!}
+                                                                                    download={achi.achievement_url!}
+                                                                                    rel="noopener noreferrer"
+                                                                                >
+
+                                                                                    <i className="hgi hgi-stroke hgi-unlink-04"></i>
+                                                                                </Link>}
                                                                             </p>
-                                                                            - {achi.achievement_description}
+                                                                            <br />
+                                                                            <span style={{ display: "block", paddingLeft: "12px" }}>
+                                                                                {achi.achievement_description}
+                                                                            </span>
                                                                         </li>
                                                                     ))
                                                                 }

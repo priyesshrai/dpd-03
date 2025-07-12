@@ -854,10 +854,10 @@ main {
               p {
                 font-size: 18px;
                 display: inline;
+                line-height: 1;
 
                 i {
-                  font-size: 20px;
-                  margin: 0 8px;
+                  margin-left: 5px;
                   cursor: pointer;
                   color: var(--hover-color);
                 }
