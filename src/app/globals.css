@@ -3456,12 +3456,12 @@ footer {
         }
       }
 
-      .edit-section-footer{
+      .edit-section-footer {
         position: relative;
         width: 100%;
         margin-top: 10px;
 
-        button{
+        button {
           display: block;
           margin-left: auto;
           background-color: var(--hover-color);
@@ -3567,13 +3567,13 @@ footer {
   }
 }
 
-.search-container{
+.search-container {
   position: relative;
   width: 100%;
   margin-top: 20px;
   margin-bottom: 50px;
 
-  .search-wraper{
+  .search-wraper {
     position: relative;
     width: max-content;
     display: flex;
@@ -3584,7 +3584,7 @@ footer {
     border: 1px solid #ececec;
     box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
 
-    input{
+    input {
       width: 400px;
       height: 100%;
       border: none;
@@ -3595,18 +3595,74 @@ footer {
       color: var(--dark);
       outline: none;
     }
-    i{
+    i {
       display: block;
       font-size: 24px;
       cursor: pointer;
 
-      &:last-child{
+      &:last-child {
         font-size: 18px;
       }
     }
   }
 }
 
+.candidate-search-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 40px;
+
+  .search-wraper {
+    position: relative;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+    gap: 15px;
+    box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+
+    input {
+      width: 400px;
+      height: 100%;
+      border: none;
+      border-bottom: 1px solid;
+      background-color: transparent;
+      padding: 7px 15px;
+      padding-left: 3px;
+      font-size: 18px;
+      color: var(--dark);
+      outline: none;
+    }
+    i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .search-filter{
+      position: absolute;
+      width: max-content;
+      top:0;
+      right: -42%;
+      box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+      border-radius: 10px;
+      z-index: 99;
+      overflow: hidden;
+
+      ul li{
+        width: 100%;
+        padding: 12px 25px;
+        cursor: pointer;
+        background-color: var(--primary-bg);
+
+        &:hover{
+          background-color: var(--light-bg);
+        }
+      }
+    }
+  }
+}
 
 @media (max-width: 1024px) {
   .admin-tabs-container {

@@ -157,9 +157,7 @@ export default function AdminTabs() {
 
     fetchcandidateList();
   }, [selectedTab === 0]);
-  console.log(candidateList);
   
-
   async function fetchTools() {
     try {
       const response = await axios.get('https://inforbit.in/demo/dpd/tools-master-display');
@@ -321,7 +319,6 @@ export default function AdminTabs() {
     }
 
     const response = await axios.get(`http://inforbit.in/demo/dpd/candidate-profile/${userData?.profileId}`)
-    console.log(response.data);
     setLoading(false)
   }
 

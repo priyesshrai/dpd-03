@@ -19,6 +19,7 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
   const [shareLink, setShareLink] = useState<string>("")
   const [showShareMenu, setShowShareMenu] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const [showFilterOptions, setShowFilterOptions] = useState<boolean>(false)
 
   async function handleCopy() {
     await navigator.clipboard.writeText(`https://dpd.profilebuilder.in/public/user/${shareLink}`);
@@ -135,6 +136,30 @@ export default function CandidateList({ candidateList, loading }: CandidateListP
           </Box> */}
 
           <div className="candidate-list-card-container" style={{ padding: "30px" }}>
+            <div className='candidate-search-container'>
+              <div className='search-wraper'>
+                <i className="hgi hgi-stroke hgi-search-01"></i>
+                <input
+                  type="text"
+                  placeholder='search candidate'
+                />
+
+                <i className="hgi hgi-stroke hgi-preference-vertical" 
+                onClick={() => setShowFilterOptions(!showFilterOptions)}
+                style={{fontSize:"20px", color:"#535252"}}
+                ></i>
+                {/* {searchedSkill.length > 0 && <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => setSearchedSkill('')}></i>} */}
+                {showFilterOptions && (<div className='search-filter'>
+                  <ul>
+                    <li onClick={() => setShowFilterOptions(false)}>Search with name</li>
+                    <li onClick={() => setShowFilterOptions(false)}>Search with e-mail</li>
+                    <li onClick={() => setShowFilterOptions(false)}>Search with phone</li>
+                  </ul>
+                </div>)
+                }
+
+              </div>
+            </div>
             <div className="candidate-list-card-wraper">
               {
                 candidateList?.map((value) => (
