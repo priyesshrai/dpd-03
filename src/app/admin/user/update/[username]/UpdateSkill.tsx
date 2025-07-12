@@ -202,6 +202,7 @@ export default function UpdateUserSkill({
                         value={searchedSkill}
                         onChange={handleSearch}
                       />
+                      {searchedSkill.length > 0 && <i className="hgi hgi-stroke hgi-cancel-01" onClick={() => setSearchedSkill('')}></i>}
                     </div>
                   </div>
                   <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
