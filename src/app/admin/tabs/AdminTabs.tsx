@@ -311,16 +311,17 @@ export default function AdminTabs() {
     }
   }, [selectedTab]);
 
-  async function UpdateUserData(userData: CandidateRow) {
-    setLoading(true);
-    if (!userData.profileId) {
-      alert("Please Wait User Data is not loaded fully");
-      return;
-    }
+  // async function UpdateUserData(userData: CandidateRow) {
+  //   setLoading(true);
+  //   if (!userData.profileId) {
+  //     alert("Please Wait User Data is not loaded fully");
+  //     return;
+  //   }
 
-    const response = await axios.get(`http://inforbit.in/demo/dpd/candidate-profile/${userData?.profileId}`)
-    setLoading(false)
-  }
+  //   const response = await axios.get(`http://inforbit.in/demo/dpd/candidate-profile/${userData?.profileId}`)
+  //   console.log(response.data);
+  //   setLoading(false)
+  // }
 
   function handleLogOut() {
     Cookies.remove("data");
@@ -391,7 +392,7 @@ export default function AdminTabs() {
                     <ActiveTab
                       candidateList={candidateList}
                       loading={loading}
-                      UpdateUserData={UpdateUserData}
+                      // UpdateUserData={UpdateUserData}
                     />
                   );
                 }
