@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LargeSpinner from '@/components/Spinner/LargeSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
@@ -33,12 +33,17 @@ export default function UpdateUserSkill({
   const [allSkillList, setAllSkillList] = useState<Skill[]>([]);
   const [userSkills, setUserSkills] = useState<UpdateSkill[]>([]);
   const [selectedSkillIds, setSelectedSkillIds] = useState<string[]>([]);
+  const [searchedSkill, setSearchedSkill] = useState<string>('');
+  const [filteredSkill, setFilteredSkill] = useState<Skill[]>([]);
 
   useEffect(() => {
     const fetchSkills = async () => {
       try {
         const response = await axios.get('https://inforbit.in/demo/dpd/expert-area-master-display');
-        if (response.data) setAllSkillList(response.data);
+        if (response.data) {
+          setAllSkillList(response.data);
+          setFilteredSkill(response.data);
+        };
       } catch (error) {
         console.error(error);
       }
@@ -128,6 +133,23 @@ export default function UpdateUserSkill({
     );
   };
 
+  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchedSkill(e.target.value);
+  }, []);
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      const filtered = allSkillList.filter(skill =>
+        skill.name.toLowerCase().includes(searchedSkill.toLowerCase()) &&
+        !selectedSkillIds.includes(skill.nid)
+      );
+      setFilteredSkill(filtered);
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [searchedSkill, allSkillList, selectedSkillIds]);
+
+
   return (
     <div className="component-common" style={{ padding: 0 }}>
       <AnimatePresence mode="wait">
@@ -168,14 +190,22 @@ export default function UpdateUserSkill({
             </div>
 
             {
-              availableSkills ? (
-                <div
-                  className="details-edit-body"
-                  style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}
-                >
-                  <span style={{ fontSize: '25px', fontWeight: 'bold', color: '#384559' }}>Available Skills</span>
+              availableSkills.length > 0 && (
+                <div className="details-edit-body" style={{ borderBottom: '1px solid #dadada', paddingBottom: '30px' }}>
+                  <div className='search-container'>
+                    <div className='search-wraper'>
+                      <i className="hgi hgi-stroke hgi-search-01"></i>
+                      <input
+                        type="text"
+                        placeholder='Avaliable skill set'
+                        name='search'
+                        value={searchedSkill}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
                   <div className="skill-update-wraper" style={{ marginTop: "20px" }}>
-                    {availableSkills.map(skill => (
+                    {filteredSkill.map(skill => (
                       <div className="update-skill-items" key={skill.nid}>
                         <label>
                           <input
@@ -189,7 +219,7 @@ export default function UpdateUserSkill({
                     ))}
                   </div>
                 </div>
-              ) : ""
+              )
             }
 
             <div className="details-edit-footer">

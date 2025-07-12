@@ -3567,6 +3567,41 @@ footer {
   }
 }
 
+.search-container{
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 50px;
+
+  .search-wraper{
+    position: relative;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+    box-shadow: 0 1px 2px 0 rgba(26, 31, 44, 0.25);
+
+    input{
+      width: 400px;
+      height: 100%;
+      border: none;
+      background-color: transparent;
+      padding: 7px 15px;
+      border-radius: 5px;
+      font-size: 18px;
+      color: var(--dark);
+      outline: none;
+    }
+    i{
+      font-size: 24px;
+    }
+  }
+}
+
+
 @media (max-width: 1024px) {
   .admin-tabs-container {
     transform: translateX(-100%);
