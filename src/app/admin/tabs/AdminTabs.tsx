@@ -5,7 +5,7 @@ import CandidateList from './CandidateList';
 import AddProfile from './AddProfile';
 import AddSkills from './AddSkills';
 import AddTools from './AddTools';
-import type { CandidateRow, FormData } from '../../../../types';
+import type { FormData } from '../../../../types';
 import axios from 'axios';
 import { GridRowsProp } from '@mui/x-data-grid';
 import Cookies from "js-cookie";
